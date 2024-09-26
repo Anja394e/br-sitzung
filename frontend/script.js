@@ -24,7 +24,7 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
     let eingeladen = []; // Liste der final eingeladenen Personen
     let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
 
-    // Ersatzpersonen nach Listenplatz sortieren (absteigend)
+    // Ersatzpersonen nach Listenplatz sortieren (niedrigster Listenplatz zuerst)
     ersatz_personen.sort((a, b) => a.listenplatz - b.listenplatz);
 
     // Berechnet die Anzahl der weiblichen Personen unter den eingeladenen Personen
@@ -32,28 +32,11 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         return eingeladen.filter(person => person.geschlecht === 'w').length;
     }
 
-    // Sucht die Ersatzperson mit dem höchsten Listenplatz eines bestimmten Geschlechts
-    function finde_ersatzperson(geschlecht) {
-        return ersatz_personen
-            .filter(ersatz => ersatz.geschlecht === geschlecht && !eingeladen.includes(ersatz) && ersatz.anwesend)
-            .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Höchster Listenplatz zuerst
-    }
-
-    // Sucht die Ersatzperson mit dem höchsten Listenplatz (beliebiges Geschlecht)
+    // Sucht die Ersatzperson mit dem niedrigsten Listenplatz (beliebiges Geschlecht)
     function finde_beliebige_ersatzperson() {
         return ersatz_personen
             .filter(ersatz => !eingeladen.includes(ersatz) && ersatz.anwesend)
-            .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Höchster Listenplatz zuerst
-    }
-
-    // Entfernt die zuletzt hinzugefügte männliche oder divers geschlechtliche Ersatzperson (mit dem höchsten Listenplatz)
-    function entferne_letzte_maennliche_person() {
-        for (let i = eingeladen.length - 1; i >= 0; i--) {
-            if ((eingeladen[i].geschlecht === 'm' || eingeladen[i].geschlecht === 'd') && eingeladen[i].liste === 2) {
-                return eingeladen.splice(i, 1)[0]; // Entfernen und Rückgabe der entfernten Person
-            }
-        }
-        return null; // Keine männliche oder divers geschlechtliche Person zum Entfernen gefunden
+            .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Person mit niedrigstem Listenplatz zuerst
     }
 
     // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
@@ -63,10 +46,10 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     });
 
-    // Für jede nicht anwesende Person wird eine Ersatzperson nachgeladen (höchster Listenplatz zuerst)
+    // Für jede nicht anwesende Person wird eine Ersatzperson nachgeladen (niedrigster Listenplatz zuerst)
     ordentliche_mitglieder.forEach(person => {
         if (!person.anwesend) {
-            let ersatz = finde_ersatzperson('w') || finde_ersatzperson('m') || finde_ersatzperson('d');
+            let ersatz = finde_beliebige_ersatzperson();
             if (ersatz && !eingeladen.includes(ersatz)) {
                 eingeladen.push(ersatz);
                 nachgeladen_fuer[ersatz.name] = person.name; // Speichern, für wen die Person nachgeladen wurde
@@ -74,39 +57,24 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     });
 
-    // Maximal 10 Versuche, um die Mindestanzahl an weiblichen Personen zu erreichen (Vermeidung von Endlosschleifen)
-    let versuche = 0;
-
     // Überprüfen, ob die Mindestanzahl an weiblichen Personen erreicht ist
     while (anzahl_weiblich() < geschlechtsanteil_w) {
-        versuche++;
-        if (versuche > 10) {
-            console.log("Maximale Anzahl an Versuchen erreicht. Schleife wird abgebrochen.");
-            break;
-        }
-
-        let entfernte_person = entferne_letzte_maennliche_person();
-        if (entfernte_person) {
-            // Erst überprüfen, ob die Mindestanzahl bereits erreicht ist
-            if (anzahl_weiblich() < geschlechtsanteil_w) {
-                let weibliche_ersatz = finde_ersatzperson('w');
-                if (weibliche_ersatz) {
-                    eingeladen.push(weibliche_ersatz);
-                    nachgeladen_fuer[weibliche_ersatz.name] = `für ${nachgeladen_fuer[entfernte_person.name]}`; // Kennzeichnen, für wen diese Person nachgeladen wurde
-                } else {
-                    console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
-                    break; // Keine weiteren Frauen verfügbar, also Schleifenabbruch
-                }
-            } else {
-                console.log("Mindestanzahl an Frauen erreicht, weitere männliche/diverse Personen werden nachgeladen.");
-                break; // Abbruch der Schleife, wenn Mindestanzahl an Frauen erreicht ist
-            }
+        let weibliche_ersatz = ersatz_personen.find(ersatz => ersatz.geschlecht === 'w' && !eingeladen.includes(ersatz) && ersatz.anwesend);
+        if (weibliche_ersatz) {
+            eingeladen.push(weibliche_ersatz);
+            ersatz_personen = ersatz_personen.filter(person => person !== weibliche_ersatz); // Entfernen der eingeladenen Person
         } else {
-            console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
-            break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
+            console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
+            break; // Schleifenabbruch, wenn keine weiteren Frauen verfügbar sind
         }
     }
 
+    // Nachdem die Mindestanzahl erreicht ist, werden Ersatzpersonen nach niedrigstem Listenplatz eingeladen, unabhängig vom Geschlecht
+    let verbleibende_person = finde_beliebige_ersatzperson();
+    if (verbleibende_person) {
+        eingeladen.push(verbleibende_person);
+        ersatz_personen = ersatz_personen.filter(person => person !== verbleibende_person); // Entfernen der eingeladenen Person
+    }
 
     return { eingeladen, nachgeladen_fuer };
 }
@@ -132,6 +100,7 @@ document.getElementById("einladenButton").addEventListener("click", () => {
     // Ergebnisbereich anzeigen
     document.getElementById("ergebnisContainer").style.display = 'block';
 });
+
 
 // Fülle die Tabellen
 function displayPersonen() {

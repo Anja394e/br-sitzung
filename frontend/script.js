@@ -67,70 +67,42 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     });
 
+    // Maximal 10 Versuche, um die Mindestanzahl an weiblichen Personen zu erreichen (Vermeidung von Endlosschleifen)
+    let versuche = 0;
+
     // Überprüfen, ob die Mindestanzahl an weiblichen Personen erreicht ist
-    if (anzahl_weiblich() + ersatz_personen.filter(person => person.geschlecht === 'w' && person.anwesend).length < geschlechtsanteil_w) {
-        console.log("Es sind nicht genug weibliche Personen verfügbar, um den Mindestanteil zu erreichen.");
-        // Optionale visuelle Fehleranzeige hier
-    } else {
-        while (anzahl_weiblich() < geschlechtsanteil_w) {
-            let entfernte_person = entferne_letzte_maennliche_person();
-            if (entfernte_person) {
-                let weibliche_ersatz = finde_ersatzperson('w');
-                if (weibliche_ersatz) {
-                    eingeladen.push(weibliche_ersatz);
+    while (anzahl_weiblich() < geschlechtsanteil_w) {
+        versuche++;
+        if (versuche > 10) {
+            console.log("Maximale Anzahl an Versuchen erreicht. Schleife wird abgebrochen.");
+            break;
+        }
+
+        let entfernte_person = entferne_letzte_maennliche_person();
+        if (entfernte_person) {
+            let weibliche_ersatz = finde_ersatzperson('w');
+            if (weibliche_ersatz) {
+                eingeladen.push(weibliche_ersatz);
+                nachgeladen_fuer[weibliche_ersatz.name] = "Minderheitengeschlecht"; // Kennzeichnen, warum diese Person nachgeladen wurde
+            } else {
+                // Wenn keine weibliche Person mehr vorhanden ist, lade eine beliebige Ersatzperson ein
+                let beliebige_ersatz = finde_beliebige_ersatzperson();
+                if (beliebige_ersatz) {
+                    eingeladen.push(beliebige_ersatz);
+                    nachgeladen_fuer[beliebige_ersatz.name] = "Keine weiteren Frauen verfügbar"; // Kennzeichnen, warum diese Person nachgeladen wurde
                 } else {
-                    console.log("Keine weiteren Frauen verfügbar");
-                    break;
+                    console.log("Keine weiteren Ersatzpersonen verfügbar");
+                    break; // Abbruch der Schleife, da keine Personen mehr verfügbar sind
                 }
-            } else {
-                console.log("Keine weiteren männlichen oder divers geschlechtlichen Personen zum Entfernen verfügbar");
-                break;
             }
-        }
-    }
-
-
-// Zunächst prüfen, ob es überhaupt möglich ist, die Mindestanzahl an Frauen zu erreichen
-if (anzahl_weiblich() + ersatz_personen.filter(person => person.geschlecht === 'w' && person.anwesend).length < geschlechtsanteil_w) {
-    console.log("Es sind nicht genügend weibliche Personen verfügbar, um den Mindestanteil zu erreichen.");
-    // Hier könntest du optional eine Benachrichtigung anzeigen
-    return { eingeladen, nachgeladen_fuer }; // Frühes Beenden, da das Ziel unerreichbar ist
-}
-
-// Zunächst prüfen, ob es überhaupt möglich ist, die Mindestanzahl an Frauen zu erreichen
-if (anzahl_weiblich() + ersatz_personen.filter(person => person.geschlecht === 'w' && person.anwesend).length < geschlechtsanteil_w) {
-    console.log("Es sind nicht genügend weibliche Personen verfügbar, um den Mindestanteil zu erreichen.");
-    // Hinweis anzeigen, aber nicht die Funktion abbrechen
-}
-
-// Wenn genug potenzielle weibliche Personen verfügbar sind, fahre fort
-while (anzahl_weiblich() < geschlechtsanteil_w) {
-    let entfernte_person = entferne_letzte_maennliche_person();
-    if (entfernte_person) {
-        let weibliche_ersatz = finde_ersatzperson('w');
-        if (weibliche_ersatz) {
-            eingeladen.push(weibliche_ersatz);
-            nachgeladen_fuer[weibliche_ersatz.name] = "Minderheitengeschlecht";
         } else {
-            // Keine weiteren Frauen, lade eine beliebige Ersatzperson ein
-            let beliebige_ersatz = finde_beliebige_ersatzperson();
-            if (beliebige_ersatz) {
-                eingeladen.push(beliebige_ersatz);
-                nachgeladen_fuer[beliebige_ersatz.name] = "Keine weiteren Frauen verfügbar";
-            } else {
-                console.log("Keine weiteren Ersatzpersonen verfügbar");
-                break; // Schleifenabbruch
-            }
+            console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
+            break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
         }
-    } else {
-        console.log("Keine weiteren männlichen oder divers geschlechtlichen Personen zum Entfernen verfügbar");
-        break; // Schleifenabbruch
     }
+
+    return { eingeladen, nachgeladen_fuer };
 }
-
-return { eingeladen, nachgeladen_fuer };
-
-
 
 // Funktion zum Anzeigen der eingeladenen Personen im HTML
 function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
@@ -153,7 +125,6 @@ document.getElementById("einladenButton").addEventListener("click", () => {
     // Ergebnisbereich anzeigen
     document.getElementById("ergebnisContainer").style.display = 'block';
 });
-
 
 
 // Fülle die Tabellen

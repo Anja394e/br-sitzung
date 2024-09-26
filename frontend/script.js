@@ -49,41 +49,40 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
 
     // Für jede nicht anwesende Person wird eine Ersatzperson nachgeladen (niedrigster Listenplatz zuerst)
     ordentliche_mitglieder.forEach(person => {
-        if (!person.anwesend) {
+        if (!person.anwesend && fehlende_mitglieder > 0) {
             let ersatz = finde_beliebige_ersatzperson();
             if (ersatz && !eingeladen.includes(ersatz)) {
                 eingeladen.push(ersatz);
                 nachgeladen_fuer[ersatz.name] = person.name; // Speichern, für wen die Person nachgeladen wurde
+                fehlende_mitglieder--; // Reduziere die Anzahl fehlender Mitglieder
             }
         }
     });
 
-    // Während die Mindestanzahl an Frauen nicht erreicht ist und noch fehlende Mitglieder übrig sind
+    // Nachladen von Frauen, solange die Mindestanzahl nicht erreicht ist und noch fehlende Mitglieder vorhanden sind
     while (anzahl_weiblich() < geschlechtsanteil_w && fehlende_mitglieder > 0) {
         let weibliche_ersatz = ersatz_personen.find(ersatz => ersatz.geschlecht === 'w' && !eingeladen.includes(ersatz) && ersatz.anwesend);
         if (weibliche_ersatz) {
             eingeladen.push(weibliche_ersatz);
             ersatz_personen = ersatz_personen.filter(person => person !== weibliche_ersatz); // Entfernen der eingeladenen Person
-            fehlende_mitglieder--; // Ein fehlendes Mitglied wurde nachgeladen
+            fehlende_mitglieder--; // Reduziere die Anzahl fehlender Mitglieder
         } else {
             console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
             break; // Schleifenabbruch, wenn keine weiteren Frauen verfügbar sind
         }
     }
 
-
-  // Nach Erreichen der Mindestanzahl an Frauen oder wenn keine fehlenden Mitglieder mehr vorhanden sind
+    // Nach Erreichen der Mindestanzahl an Frauen oder wenn keine fehlenden Mitglieder mehr vorhanden sind
     while (fehlende_mitglieder > 0) {
         let verbleibende_person = finde_beliebige_ersatzperson();
         if (verbleibende_person) {
             eingeladen.push(verbleibende_person);
             ersatz_personen = ersatz_personen.filter(person => person !== verbleibende_person); // Entfernen der eingeladenen Person
-            fehlende_mitglieder--; // Ein fehlendes Mitglied wurde nachgeladen
+            fehlende_mitglieder--; // Reduziere die Anzahl fehlender Mitglieder
         } else {
             break; // Keine weiteren Ersatzpersonen verfügbar
         }
     }
-
 
     return { eingeladen, nachgeladen_fuer };
 }
@@ -133,7 +132,6 @@ function displayPersonen() {
     });
 }
 
-
 // Funktion zum Speichern der aktuellen Personenlisten im localStorage
 function speicherePersonen() {
     localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
@@ -169,7 +167,6 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     document.getElementById("personenForm").reset();
 });
 
-
 // Funktion zum Bearbeiten einer Person
 function bearbeitenPerson(index, liste) {
     let person = liste === 1 ? ordentliche_mitglieder[index] : ersatz_personen[index];
@@ -184,7 +181,6 @@ function bearbeitenPerson(index, liste) {
     // Entferne die alte Person, damit die neue hinzugefügt werden kann
     loeschenPerson(index, liste);
 }
-
 
 // Funktion zum Löschen einer Person
 function loeschenPerson(index, liste) {

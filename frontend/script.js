@@ -60,29 +60,30 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
     });
 
     // Nachladen von Frauen, solange die Mindestanzahl nicht erreicht ist und noch fehlende Mitglieder vorhanden sind
-    while (anzahl_weiblich() < geschlechtsanteil_w && fehlende_mitglieder > 0) {
-        let weibliche_ersatz = ersatz_personen.find(ersatz => ersatz.geschlecht === 'w' && !eingeladen.includes(ersatz) && ersatz.anwesend);
-        if (weibliche_ersatz) {
-            eingeladen.push(weibliche_ersatz);
-            ersatz_personen = ersatz_personen.filter(person => person !== weibliche_ersatz); // Entfernen der eingeladenen Person
-            fehlende_mitglieder--; // Reduziere die Anzahl fehlender Mitglieder
-        } else {
-            console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
-            break; // Schleifenabbruch, wenn keine weiteren Frauen verfügbar sind
-        }
+    // Während die Mindestanzahl an Frauen nicht erreicht ist und noch fehlende Mitglieder übrig sind
+while (anzahl_weiblich() < geschlechtsanteil_w && eingeladen.length < ordentliche_mitglieder.length) {
+    let weibliche_ersatz = finde_ersatzperson('w'); // Funktion um die weibliche Ersatzperson zu finden
+    if (weibliche_ersatz) {
+        eingeladen.push(weibliche_ersatz);
+        ersatz_personen = ersatz_personen.filter(person => person !== weibliche_ersatz); // Entfernen der eingeladenen Person
+    } else {
+        console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
+        break; // Schleifenabbruch, wenn keine weiteren Frauen verfügbar sind
     }
+}
 
-    // Nach Erreichen der Mindestanzahl an Frauen oder wenn keine fehlenden Mitglieder mehr vorhanden sind
-    while (fehlende_mitglieder > 0) {
-        let verbleibende_person = finde_beliebige_ersatzperson();
-        if (verbleibende_person) {
-            eingeladen.push(verbleibende_person);
-            ersatz_personen = ersatz_personen.filter(person => person !== verbleibende_person); // Entfernen der eingeladenen Person
-            fehlende_mitglieder--; // Reduziere die Anzahl fehlender Mitglieder
-        } else {
-            break; // Keine weiteren Ersatzpersonen verfügbar
-        }
+
+   // Nach Erreichen der Mindestanzahl an Frauen oder wenn keine weiblichen Ersatzpersonen mehr verfügbar sind
+while (eingeladen.length < ordentliche_mitglieder.length) {
+    let verbleibende_person = finde_beliebige_ersatzperson(); // Nächste Person unabhängig vom Geschlecht finden
+    if (verbleibende_person) {
+        eingeladen.push(verbleibende_person);
+        ersatz_personen = ersatz_personen.filter(person => person !== verbleibende_person); // Entfernen der eingeladenen Person
+    } else {
+        break; // Keine weiteren Ersatzpersonen verfügbar
     }
+}
+
 
     return { eingeladen, nachgeladen_fuer };
 }

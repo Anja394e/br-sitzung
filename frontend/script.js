@@ -39,7 +39,7 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
             .filter(ersatz => !eingeladen.includes(ersatz) && ersatz.anwesend)
             .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Person mit niedrigstem Listenplatz zuerst
     }
-    
+
     // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
     ordentliche_mitglieder.forEach(person => {
         if (person.anwesend) {
@@ -59,20 +59,6 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     });
 
-    // Sucht die weibliche Ersatzperson mit dem niedrigsten Listenplatz
-    function finde_niedrigste_weibliche_ersatzperson() {
-        return ersatz_personen
-            .filter(person => person.geschlecht === 'w' && !eingeladen.includes(person) && person.anwesend) // Nur weibliche, die noch nicht eingeladen sind
-            .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Niedrigster Listenplatz zuerst
-    
-    
-    // Sucht die männliche Ersatzperson mit dem höchsten Listenplatz
-    function finde_hoechste_maennliche_ersatzperson() {
-        return eingeladen
-            .filter(person => person.geschlecht === 'm' && person.liste === 2) // Nur Ersatzpersonen (Liste 2) und männlich
-            .sort((a, b) => b.listenplatz - a.listenplatz)[0]; // Höchster Listenplatz zuerst
-    }
-    
    // Überprüfe, ob die Mindestanzahl an Frauen erreicht ist
 while (anzahl_weiblich() < geschlechtsanteil_w) {
     let weibliche_ersatz = finde_niedrigste_weibliche_ersatzperson();

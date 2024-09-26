@@ -24,22 +24,29 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
     let eingeladen = []; // Liste der final eingeladenen Personen
     let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
 
+    // Ersatzpersonen nach Listenplatz sortieren (absteigend)
+    ersatz_personen.sort((a, b) => a.listenplatz - b.listenplatz);
+
     // Berechnet die Anzahl der weiblichen Personen unter den eingeladenen Personen
     function anzahl_weiblich() {
         return eingeladen.filter(person => person.geschlecht === 'w').length;
     }
 
-    // Sucht eine Ersatzperson eines bestimmten Geschlechts
+    // Sucht die Ersatzperson mit dem höchsten Listenplatz eines bestimmten Geschlechts
     function finde_ersatzperson(geschlecht) {
-        return ersatz_personen.find(ersatz => ersatz.geschlecht === geschlecht && !eingeladen.includes(ersatz) && ersatz.anwesend);
+        return ersatz_personen
+            .filter(ersatz => ersatz.geschlecht === geschlecht && !eingeladen.includes(ersatz) && ersatz.anwesend)
+            .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Höchster Listenplatz zuerst
     }
 
-    // Sucht eine beliebige anwesende Ersatzperson (wenn keine weiblichen Personen mehr verfügbar sind)
+    // Sucht die Ersatzperson mit dem höchsten Listenplatz (beliebiges Geschlecht)
     function finde_beliebige_ersatzperson() {
-        return ersatz_personen.find(ersatz => !eingeladen.includes(ersatz) && ersatz.anwesend);
+        return ersatz_personen
+            .filter(ersatz => !eingeladen.includes(ersatz) && ersatz.anwesend)
+            .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Höchster Listenplatz zuerst
     }
 
-    // Entfernt die zuletzt hinzugefügte männliche oder divers geschlechtliche Ersatzperson, um Platz für eine weibliche Person zu schaffen
+    // Entfernt die zuletzt hinzugefügte männliche oder divers geschlechtliche Ersatzperson (mit dem höchsten Listenplatz)
     function entferne_letzte_maennliche_person() {
         for (let i = eingeladen.length - 1; i >= 0; i--) {
             if ((eingeladen[i].geschlecht === 'm' || eingeladen[i].geschlecht === 'd') && eingeladen[i].liste === 2) {
@@ -56,10 +63,10 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     });
 
-    // Für jede nicht anwesende Person wird eine Ersatzperson gesucht
+    // Für jede nicht anwesende Person wird eine Ersatzperson nachgeladen (höchster Listenplatz zuerst)
     ordentliche_mitglieder.forEach(person => {
         if (!person.anwesend) {
-            let ersatz = finde_ersatzperson('m') || finde_ersatzperson('w') || finde_ersatzperson('d');
+            let ersatz = finde_ersatzperson('w') || finde_ersatzperson('m') || finde_ersatzperson('d');
             if (ersatz && !eingeladen.includes(ersatz)) {
                 eingeladen.push(ersatz);
                 nachgeladen_fuer[ersatz.name] = person.name; // Speichern, für wen die Person nachgeladen wurde
@@ -72,39 +79,37 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
 
     // Überprüfen, ob die Mindestanzahl an weiblichen Personen erreicht ist
     while (anzahl_weiblich() < geschlechtsanteil_w) {
-    versuche++;
-    if (versuche > 10) {
-        console.log("Maximale Anzahl an Versuchen erreicht. Schleife wird abgebrochen.");
-        break;
-    }
-
-    let entfernte_person = entferne_letzte_maennliche_person();
-    if (entfernte_person) {
-        let weibliche_ersatz = finde_ersatzperson('w');
-        if (weibliche_ersatz) {
-            eingeladen.push(weibliche_ersatz);
-            nachgeladen_fuer[weibliche_ersatz.name] = `für ${nachgeladen_fuer[entfernte_person.name]}`; // Kennzeichnen, für wen diese Person nachgeladen wurde
-        } else {
-            // Wenn keine weibliche Person mehr vorhanden ist, lade eine beliebige Ersatzperson ein
-            let beliebige_ersatz = finde_beliebige_ersatzperson();
-            if (beliebige_ersatz) {
-                eingeladen.push(beliebige_ersatz);
-                nachgeladen_fuer[beliebige_ersatz.name] = `${nachgeladen_fuer[entfernte_person.name]} (Keine weiteren Frauen verfügbar)`; // Kennzeichnen, warum diese Person nachgeladen wurde
-
-                // Breche die Schleife ab, nachdem eine Ersatzperson geladen wurde und keine Frauen mehr verfügbar sind
-                break;
-            } else {
-                console.log("Keine weiteren Ersatzpersonen verfügbar");
-                break; // Abbruch der Schleife, da keine Personen mehr verfügbar sind
-            }
+        versuche++;
+        if (versuche > 10) {
+            console.log("Maximale Anzahl an Versuchen erreicht. Schleife wird abgebrochen.");
+            break;
         }
-    } else {
-        console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
-        break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
+
+        let entfernte_person = entferne_letzte_maennliche_person();
+        if (entfernte_person) {
+            let weibliche_ersatz = finde_ersatzperson('w');
+            if (weibliche_ersatz) {
+                eingeladen.push(weibliche_ersatz);
+                nachgeladen_fuer[weibliche_ersatz.name] = `für ${nachgeladen_fuer[entfernte_person.name]}`; // Kennzeichnen, für wen diese Person nachgeladen wurde
+            } else {
+                // Wenn keine weibliche Person mehr vorhanden ist, lade eine beliebige Ersatzperson ein
+                let beliebige_ersatz = finde_beliebige_ersatzperson();
+                if (beliebige_ersatz) {
+                    eingeladen.push(beliebige_ersatz);
+                    nachgeladen_fuer[beliebige_ersatz.name] = `${nachgeladen_fuer[entfernte_person.name]} (Keine weiteren Frauen verfügbar)`; // Kennzeichnen, warum diese Person nachgeladen wurde
+
+                    // Breche die Schleife ab, nachdem eine Ersatzperson geladen wurde und keine Frauen mehr verfügbar sind
+                    break;
+                } else {
+                    console.log("Keine weiteren Ersatzpersonen verfügbar");
+                    break; // Abbruch der Schleife, da keine Personen mehr verfügbar sind
+                }
+            }
+        } else {
+            console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
+            break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
+        }
     }
-}
-
-
 
     return { eingeladen, nachgeladen_fuer };
 }
@@ -122,7 +127,6 @@ function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
     });
 }
 
-
 // Event Listener für den "Einladen"-Button
 document.getElementById("einladenButton").addEventListener("click", () => {
     let { eingeladen, nachgeladen_fuer } = eingeladene_personen(ordentliche_mitglieder, ersatz_personen);
@@ -131,7 +135,6 @@ document.getElementById("einladenButton").addEventListener("click", () => {
     // Ergebnisbereich anzeigen
     document.getElementById("ergebnisContainer").style.display = 'block';
 });
-
 
 // Fülle die Tabellen
 function displayPersonen() {

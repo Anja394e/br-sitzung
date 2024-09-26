@@ -90,6 +90,9 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
             if (beliebige_ersatz) {
                 eingeladen.push(beliebige_ersatz);
                 nachgeladen_fuer[beliebige_ersatz.name] = `${nachgeladen_fuer[entfernte_person.name]} (Keine weiteren Frauen verfügbar)`; // Kennzeichnen, warum diese Person nachgeladen wurde
+
+                // Breche die Schleife ab, nachdem eine Ersatzperson geladen wurde und keine Frauen mehr verfügbar sind
+                break;
             } else {
                 console.log("Keine weiteren Ersatzpersonen verfügbar");
                 break; // Abbruch der Schleife, da keine Personen mehr verfügbar sind
@@ -100,6 +103,7 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
     }
 }
+
 
 
     return { eingeladen, nachgeladen_fuer };

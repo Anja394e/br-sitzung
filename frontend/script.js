@@ -63,4 +63,50 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     });
 
-    // Jetzt wird überprüft, ob die Mindestanzahl an weiblichen
+    // Jetzt wird überprüft, ob die Mindestanzahl an weiblichen Personen erreicht ist
+    while (anzahl_weiblich() < geschlechtsanteil_w) {
+        let entfernte_person = entferne_letzte_maennliche_person();
+        if (entfernte_person) {
+            let weibliche_ersatz = finde_ersatzperson('w');
+            if (weibliche_ersatz) {
+                let ordentliche_person = Object.entries(nachgeladen_fuer).find(([k, v]) => k === entfernte_person.name)?.[1];
+                eingeladen.push(weibliche_ersatz);
+                if (ordentliche_person) {
+                    nachgeladen_fuer[weibliche_ersatz.name] = `${ordentliche_person} (wegen Minderheitengeschlecht, ersetzt ${entfernte_person.name})`;
+                }
+            } else {
+                console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar");
+                break;
+            }
+        } else {
+            console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
+            break;
+        }
+    }
+
+    return { eingeladen, nachgeladen_fuer };
+}
+
+// Beispielhafte Daten für ordentliche Mitglieder (Liste 1) und Ersatzmitglieder (Liste 2)
+let ordentliche_mitglieder = [
+    new Person(1, "1", "w", "Anna Müller", "anna.mueller@example.com", false),
+    new Person(1, "2", "m", "Max Mustermann", "max.mustermann@example.com", false),
+    new Person(1, "3", "w", "Lisa Schmidt", "lisa.schmidt@example.com", false),
+    new Person(1, "4", "m", "Jonas Weber", "jonas.weber@example.com", true),
+    new Person(1, "5", "m", "Paul Fischer", "paul.fischer@example.com", true),
+];
+
+let ersatz_personen = [
+    new Person(2, "E1", "m", "Erik Meyer", "erik.meyer@example.com", true),
+    new Person(2, "E2", "m", "Leon Bauer", "leon.bauer@example.com", false),
+    new Person(2, "E3", "w", "Sophie Becker", "sophie.becker@example.com", true),
+    new Person(2, "E4", "d", "Alex Jordan", "alex.jordan@example.com", true),
+    new Person(2, "E5", "w", "Clara Wagner", "clara.wagner@example.com", false),
+    new Person(2, "E6", "w", "Eva Hofmann", "eva.hofmann@example.com", true),
+    new Person(2, "E7", "m", "Tom Schulz", "tom.schulz@example.com", false),
+    new Person(2, "E8", "m", "Felix Neumann", "felix.neumann@example.com", true),
+    new Person(2, "E9", "w", "Nina Wolf", "nina.wolf@example.com", false),
+];
+
+// Event Listener, um den Einladungsprozess zu starten, sobald der Button gedrückt wird
+document.get

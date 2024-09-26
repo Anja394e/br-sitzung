@@ -117,10 +117,11 @@ function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
     eingeladen.forEach(person => {
         let li = document.createElement("li");
         let nachgeladenText = nachgeladen_fuer[person.name] ? ` (nachgeladen für ${nachgeladen_fuer[person.name]})` : '';
-        li.textContent = `${person.name} (${person.geschlecht.toUpperCase()})${nachgeladenText}`;
+        li.textContent = `${person.name} (Listenplatz: ${person.listenplatz}, ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
         ergebnisListe.appendChild(li);
     });
 }
+
 
 // Event Listener für den "Einladen"-Button
 document.getElementById("einladenButton").addEventListener("click", () => {
@@ -138,21 +139,22 @@ function displayPersonen() {
     let ersatzTabelle = document.getElementById("ersatzPersonen");
 
     // Leere die Tabellen
-    ordentlicheTabelle.innerHTML = `<tr><th>Name</th><th>Geschlecht</th><th>Anwesend</th><th>Aktionen</th></tr>`;
-    ersatzTabelle.innerHTML = `<tr><th>Name</th><th>Geschlecht</th><th>Anwesend</th><th>Aktionen</th></tr>`;
+    ordentlicheTabelle.innerHTML = `<tr><th>Name</th><th>Geschlecht</th><th>Anwesend</th><th>Listenplatz</th><th>Aktionen</th></tr>`;
+    ersatzTabelle.innerHTML = `<tr><th>Name</th><th>Geschlecht</th><th>Anwesend</th><th>Listenplatz</th><th>Aktionen</th></tr>`;
 
     // Zeige ordentliche Mitglieder
     ordentliche_mitglieder.forEach((person, index) => {
         let row = ordentlicheTabelle.insertRow();
-        row.innerHTML = `<td>${person.name}</td><td>${person.geschlecht}</td><td>${person.anwesend ? 'Ja' : 'Nein'}</td><td><button onclick="bearbeitenPerson(${index}, 1)">Bearbeiten</button> <button onclick="loeschenPerson(${index}, 1)">Löschen</button></td>`;
+        row.innerHTML = `<td>${person.name}</td><td>${person.geschlecht}</td><td>${person.anwesend ? 'Ja' : 'Nein'}</td><td>${person.listenplatz}</td><td><button onclick="bearbeitenPerson(${index}, 1)">Bearbeiten</button> <button onclick="loeschenPerson(${index}, 1)">Löschen</button></td>`;
     });
 
     // Zeige Ersatzpersonen
     ersatz_personen.forEach((person, index) => {
         let row = ersatzTabelle.insertRow();
-        row.innerHTML = `<td>${person.name}</td><td>${person.geschlecht}</td><td>${person.anwesend ? 'Ja' : 'Nein'}</td><td><button onclick="bearbeitenPerson(${index}, 2)">Bearbeiten</button> <button onclick="loeschenPerson(${index}, 2)">Löschen</button></td>`;
+        row.innerHTML = `<td>${person.name}</td><td>${person.geschlecht}</td><td>${person.anwesend ? 'Ja' : 'Nein'}</td><td>${person.listenplatz}</td><td><button onclick="bearbeitenPerson(${index}, 2)">Bearbeiten</button> <button onclick="loeschenPerson(${index}, 2)">Löschen</button></td>`;
     });
 }
+
 
 // Funktion zum Speichern der aktuellen Personenlisten im localStorage
 function speicherePersonen() {
@@ -169,8 +171,9 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     let geschlecht = document.getElementById("geschlecht").value;
     let liste = parseInt(document.getElementById("liste").value);
     let anwesend = document.getElementById("anwesend").checked;
+    let listenplatz = parseInt(document.getElementById("listenplatz").value); // Neue Listenposition
 
-    let neuePerson = new Person(liste, `${liste === 1 ? ordentliche_mitglieder.length + 1 : ersatz_personen.length + 1}`, geschlecht, name, email, anwesend);
+    let neuePerson = new Person(liste, listenplatz, geschlecht, name, email, anwesend);
 
     if (liste === 1) {
         ordentliche_mitglieder.push(neuePerson);
@@ -188,6 +191,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     document.getElementById("personenForm").reset();
 });
 
+
 // Funktion zum Bearbeiten einer Person
 function bearbeitenPerson(index, liste) {
     let person = liste === 1 ? ordentliche_mitglieder[index] : ersatz_personen[index];
@@ -197,10 +201,12 @@ function bearbeitenPerson(index, liste) {
     document.getElementById("geschlecht").value = person.geschlecht;
     document.getElementById("liste").value = person.liste;
     document.getElementById("anwesend").checked = person.anwesend;
+    document.getElementById("listenplatz").value = person.listenplatz; // Listenposition wird gefüllt
 
     // Entferne die alte Person, damit die neue hinzugefügt werden kann
     loeschenPerson(index, liste);
 }
+
 
 // Funktion zum Löschen einer Person
 function loeschenPerson(index, liste) {

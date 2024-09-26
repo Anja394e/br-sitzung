@@ -106,3 +106,87 @@ function loeschenPerson(index, liste) {
 
 // Starte mit dem Anzeigen der Personen
 displayPersonen();
+
+// Funktion, um die eingeladenen Personen zu ermitteln
+function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
+    let eingeladen = []; // Liste der final eingeladenen Personen
+    let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für welches ordentliche Mitglied eine Ersatzperson nachgeladen wurde
+
+    // Berechnet die Anzahl der weiblichen Personen unter den eingeladenen Personen
+    function anzahl_weiblich() {
+        return eingeladen.filter(person => person.geschlecht === 'w').length;
+    }
+
+    // Sucht eine Ersatzperson eines bestimmten Geschlechts
+    function finde_ersatzperson(geschlecht) {
+        return ersatz_personen.find(ersatz => ersatz.geschlecht === geschlecht && !eingeladen.includes(ersatz) && ersatz.anwesend);
+    }
+
+    // Entfernt die zuletzt hinzugefügte männliche oder divers geschlechtliche Ersatzperson, um Platz für eine weibliche Person zu schaffen
+    function entferne_letzte_maennliche_person() {
+        for (let i = eingeladen.length - 1; i >= 0; i--) {
+            if ((eingeladen[i].geschlecht === 'm' || eingeladen[i].geschlecht === 'd') && eingeladen[i].liste === 2) {
+                return eingeladen.splice(i, 1)[0]; // Entfernen und Rückgabe der entfernten Person
+            }
+        }
+        return null; // Keine männliche oder divers geschlechtliche Person zum Entfernen gefunden
+    }
+
+    // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
+    ordentliche_mitglieder.forEach(person => {
+        if (person.anwesend) {
+            eingeladen.push(person);
+        }
+    });
+
+    // Falls ordentliche Mitglieder fehlen, werden Ersatzpersonen nachgeladen
+    ordentliche_mitglieder.forEach(person => {
+        if (!person.anwesend) {
+            let beliebige_ersatz = finde_ersatzperson('m') || finde_ersatzperson('w') || finde_ersatzperson('d');
+            if (beliebige_ersatz && !eingeladen.includes(beliebige_ersatz)) {
+                eingeladen.push(beliebige_ersatz);
+                nachgeladen_fuer[beliebige_ersatz.name] = person.name;
+            }
+        }
+    });
+
+    // Jetzt wird überprüft, ob die Mindestanzahl an weiblichen Personen erreicht ist
+    while (anzahl_weiblich() < geschlechtsanteil_w) {
+        let entfernte_person = entferne_letzte_maennliche_person();
+        if (entfernte_person) {
+            let weibliche_ersatz = finde_ersatzperson('w');
+            if (weibliche_ersatz) {
+                let ordentliche_person = Object.entries(nachgeladen_fuer).find(([k, v]) => k === entfernte_person.name)?.[1];
+                eingeladen.push(weibliche_ersatz);
+                if (ordentliche_person) {
+                    nachgeladen_fuer[weibliche_ersatz.name] = `${ordentliche_person} (wegen Minderheitengeschlecht, ersetzt ${entfernte_person.name})`;
+                }
+            } else {
+                console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar");
+                break;
+            }
+        } else {
+            console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
+            break;
+        }
+    }
+
+    return { eingeladen, nachgeladen_fuer };
+}
+
+// Event Listener für den "Einladen"-Button
+document.getElementById("einladenButton").addEventListener("click", () => {
+    // Berechne die eingeladenen Personen
+    let { eingeladen, nachgeladen_fuer } = eingeladene_personen(ordentliche_mitglieder, ersatz_personen);
+
+    // Ausgabe der eingeladenen Personen in der HTML-Liste
+    let ergebnisListe = document.getElementById("eingeladenePersonen");
+    ergebnisListe.innerHTML = ""; // Vorherige Einträge löschen
+
+    eingeladen.forEach(person => {
+        let li = document.createElement("li");
+        li.textContent = person.name + (nachgeladen_fuer[person.name] ? ` (nachgeladen für ${nachgeladen_fuer[person.name]})` : "");
+        ergebnisListe.appendChild(li);
+    });
+});
+

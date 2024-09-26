@@ -97,6 +97,12 @@ if (anzahl_weiblich() + ersatz_personen.filter(person => person.geschlecht === '
     return { eingeladen, nachgeladen_fuer }; // Frühes Beenden, da das Ziel unerreichbar ist
 }
 
+// Zunächst prüfen, ob es überhaupt möglich ist, die Mindestanzahl an Frauen zu erreichen
+if (anzahl_weiblich() + ersatz_personen.filter(person => person.geschlecht === 'w' && person.anwesend).length < geschlechtsanteil_w) {
+    console.log("Es sind nicht genügend weibliche Personen verfügbar, um den Mindestanteil zu erreichen.");
+    // Hinweis anzeigen, aber nicht die Funktion abbrechen
+}
+
 // Wenn genug potenzielle weibliche Personen verfügbar sind, fahre fort
 while (anzahl_weiblich() < geschlechtsanteil_w) {
     let entfernte_person = entferne_letzte_maennliche_person();
@@ -123,6 +129,7 @@ while (anzahl_weiblich() < geschlechtsanteil_w) {
 }
 
 return { eingeladen, nachgeladen_fuer };
+
 
 
 // Funktion zum Anzeigen der eingeladenen Personen im HTML

@@ -1,5 +1,8 @@
-let geschlechtsanteil_w = // Hole den gespeicherten Wert für den geschlechtsanteil_w aus localStorage (falls vorhanden)
 let geschlechtsanteil_w = localStorage.getItem("geschlechtsanteil_w") ? parseInt(localStorage.getItem("geschlechtsanteil_w")) : 2;
+
+// Personenlisten initialisieren
+let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder")) || [];
+let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen")) || [];
 
 class Person {
     constructor(liste, listenplatz, geschlecht, name, mail, anwesend) {
@@ -15,9 +18,6 @@ class Person {
         return `Person(Liste: ${this.liste}, Listenplatz: ${this.listenplatz}, Geschlecht: ${this.geschlecht}, Name: ${this.name}, E-Mail: ${this.mail}, Anwesend: ${this.anwesend})`;
     }
 }
-
-let ordentliche_mitglieder = [];
-let ersatz_personen = [];
 
 // Fülle die Tabellen
 function displayPersonen() {
@@ -41,10 +41,16 @@ function displayPersonen() {
     });
 }
 
+// Funktion zum Speichern der aktuellen Personenlisten im localStorage
+function speicherePersonen() {
+    localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
+    localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
+}
+
 // Funktion zum Hinzufügen einer neuen Person
 document.getElementById("personenForm").addEventListener("submit", function (e) {
     e.preventDefault();
-    
+
     let name = document.getElementById("name").value;
     let email = document.getElementById("email").value;
     let geschlecht = document.getElementById("geschlecht").value;
@@ -58,6 +64,9 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     } else {
         ersatz_personen.push(neuePerson);
     }
+
+    // Personen in localStorage speichern
+    speicherePersonen();
 
     // Aktualisiere die Tabelle
     displayPersonen();
@@ -87,6 +96,9 @@ function loeschenPerson(index, liste) {
     } else {
         ersatz_personen.splice(index, 1);
     }
+
+    // Personen in localStorage speichern
+    speicherePersonen();
 
     // Aktualisiere die Tabelle
     displayPersonen();

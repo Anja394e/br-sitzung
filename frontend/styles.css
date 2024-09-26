@@ -1,3 +1,4 @@
+/* Grundlegendes Styling für die Webseite */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -13,6 +14,7 @@ h1, h2 {
     color: #333;
 }
 
+/* Tabelle für die Darstellung der Personen */
 table {
     width: 100%;
     margin-bottom: 20px;
@@ -28,6 +30,7 @@ th, td {
     text-align: left;
 }
 
+/* Button-Styling */
 button {
     background-color: #28a745;
     color: white;
@@ -44,4 +47,3 @@ ul {
     list-style-type: none;
     padding: 0;
 }
-

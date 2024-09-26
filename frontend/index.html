@@ -1,56 +1,67 @@
-<div class="container">
-    <h1>Einladungssystem</h1>
-
-    <div>
-        <h2>Ordentliche Mitglieder</h2>
-        <table id="ordentlicheMitglieder">
-            <tr>
-                <th>Name</th>
-                <th>Geschlecht</th>
-                <th>Anwesend</th>
-                <th>Aktionen</th>
-            </tr>
-        </table>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einladungssystem</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Einladungssystem</h1>
+    
+        <div>
+            <h2>Ordentliche Mitglieder</h2>
+            <table id="ordentlicheMitglieder">
+                <tr>
+                    <th>Name</th>
+                    <th>Geschlecht</th>
+                    <th>Anwesend</th>
+                    <th>Aktionen</th>
+                </tr>
+            </table>
+        </div>
+    
+        <div>
+            <h2>Ersatzpersonen</h2>
+            <table id="ersatzPersonen">
+                <tr>
+                    <th>Name</th>
+                    <th>Geschlecht</th>
+                    <th>Anwesend</th>
+                    <th>Aktionen</th>
+                </tr>
+            </table>
+        </div>
+    
+        <!-- Formular zum Hinzufügen neuer Personen -->
+        <div>
+            <h2>Person hinzufügen</h2>
+            <form id="personenForm">
+                <input type="text" id="name" placeholder="Name" required />
+                <input type="email" id="email" placeholder="E-Mail" required />
+                <select id="geschlecht">
+                    <option value="m">Männlich</option>
+                    <option value="w">Weiblich</option>
+                    <option value="d">Divers</option>
+                </select>
+                <select id="liste">
+                    <option value="1">Ordentliche Mitglieder</option>
+                    <option value="2">Ersatzpersonen</option>
+                </select>
+                <label>
+                    <input type="checkbox" id="anwesend" /> Anwesend
+                </label>
+                <button type="submit">Person hinzufügen</button>
+            </form>
+        </div>
+    
+        <div>
+            <h2>Ergebnis</h2>
+            <ul id="eingeladenePersonen"></ul>
+        </div>
     </div>
-
-    <div>
-        <h2>Ersatzpersonen</h2>
-        <table id="ersatzPersonen">
-            <tr>
-                <th>Name</th>
-                <th>Geschlecht</th>
-                <th>Anwesend</th>
-                <th>Aktionen</th>
-            </tr>
-        </table>
-    </div>
-
-    <!-- Formular zum Hinzufügen neuer Personen -->
-    <div>
-        <h2>Person hinzufügen</h2>
-        <form id="personenForm">
-            <input type="text" id="name" placeholder="Name" required />
-            <input type="email" id="email" placeholder="E-Mail" required />
-            <select id="geschlecht">
-                <option value="m">Männlich</option>
-                <option value="w">Weiblich</option>
-                <option value="d">Divers</option>
-            </select>
-            <select id="liste">
-                <option value="1">Ordentliche Mitglieder</option>
-                <option value="2">Ersatzpersonen</option>
-            </select>
-            <label>
-                <input type="checkbox" id="anwesend" /> Anwesend
-            </label>
-            <button type="submit">Person hinzufügen</button>
-        </form>
-    </div>
-
-    <div>
-        <h2>Ergebnis</h2>
-        <ul id="eingeladenePersonen"></ul>
-    </div>
-</div>
-
-<script src="script.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

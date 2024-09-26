@@ -1,0 +1,11 @@
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "main": "javascript-backend.js",
+  "scripts": {
+    "start": "node javascript-backend.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"  // Falls du Express verwendest, andernfalls anpassen
+  }
+}

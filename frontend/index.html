@@ -3,11 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Einladungs-System</title>
+    <title>Einladungssystem</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Willkommen zum Einladungs-System</h1>
+    <div class="container">
+        <h1>Einladungssystem</h1>
+        <div>
+            <h2>Ordentliche Mitglieder</h2>
+            <table id="ordentlicheMitglieder">
+                <tr>
+                    <th>Name</th>
+                    <th>Geschlecht</th>
+                    <th>Anwesend</th>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h2>Ersatzpersonen</h2>
+            <table id="ersatzPersonen">
+                <tr>
+                    <th>Name</th>
+                    <th>Geschlecht</th>
+                    <th>Anwesend</th>
+                </tr>
+            </table>
+        </div>
+        <button id="einladenButton">Personen Einladen</button>
+        <div>
+            <h2>Ergebnis</h2>
+            <ul id="eingeladenePersonen"></ul>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

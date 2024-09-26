@@ -2,15 +2,12 @@
   "name": "einladungs-system",
   "version": "1.0.0",
   "description": "Ein System zur Einladung von Personen unter Berücksichtigung von Geschlechteranteilen.",
-  "main": "javascript-backend.js",  // Hauptdatei des Backends
+  "main": "javascript-backend.js",
   "scripts": {
-    "start": "node javascript-backend.js"  // Befehl zum Starten des Backends
+    "start": "node javascript-backend.js"
   },
-  "dependencies": {
-    // Hier können Abhängigkeiten hinzugefügt werden, falls benötigt.
-  },
+  "dependencies": {},
   "engines": {
-    "node": ">=14.0.0"  // Empfohlene Node.js-Version
+    "node": ">=14.0.0"
   }
 }
-

@@ -60,25 +60,33 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
     });
 
    // Überprüfe, ob die Mindestanzahl an Frauen erreicht ist
-    while (anzahl_weiblich() < geschlechtsanteil_w) {
-        let weibliche_ersatz = finde_niedrigste_weibliche_ersatzperson();
-        if (!weibliche_ersatz) {
-            console.log("Keine weiblichen Ersatzpersonen mehr verfügbar.");
-            break; // Keine weiteren weiblichen Ersatzpersonen verfügbar, Abbruch
-        }
+while (anzahl_weiblich() < geschlechtsanteil_w) {
+    let weibliche_ersatz = finde_niedrigste_weibliche_ersatzperson();
 
-        // Finde die männliche Ersatzperson mit dem höchsten Listenplatz
-        let maennliche_ersatz = finde_hoechste_maennliche_ersatzperson();
-        if (!maennliche_ersatz) {
-            console.log("Keine männlichen Ersatzpersonen mehr zum Entfernen verfügbar.");
-            break;
-        }
-
-        // Entferne die männliche Ersatzperson und lade die weibliche nach
-        eingeladen = eingeladen.filter(person => person !== maennliche_ersatz);
-        eingeladen.push(weibliche_ersatz);
-        ersatz_personen = ersatz_personen.filter(person => person !== weibliche_ersatz); // Entfernen der eingeladenen Person
+    // Wenn keine weibliche Ersatzperson verfügbar ist, beenden
+    if (!weibliche_ersatz) {
+        console.log("Keine weiblichen Ersatzpersonen mehr verfügbar.");
+        break; // Keine weiteren weiblichen Ersatzpersonen verfügbar, Abbruch
     }
+
+    // Finde die männliche Ersatzperson mit dem höchsten Listenplatz
+    let maennliche_ersatz = finde_hoechste_maennliche_ersatzperson();
+    if (!maennliche_ersatz) {
+        console.log("Keine männlichen Ersatzpersonen mehr zum Entfernen verfügbar.");
+        break; // Wenn keine männliche Person mehr zum Ersetzen verfügbar ist, abbrechen
+    }
+
+    // Entferne die männliche Ersatzperson und lade die weibliche nach
+    eingeladen = eingeladen.filter(person => person !== maennliche_ersatz);
+    eingeladen.push(weibliche_ersatz);
+
+    // Hinzufügen eines Log-Eintrags, damit der Austausch korrekt angezeigt wird
+    nachgeladen_fuer[weibliche_ersatz.name] = `ersetzt ${maennliche_ersatz.name}`;
+
+    // Entferne die eingeladene weibliche Person aus der Ersatzliste
+    ersatz_personen = ersatz_personen.filter(person => person !== weibliche_ersatz); 
+}
+
 
     return { eingeladen, nachgeladen_fuer };
 }

@@ -4,6 +4,20 @@ let geschlechtsanteil_w = localStorage.getItem("geschlechtsanteil_w") ? parseInt
 let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder")) || [];
 let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen")) || [];
 
+// Sucht die männliche Ersatzperson mit dem höchsten Listenplatz
+function finde_hoechste_maennliche_ersatzperson() {
+    return eingeladen
+        .filter(person => person.geschlecht === 'm' && person.liste === 2) // Nur Ersatzpersonen (Liste 2) und männlich
+        .sort((a, b) => b.listenplatz - a.listenplatz)[0]; // Höchster Listenplatz zuerst
+}
+
+// Sucht die weibliche Ersatzperson mit dem niedrigsten Listenplatz
+function finde_niedrigste_weibliche_ersatzperson() {
+    return ersatz_personen
+        .filter(person => person.geschlecht === 'w' && !eingeladen.includes(person) && person.anwesend) // Nur weibliche, die noch nicht eingeladen sind
+        .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Niedrigster Listenplatz zuerst
+}
+
 class Person {
     constructor(liste, listenplatz, geschlecht, name, mail, anwesend) {
         this.liste = liste;

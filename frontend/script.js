@@ -19,6 +19,91 @@ class Person {
     }
 }
 
+// Funktion, um die eingeladenen Personen zu ermitteln
+function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
+    let eingeladen = []; // Liste der final eingeladenen Personen
+    let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
+
+    // Berechnet die Anzahl der weiblichen Personen unter den eingeladenen Personen
+    function anzahl_weiblich() {
+        return eingeladen.filter(person => person.geschlecht === 'w').length;
+    }
+
+    // Sucht eine Ersatzperson eines bestimmten Geschlechts
+    function finde_ersatzperson(geschlecht) {
+        return ersatz_personen.find(ersatz => ersatz.geschlecht === geschlecht && !eingeladen.includes(ersatz) && ersatz.anwesend);
+    }
+
+    // Entfernt die zuletzt hinzugefügte männliche oder divers geschlechtliche Ersatzperson, um Platz für eine weibliche Person zu schaffen
+    function entferne_letzte_maennliche_person() {
+        for (let i = eingeladen.length - 1; i >= 0; i--) {
+            if ((eingeladen[i].geschlecht === 'm' || eingeladen[i].geschlecht === 'd') && eingeladen[i].liste === 2) {
+                return eingeladen.splice(i, 1)[0]; // Entfernen und Rückgabe der entfernten Person
+            }
+        }
+        return null; // Keine männliche oder divers geschlechtliche Person zum Entfernen gefunden
+    }
+
+    // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
+    ordentliche_mitglieder.forEach(person => {
+        if (person.anwesend) {
+            eingeladen.push(person);
+        }
+    });
+
+    // Für jede nicht anwesende Person wird eine Ersatzperson gesucht
+    ordentliche_mitglieder.forEach(person => {
+        if (!person.anwesend) {
+            let ersatz = finde_ersatzperson('m') || finde_ersatzperson('w') || finde_ersatzperson('d');
+            if (ersatz && !eingeladen.includes(ersatz)) {
+                eingeladen.push(ersatz);
+                nachgeladen_fuer[ersatz.name] = person.name; // Speichern, für wen die Person nachgeladen wurde
+            }
+        }
+    });
+
+    // Überprüfen, ob die Mindestanzahl an weiblichen Personen erreicht ist
+    while (anzahl_weiblich() < geschlechtsanteil_w) {
+        let entfernte_person = entferne_letzte_maennliche_person();
+        if (entfernte_person) {
+            let weibliche_ersatz = finde_ersatzperson('w');
+            if (weibliche_ersatz) {
+                eingeladen.push(weibliche_ersatz);
+                nachgeladen_fuer[weibliche_ersatz.name] = "Minderheitengeschlecht"; // Kennzeichnen, warum diese Person nachgeladen wurde
+            } else {
+                console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar");
+                break;
+            }
+        } else {
+            console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
+            break;
+        }
+    }
+
+    return { eingeladen, nachgeladen_fuer };
+}
+
+// Funktion zum Anzeigen der eingeladenen Personen im HTML
+function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
+    let ergebnisListe = document.getElementById("eingeladenePersonen");
+    ergebnisListe.innerHTML = ""; // Leeren der Ergebnisliste
+
+    eingeladen.forEach(person => {
+        let li = document.createElement("li");
+        let nachgeladenText = nachgeladen_fuer[person.name] ? ` (nachgeladen für ${nachgeladen_fuer[person.name]})` : '';
+        li.textContent = `${person.name} (${person.geschlecht.toUpperCase()})${nachgeladenText}`;
+        ergebnisListe.appendChild(li);
+    });
+}
+
+// Event Listener für den "Einladen"-Button
+document.getElementById("einladenButton").addEventListener("click", () => {
+    let { eingeladen, nachgeladen_fuer } = eingeladene_personen(ordentliche_mitglieder, ersatz_personen);
+    displayEingeladenePersonen(eingeladen, nachgeladen_fuer);
+});
+
+
+
 // Fülle die Tabellen
 function displayPersonen() {
     let ordentlicheTabelle = document.getElementById("ordentlicheMitglieder");

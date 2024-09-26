@@ -72,34 +72,35 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
 
     // Überprüfen, ob die Mindestanzahl an weiblichen Personen erreicht ist
     while (anzahl_weiblich() < geschlechtsanteil_w) {
-        versuche++;
-        if (versuche > 10) {
-            console.log("Maximale Anzahl an Versuchen erreicht. Schleife wird abgebrochen.");
-            break;
-        }
-
-        let entfernte_person = entferne_letzte_maennliche_person();
-        if (entfernte_person) {
-            let weibliche_ersatz = finde_ersatzperson('w');
-            if (weibliche_ersatz) {
-                eingeladen.push(weibliche_ersatz);
-                nachgeladen_fuer[weibliche_ersatz.name] = "Minderheitengeschlecht"; // Kennzeichnen, warum diese Person nachgeladen wurde
-            } else {
-                // Wenn keine weibliche Person mehr vorhanden ist, lade eine beliebige Ersatzperson ein
-                let beliebige_ersatz = finde_beliebige_ersatzperson();
-                if (beliebige_ersatz) {
-                    eingeladen.push(beliebige_ersatz);
-                    nachgeladen_fuer[beliebige_ersatz.name] = `${nachgeladen_fuer[entfernte_person.name]} (Keine weiteren Frauen verfügbar)`; // Kennzeichnen, warum diese Person nachgeladen wurde
-                } else {
-                    console.log("Keine weiteren Ersatzpersonen verfügbar");
-                    break; // Abbruch der Schleife, da keine Personen mehr verfügbar sind
-                }
-            }
-        } else {
-            console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
-            break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
-        }
+    versuche++;
+    if (versuche > 10) {
+        console.log("Maximale Anzahl an Versuchen erreicht. Schleife wird abgebrochen.");
+        break;
     }
+
+    let entfernte_person = entferne_letzte_maennliche_person();
+    if (entfernte_person) {
+        let weibliche_ersatz = finde_ersatzperson('w');
+        if (weibliche_ersatz) {
+            eingeladen.push(weibliche_ersatz);
+            nachgeladen_fuer[weibliche_ersatz.name] = `für ${nachgeladen_fuer[entfernte_person.name]}`; // Kennzeichnen, für wen diese Person nachgeladen wurde
+        } else {
+            // Wenn keine weibliche Person mehr vorhanden ist, lade eine beliebige Ersatzperson ein
+            let beliebige_ersatz = finde_beliebige_ersatzperson();
+            if (beliebige_ersatz) {
+                eingeladen.push(beliebige_ersatz);
+                nachgeladen_fuer[beliebige_ersatz.name] = `${nachgeladen_fuer[entfernte_person.name]} (Keine weiteren Frauen verfügbar)`; // Kennzeichnen, warum diese Person nachgeladen wurde
+            } else {
+                console.log("Keine weiteren Ersatzpersonen verfügbar");
+                break; // Abbruch der Schleife, da keine Personen mehr verfügbar sind
+            }
+        }
+    } else {
+        console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
+        break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
+    }
+}
+
 
     return { eingeladen, nachgeladen_fuer };
 }

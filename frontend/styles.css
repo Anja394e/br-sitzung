@@ -1,180 +1,46 @@
-/* Globale Einstellungen */
-html {
-  overflow-x: hidden;
-}
-
 body {
-  font-family: "Poppins", sans-serif;
-  color: #0c0c0c;
-  background-color: #ffffff;
-  overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    padding: 20px;
 }
 
-/* Layout Padding */
-.layout_padding {
-  padding: 75px 0;
-}
-
-.layout_padding2 {
-  padding: 45px 0;
-}
-
-.layout_padding2-top {
-  padding-top: 45px;
-}
-
-.layout_padding2-bottom {
-  padding-bottom: 45px;
-}
-
-.layout_padding-top {
-  padding-top: 75px;
-}
-
-.layout_padding-bottom {
-  padding-bottom: 75px;
-}
-
-/* Überschriften */
-.heading_container {
-  display: flex;
-}
-
-.heading_container h2 {
-  position: relative;
-  font-weight: bold;
-}
-
-.heading_container h2::before {
-  content: url(../images/tulip.png);
-  position: absolute;
-  top: 50%;
-  left: -35px;
-  transform: translateY(-50%);
-}
-
-/* Grundlegendes Styling für die Webseite */
 .container {
-  max-width: 800px;
-  margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 h1, h2 {
-  color: #333;
+    color: #333;
 }
 
-/* Tabellenstil */
 table {
-  width: 100%;
-  margin-bottom: 20px;
-  border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
 }
 
 table, th, td {
-  border: 1px solid #ddd;
+    border: 1px solid #ddd;
 }
 
 th, td {
-  padding: 10px;
-  text-align: left;
+    padding: 10px;
+    text-align: left;
 }
 
-/* Button-Styling */
 button {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
 }
 
 button:hover {
-  background-color: #218838;
-  transform: scale(1.05);
+    background-color: #218838;
 }
 
-/* Listen ohne Aufzählungszeichen */
 ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-/* Heldenbereich */
-.hero_area {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  background-image: url(../images/hero.png);
-  background-size: cover;
-  background-position: top right;
-}
-
-/* Navigation */
-.custom_nav-container.navbar-expand-lg .navbar-nav .nav-link {
-  padding: 10px 30px;
-  color: #434242;
-  text-align: center;
-}
-
-/* Such-Button in der Navigation */
-.custom_nav-container .nav_search-btn {
-  background-image: url(../images/search-icon.png);
-  background-size: 22px;
-  background-repeat: no-repeat;
-  background-position-y: 7px;
-  width: 35px;
-  height: 35px;
-  padding: 0;
-  border: none;
-}
-
-/* Weitere Styles aus deinem gelieferten CSS */
-.about_section {
-  padding: 125px 0;
-  position: relative;
-}
-
-.about_section .section_number {
-  display: block;
-  position: absolute;
-  width: 75px;
-  height: 75px;
-  text-align: center;
-  line-height: 75px;
-  font-weight: bold;
-  font-size: 24px;
-  color: #ffffff;
-  border-radius: 100%;
-  background: linear-gradient(to bottom, #e1603a, #dc373d);
-  right: 5%;
-  top: 0;
-  transform: translateY(-50%);
-}
-
-/* Footer Styling */
-.footer_section {
-  background-color: #252525;
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
-.footer_section::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 239px;
-  height: 217px;
-  background-image: url(../images/flower.png);
-  background-size: cover;
-}
-
-.footer_section p {
-  border-top: 1px solid #ffffff;
-  color: #ffffff;
-  text-align: center;
-  padding: 20px 35px;
+    list-style-type: none;
+    padding: 0;
 }

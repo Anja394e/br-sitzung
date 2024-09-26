@@ -38,26 +38,30 @@
         </div>
 
         <!-- Formular zum Hinzufügen neuer Personen -->
-        <div>
-            <h2>Person hinzufügen</h2>
-            <form id="personenForm">
-                <input type="text" id="name" placeholder="Name" required />
-                <input type="email" id="email" placeholder="E-Mail" required />
-                <select id="geschlecht">
-                    <option value="m">Männlich</option>
-                    <option value="w">Weiblich</option>
-                    <option value="d">Divers</option>
-                </select>
-                <select id="liste">
-                    <option value="1">Ordentliche Mitglieder</option>
-                    <option value="2">Ersatzpersonen</option>
-                </select>
-                <label>
-                    <input type="checkbox" id="anwesend" /> Anwesend
-                </label>
-                <button type="submit">Person hinzufügen</button>
-            </form>
-        </div>
+<div>
+    <h2>Person hinzufügen</h2>
+    <form id="personenForm">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="email" id="email" placeholder="E-Mail" required />
+        <select id="geschlecht">
+            <option value="m">Männlich</option>
+            <option value="w">Weiblich</option>
+            <option value="d">Divers</option>
+            <option value="w">Weiblich</option>
+        </select>
+        <select id="liste">
+            <option value="1">Ordentliche Mitglieder</option>
+            <option value="2">Ersatzpersonen</option>
+        </select>
+        <label>
+            <input type="checkbox" id="anwesend" /> Anwesend
+        </label>
+        <!-- Neues Feld für die Listenposition -->
+        <input type="number" id="listenplatz" placeholder="Listenplatz" required min="1" />
+        <button type="submit">Person hinzufügen</button>
+    </form>
+</div>
+
 
 
     <!-- Button, um den Einladungsprozess zu starten -->

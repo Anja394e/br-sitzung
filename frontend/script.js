@@ -23,6 +23,7 @@ class Person {
 function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
     let eingeladen = []; // Liste der final eingeladenen Personen
     let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
+    let fehlende_mitglieder = ordentliche_mitglieder.filter(person => !person.anwesend).length; // Anzahl der nicht anwesenden ordentlichen Mitglieder
 
     // Ersatzpersonen nach Listenplatz sortieren (niedrigster Listenplatz zuerst)
     ersatz_personen.sort((a, b) => a.listenplatz - b.listenplatz);
@@ -57,24 +58,32 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     });
 
-    // Überprüfen, ob die Mindestanzahl an weiblichen Personen erreicht ist
-    while (anzahl_weiblich() < geschlechtsanteil_w) {
+    // Während die Mindestanzahl an Frauen nicht erreicht ist und noch fehlende Mitglieder übrig sind
+    while (anzahl_weiblich() < geschlechtsanteil_w && fehlende_mitglieder > 0) {
         let weibliche_ersatz = ersatz_personen.find(ersatz => ersatz.geschlecht === 'w' && !eingeladen.includes(ersatz) && ersatz.anwesend);
         if (weibliche_ersatz) {
             eingeladen.push(weibliche_ersatz);
             ersatz_personen = ersatz_personen.filter(person => person !== weibliche_ersatz); // Entfernen der eingeladenen Person
+            fehlende_mitglieder--; // Ein fehlendes Mitglied wurde nachgeladen
         } else {
             console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
             break; // Schleifenabbruch, wenn keine weiteren Frauen verfügbar sind
         }
     }
 
-    // Nachdem die Mindestanzahl erreicht ist, werden Ersatzpersonen nach niedrigstem Listenplatz eingeladen, unabhängig vom Geschlecht
-    let verbleibende_person = finde_beliebige_ersatzperson();
-    if (verbleibende_person) {
-        eingeladen.push(verbleibende_person);
-        ersatz_personen = ersatz_personen.filter(person => person !== verbleibende_person); // Entfernen der eingeladenen Person
+
+  // Nach Erreichen der Mindestanzahl an Frauen oder wenn keine fehlenden Mitglieder mehr vorhanden sind
+    while (fehlende_mitglieder > 0) {
+        let verbleibende_person = finde_beliebige_ersatzperson();
+        if (verbleibende_person) {
+            eingeladen.push(verbleibende_person);
+            ersatz_personen = ersatz_personen.filter(person => person !== verbleibende_person); // Entfernen der eingeladenen Person
+            fehlende_mitglieder--; // Ein fehlendes Mitglied wurde nachgeladen
+        } else {
+            break; // Keine weiteren Ersatzpersonen verfügbar
+        }
     }
+
 
     return { eingeladen, nachgeladen_fuer };
 }

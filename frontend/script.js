@@ -100,8 +100,10 @@ function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
 document.getElementById("einladenButton").addEventListener("click", () => {
     let { eingeladen, nachgeladen_fuer } = eingeladene_personen(ordentliche_mitglieder, ersatz_personen);
     displayEingeladenePersonen(eingeladen, nachgeladen_fuer);
-});
 
+    // Ergebnisbereich anzeigen
+    document.getElementById("ergebnisContainer").style.display = 'block';
+});
 
 
 // Fülle die Tabellen

@@ -34,6 +34,11 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         return ersatz_personen.find(ersatz => ersatz.geschlecht === geschlecht && !eingeladen.includes(ersatz) && ersatz.anwesend);
     }
 
+    // Sucht eine beliebige anwesende Ersatzperson (wenn keine weiblichen Personen mehr verfügbar sind)
+    function finde_beliebige_ersatzperson() {
+        return ersatz_personen.find(ersatz => !eingeladen.includes(ersatz) && ersatz.anwesend);
+    }
+
     // Entfernt die zuletzt hinzugefügte männliche oder divers geschlechtliche Ersatzperson, um Platz für eine weibliche Person zu schaffen
     function entferne_letzte_maennliche_person() {
         for (let i = eingeladen.length - 1; i >= 0; i--) {
@@ -71,8 +76,15 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
                 eingeladen.push(weibliche_ersatz);
                 nachgeladen_fuer[weibliche_ersatz.name] = "Minderheitengeschlecht"; // Kennzeichnen, warum diese Person nachgeladen wurde
             } else {
-                console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar");
-                break;
+                // Wenn keine weibliche Person mehr vorhanden ist, lade eine beliebige Ersatzperson ein
+                let beliebige_ersatz = finde_beliebige_ersatzperson();
+                if (beliebige_ersatz) {
+                    eingeladen.push(beliebige_ersatz);
+                    nachgeladen_fuer[beliebige_ersatz.name] = "Keine weiteren Frauen verfügbar"; // Kennzeichnen, warum diese Person nachgeladen wurde
+                } else {
+                    console.log("Keine weiteren Ersatzpersonen verfügbar");
+                    break;
+                }
             }
         } else {
             console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");

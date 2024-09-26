@@ -1,4 +1,5 @@
-let geschlechtsanteil_w = 2;
+let geschlechtsanteil_w = // Hole den gespeicherten Wert für den geschlechtsanteil_w aus localStorage (falls vorhanden)
+let geschlechtsanteil_w = localStorage.getItem("geschlechtsanteil_w") ? parseInt(localStorage.getItem("geschlechtsanteil_w")) : 2;
 
 class Person {
     constructor(liste, listenplatz, geschlecht, name, mail, anwesend) {

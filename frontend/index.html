@@ -9,7 +9,10 @@
 <body>
     <div class="container">
         <h1>Einladungssystem</h1>
-    
+
+        <!-- Einstellungsknopf hinzufügen -->
+        <button onclick="window.location.href='einstellungen.html'">Einstellungen</button>
+
         <div>
             <h2>Ordentliche Mitglieder</h2>
             <table id="ordentlicheMitglieder">
@@ -21,7 +24,7 @@
                 </tr>
             </table>
         </div>
-    
+
         <div>
             <h2>Ersatzpersonen</h2>
             <table id="ersatzPersonen">
@@ -33,7 +36,7 @@
                 </tr>
             </table>
         </div>
-    
+
         <!-- Formular zum Hinzufügen neuer Personen -->
         <div>
             <h2>Person hinzufügen</h2>
@@ -55,13 +58,13 @@
                 <button type="submit">Person hinzufügen</button>
             </form>
         </div>
-    
+
         <div>
             <h2>Ergebnis</h2>
             <ul id="eingeladenePersonen"></ul>
         </div>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>

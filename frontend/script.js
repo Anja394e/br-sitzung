@@ -68,6 +68,29 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
     });
 
     // Überprüfen, ob die Mindestanzahl an weiblichen Personen erreicht ist
+    if (anzahl_weiblich() + ersatz_personen.filter(person => person.geschlecht === 'w' && person.anwesend).length < geschlechtsanteil_w) {
+        console.log("Es sind nicht genug weibliche Personen verfügbar, um den Mindestanteil zu erreichen.");
+        // Optionale visuelle Fehleranzeige hier
+    } else {
+        while (anzahl_weiblich() < geschlechtsanteil_w) {
+            let entfernte_person = entferne_letzte_maennliche_person();
+            if (entfernte_person) {
+                let weibliche_ersatz = finde_ersatzperson('w');
+                if (weibliche_ersatz) {
+                    eingeladen.push(weibliche_ersatz);
+                } else {
+                    console.log("Keine weiteren Frauen verfügbar");
+                    break;
+                }
+            } else {
+                console.log("Keine weiteren männlichen oder divers geschlechtlichen Personen zum Entfernen verfügbar");
+                break;
+            }
+        }
+    }
+
+
+
     while (anzahl_weiblich() < geschlechtsanteil_w) {
         let entfernte_person = entferne_letzte_maennliche_person();
         if (entfernte_person) {

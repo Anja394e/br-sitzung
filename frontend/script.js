@@ -83,12 +83,12 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
                     nachgeladen_fuer[beliebige_ersatz.name] = "Keine weiteren Frauen verfügbar"; // Kennzeichnen, warum diese Person nachgeladen wurde
                 } else {
                     console.log("Keine weiteren Ersatzpersonen verfügbar");
-                    break;
+                    break; // Abbruch der Schleife, da keine Personen mehr verfügbar sind
                 }
             }
         } else {
             console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
-            break;
+            break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
         }
     }
 
@@ -116,6 +116,7 @@ document.getElementById("einladenButton").addEventListener("click", () => {
     // Ergebnisbereich anzeigen
     document.getElementById("ergebnisContainer").style.display = 'block';
 });
+
 
 
 // Fülle die Tabellen

@@ -1,0 +1,139 @@
+# Globale Variable für die Mindestanzahl an weiblichen Personen, die eingeladen werden müssen
+geschlechtsanteil_w = 2
+
+class Person:
+    """Klasse zur Repräsentation einer Person mit den Attributen Liste, Listenplatz, Geschlecht, Name, E-Mail und Anwesenheit."""
+    
+    def __init__(self, liste, listenplatz, geschlecht, name, mail, anwesend):
+        # Initialisierung der Attribute
+        self.liste = liste  # Identifiziert, ob die Person ein ordentliches Mitglied (Liste 1) oder ein Ersatzmitglied (Liste 2) ist
+        self.listenplatz = listenplatz  # Platzierung auf der Liste (wichtig bei Ersatzmitgliedern)
+        self.geschlecht = geschlecht  # Geschlecht der Person: 'm' für männlich, 'w' für weiblich, 'd' für divers
+        self.name = name  # Name der Person
+        self.mail = mail  # E-Mail-Adresse der Person
+        self.anwesend = anwesend  # Boolean-Wert, ob die Person anwesend ist oder nicht
+    
+    def __repr__(self):
+        # String-Repräsentation der Person, für die Ausgabe in der Konsole
+        return f"Person(Liste: {self.liste}, Listenplatz: {self.listenplatz}, Geschlecht: {self.geschlecht}, Name: {self.name}, E-Mail: {self.mail}, Anwesend: {self.anwesend})"
+
+
+# Funktion, um die eingeladenen Personen zu ermitteln
+def eingeladene_personen(ordentliche_mitglieder, ersatz_personen):
+    """
+    Diese Funktion lädt anwesende ordentliche Mitglieder ein und füllt ggf. mit Ersatzpersonen auf.
+    Wenn nicht genügend weibliche Personen eingeladen sind, werden männliche oder divers geschlechtliche Ersatzpersonen entfernt und durch weibliche ersetzt.
+    
+    Argumente:
+    - ordentliche_mitglieder: Liste der ordentlichen Mitglieder (Mitglieder der Liste 1)
+    - ersatz_personen: Liste der Ersatzmitglieder (Mitglieder der Liste 2)
+    
+    Rückgabewerte:
+    - eingeladen: Liste der final eingeladenen Personen
+    - nachgeladen_fuer: Dictionary, das festhält, für welches ordentliche Mitglied eine Ersatzperson nachgeladen wurde.
+    """
+    
+    eingeladen = []  # Liste der final eingeladenen Personen
+    nachgeladen_fuer = {}  # Dictionary, um nachzuhalten, für welches ordentliche Mitglied eine Ersatzperson nachgeladen wurde
+
+    def anzahl_weiblich():
+        """Berechnet die Anzahl der weiblichen Personen unter den eingeladenen Personen."""
+        return sum(1 for person in eingeladen if person.geschlecht == "w")
+
+    def finde_ersatzperson(geschlecht):
+        """
+        Sucht eine Ersatzperson eines bestimmten Geschlechts.
+        Argumente:
+        - geschlecht: Das Geschlecht ('m' für männlich, 'w' für weiblich, 'd' für divers), nach dem gesucht wird.
+        
+        Rückgabewert:
+        - Ersatzperson (Person-Objekt) oder None, falls keine passende Person gefunden wird.
+        """
+        for ersatz in ersatz_personen:
+            if ersatz.geschlecht == geschlecht and ersatz not in eingeladen and ersatz.anwesend:
+                return ersatz  # Rückgabe der ersten passenden und anwesenden Ersatzperson
+        return None
+
+    def entferne_letzte_maennliche_person():
+        """
+        Entfernt die zuletzt hinzugefügte männliche oder divers geschlechtliche Ersatzperson, um Platz für eine weibliche Person zu schaffen.
+        
+        Rückgabewert:
+        - Die entfernte männliche oder divers geschlechtliche Person, oder None, falls keine solche Person zum Entfernen vorhanden ist.
+        """
+        for i in range(len(eingeladen) - 1, -1, -1):
+            if eingeladen[i].geschlecht in ["m", "d"] and eingeladen[i].liste == 2:  # Nur männliche oder divers geschlechtliche Ersatzpersonen aus Liste 2
+                entfernt = eingeladen.pop(i)  # Entfernen der Person aus der Liste
+                return entfernt  # Rückgabe der entfernten Person
+        return None  # Keine männliche oder divers geschlechtliche Person zum Entfernen gefunden
+
+    # Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
+    for person in ordentliche_mitglieder:
+        if person.anwesend:
+            eingeladen.append(person)  # Nur anwesende ordentliche Mitglieder werden hinzugefügt
+
+    # Falls ordentliche Mitglieder fehlen, werden Ersatzpersonen nachgeladen
+    for person in ordentliche_mitglieder:
+        if not person.anwesend:
+            # Suchen nach einer anwesenden Ersatzperson, männlich oder weiblich
+            ersatz_gewaehlt = False
+            beliebige_ersatz = finde_ersatzperson("m") or finde_ersatzperson("w") or finde_ersatzperson("d")
+            if beliebige_ersatz and beliebige_ersatz not in eingeladen:
+                eingeladen.append(beliebige_ersatz)  # Die Ersatzperson wird eingeladen
+                nachgeladen_fuer[beliebige_ersatz.name] = person.name  # Verknüpfung: Ersatzperson ist für das ordentliche Mitglied nachgeladen
+
+    # Jetzt wird überprüft, ob die Mindestanzahl an weiblichen Personen erreicht ist
+    while anzahl_weiblich() < geschlechtsanteil_w:
+        # Falls nicht genug Frauen anwesend sind, wird die letzte männliche oder divers geschlechtliche Ersatzperson entfernt
+        entfernte_person = entferne_letzte_maennliche_person()
+        if entfernte_person:
+            # Suchen nach einer weiblichen Ersatzperson, die anwesend ist und noch nicht eingeladen wurde
+            weibliche_ersatz = finde_ersatzperson("w")
+            if weibliche_ersatz:
+                # Ordentliche Person finden, für die die entfernte männliche oder divers geschlechtliche Person nachgeladen wurde
+                ordentliche_person = next((v for k, v in nachgeladen_fuer.items() if k == entfernte_person.name), None)
+                eingeladen.append(weibliche_ersatz)  # Weibliche Ersatzperson wird eingeladen
+                if ordentliche_person:
+                    # Die weibliche Ersatzperson wird als Ersatz für das ordentliche Mitglied und wegen des Minderheitengeschlechts nachgeladen
+                    nachgeladen_fuer[weibliche_ersatz.name] = f"{ordentliche_person} (wegen Minderheitengeschlecht, ersetzt {entfernte_person.name})"
+            else:
+                # Keine weibliche Ersatzperson verfügbar
+                print("Keine weiteren weiblichen Ersatzpersonen verfügbar")
+                break
+        else:
+            # Keine männliche oder divers geschlechtliche Person mehr verfügbar, um entfernt zu werden
+            print("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar")
+            break
+
+    return eingeladen, nachgeladen_fuer  # Rückgabe der finalen Liste der eingeladenen Personen und des Nachladungs-Logs
+
+
+# Beispielhafte Daten für ordentliche Mitglieder (Liste 1) und Ersatzmitglieder (Liste 2)
+ordentliche_mitglieder = [
+    Person(1, "1", "w", "Anna Müller", "anna.mueller@example.com", False),
+    Person(1, "2", "m", "Max Mustermann", "max.mustermann@example.com", False),
+    Person(1, "3", "w", "Lisa Schmidt", "lisa.schmidt@example.com", False),
+    Person(1, "4", "m", "Jonas Weber", "jonas.weber@example.com", True),
+    Person(1, "5", "m", "Paul Fischer", "paul.fischer@example.com", True),
+]
+
+ersatz_personen = [
+    Person(2, "E1", "m", "Erik Meyer", "erik.meyer@example.com", True),
+    Person(2, "E2", "m", "Leon Bauer", "leon.bauer@example.com", False),
+    Person(2, "E3", "w", "Sophie Becker", "sophie.becker@example.com", True),
+    Person(2, "E4", "d", "Alex Jordan", "alex.jordan@example.com", True),
+    Person(2, "E5", "w", "Clara Wagner", "clara.wagner@example.com", False),
+    Person(2, "E6", "w", "Eva Hofmann", "eva.hofmann@example.com", True),
+    Person(2, "E7", "m", "Tom Schulz", "tom.schulz@example.com", False),
+    Person(2, "E8", "m", "Felix Neumann", "felix.neumann@example.com", True),
+    Person(2, "E9", "w", "Nina Wolf", "nina.wolf@example.com", False)
+]
+
+# Aufrufen der Funktion zum Einladen von Personen und Ausgabe der finalen Listen
+eingeladene, nachgeladen_fuer = eingeladene_personen(ordentliche_mitglieder, ersatz_personen)
+
+# Ausgabe der eingeladenen Personen und Nachladungen
+print("\nEingeladene Personen:")
+for person in eingeladen:
+    if person.name in nachgeladen_fuer:
+        print(f"{person} (nachgeladen für {nachgeladen_fuer[person.name

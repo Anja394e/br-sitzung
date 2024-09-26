@@ -59,31 +59,26 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     });
 
-    // Nachladen von Frauen, solange die Mindestanzahl nicht erreicht ist und noch fehlende Mitglieder vorhanden sind
-    // Während die Mindestanzahl an Frauen nicht erreicht ist und noch fehlende Mitglieder übrig sind
-while (anzahl_weiblich() < geschlechtsanteil_w && eingeladen.length < ordentliche_mitglieder.length) {
-    let weibliche_ersatz = finde_ersatzperson('w'); // Funktion um die weibliche Ersatzperson zu finden
-    if (weibliche_ersatz) {
+   // Überprüfe, ob die Mindestanzahl an Frauen erreicht ist
+    while (anzahl_weiblich() < geschlechtsanteil_w) {
+        let weibliche_ersatz = finde_niedrigste_weibliche_ersatzperson();
+        if (!weibliche_ersatz) {
+            console.log("Keine weiblichen Ersatzpersonen mehr verfügbar.");
+            break; // Keine weiteren weiblichen Ersatzpersonen verfügbar, Abbruch
+        }
+
+        // Finde die männliche Ersatzperson mit dem höchsten Listenplatz
+        let maennliche_ersatz = finde_hoechste_maennliche_ersatzperson();
+        if (!maennliche_ersatz) {
+            console.log("Keine männlichen Ersatzpersonen mehr zum Entfernen verfügbar.");
+            break;
+        }
+
+        // Entferne die männliche Ersatzperson und lade die weibliche nach
+        eingeladen = eingeladen.filter(person => person !== maennliche_ersatz);
         eingeladen.push(weibliche_ersatz);
         ersatz_personen = ersatz_personen.filter(person => person !== weibliche_ersatz); // Entfernen der eingeladenen Person
-    } else {
-        console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
-        break; // Schleifenabbruch, wenn keine weiteren Frauen verfügbar sind
     }
-}
-
-
-   // Nach Erreichen der Mindestanzahl an Frauen oder wenn keine weiblichen Ersatzpersonen mehr verfügbar sind
-while (eingeladen.length < ordentliche_mitglieder.length) {
-    let verbleibende_person = finde_beliebige_ersatzperson(); // Nächste Person unabhängig vom Geschlecht finden
-    if (verbleibende_person) {
-        eingeladen.push(verbleibende_person);
-        ersatz_personen = ersatz_personen.filter(person => person !== verbleibende_person); // Entfernen der eingeladenen Person
-    } else {
-        break; // Keine weiteren Ersatzpersonen verfügbar
-    }
-}
-
 
     return { eingeladen, nachgeladen_fuer };
 }

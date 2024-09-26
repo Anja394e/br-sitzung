@@ -1,11 +1,15 @@
 {
-  "name": "my-app",
+  "name": "einladungs-system",
   "version": "1.0.0",
-  "main": "javascript-backend.js",
+  "description": "Ein System zur Einladung von Personen unter Berücksichtigung von Geschlechteranteilen.",
+  "main": "app.js",  // Ersetze 'app.js' durch den Namen deiner Haupt-JavaScript-Datei, falls notwendig.
   "scripts": {
-    "start": "node javascript-backend.js"
+    "start": "node app.js"  // Ersetze 'app.js' durch den Namen deiner Haupt-JavaScript-Datei, falls notwendig.
   },
   "dependencies": {
-    "express": "^4.17.1"  // Falls du Express verwendest, andernfalls anpassen
+    // Hier könnten Abhängigkeiten hinzugefügt werden, falls du welche benötigst.
+  },
+  "engines": {
+    "node": ">=14.0.0"  // Stelle sicher, dass die Node.js-Version >= 14.0.0 ist.
   }
 }

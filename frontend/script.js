@@ -1,4 +1,3 @@
-// Lade den gespeicherten geschlechtsanteil_w beim Laden der Seite
 let geschlechtsanteil_w = localStorage.getItem("geschlechtsanteil_w") ? parseInt(localStorage.getItem("geschlechtsanteil_w")) : 2;
 
 // Personenlisten initialisieren
@@ -29,37 +28,17 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
     // Ersatzpersonen nach Listenplatz sortieren (niedrigster Listenplatz zuerst)
     ersatz_personen.sort((a, b) => a.listenplatz - b.listenplatz);
 
+    // Berechnet die Anzahl der weiblichen Personen unter den eingeladenen Personen
+    function anzahl_weiblich() {
+        return eingeladen.filter(person => person.geschlecht === 'w').length;
+    }
 
-// Berechnet die Anzahl der weiblichen Personen unter den eingeladenen Personen
-function anzahl_weiblich(eingeladen) {
-    return eingeladen.filter(person => person.geschlecht === 'w').length;
-}
-
-// Sucht die männliche Ersatzperson mit dem höchsten Listenplatz
-function finde_hoechste_maennliche_ersatzperson() {
-    return eingeladen
-        .filter(person => person.geschlecht === 'm' && person.liste === 2) // Nur Ersatzpersonen (Liste 2) und männlich
-        .sort((a, b) => b.listenplatz - a.listenplatz)[0]; // Höchster Listenplatz zuerst
-}
-
-// Sucht die weibliche Ersatzperson mit dem niedrigsten Listenplatz
-function finde_niedrigste_weibliche_ersatzperson() {
-    return ersatz_personen
-        .filter(person => person.geschlecht === 'w' && !eingeladen.includes(person) && person.anwesend) // Nur weibliche, die noch nicht eingeladen sind
-        .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Niedrigster Listenplatz zuerst
-}
-
-// Sucht die Ersatzperson mit dem niedrigsten Listenplatz (beliebiges Geschlecht)
-function finde_beliebige_ersatzperson() {
-    return ersatz_personen
-        .filter(ersatz => !eingeladen.includes(ersatz) && ersatz.anwesend)
-        .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Person mit niedrigstem Listenplatz zuerst
-}
-
-// Funktion, um die eingeladenen Personen zu ermitteln
-function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
-    let eingeladen = []; // Liste der final eingeladenen Personen
-    let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
+    // Sucht die Ersatzperson mit dem niedrigsten Listenplatz (beliebiges Geschlecht)
+    function finde_beliebige_ersatzperson() {
+        return ersatz_personen
+            .filter(ersatz => !eingeladen.includes(ersatz) && ersatz.anwesend)
+            .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Person mit niedrigstem Listenplatz zuerst
+    }
 
     // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
     ordentliche_mitglieder.forEach(person => {
@@ -68,40 +47,43 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     });
 
-    // Falls ordentliche Mitglieder fehlen, lade Ersatzpersonen nach Listenplatz
+    // Für jede nicht anwesende Person wird eine Ersatzperson nachgeladen (niedrigster Listenplatz zuerst)
     ordentliche_mitglieder.forEach(person => {
-        if (!person.anwesend) {
+        if (!person.anwesend && fehlende_mitglieder > 0) {
             let ersatz = finde_beliebige_ersatzperson();
             if (ersatz && !eingeladen.includes(ersatz)) {
                 eingeladen.push(ersatz);
                 nachgeladen_fuer[ersatz.name] = person.name; // Speichern, für wen die Person nachgeladen wurde
+                fehlende_mitglieder--; // Reduziere die Anzahl fehlender Mitglieder
             }
         }
     });
 
-    // Überprüfe, ob die Mindestanzahl an Frauen erreicht ist
-    while (anzahl_weiblich(eingeladen) < geschlechtsanteil_w) {
-        // Finde die weibliche Ersatzperson mit dem niedrigsten Listenplatz
-        let weibliche_ersatz = finde_niedrigste_weibliche_ersatzperson();
-        
-        // Wenn keine weibliche Ersatzperson verfügbar ist, beenden
-        if (!weibliche_ersatz) {
-            console.log("Keine weiblichen Ersatzpersonen mehr verfügbar.");
-            break; // Keine weiteren weiblichen Ersatzpersonen verfügbar, Abbruch
-        }
-
-        // Finde die männliche Ersatzperson mit dem höchsten Listenplatz
-        let maennliche_ersatz = finde_hoechste_maennliche_ersatzperson();
-        if (!maennliche_ersatz) {
-            console.log("Keine männlichen Ersatzpersonen mehr zum Entfernen verfügbar.");
-            break;
-        }
-
-        // Entferne die männliche Ersatzperson und lade die weibliche nach
-        eingeladen = eingeladen.filter(person => person !== maennliche_ersatz);
+    // Nachladen von Frauen, solange die Mindestanzahl nicht erreicht ist und noch fehlende Mitglieder vorhanden sind
+    // Während die Mindestanzahl an Frauen nicht erreicht ist und noch fehlende Mitglieder übrig sind
+while (anzahl_weiblich() < geschlechtsanteil_w && eingeladen.length < ordentliche_mitglieder.length) {
+    let weibliche_ersatz = finde_ersatzperson('w'); // Funktion um die weibliche Ersatzperson zu finden
+    if (weibliche_ersatz) {
         eingeladen.push(weibliche_ersatz);
         ersatz_personen = ersatz_personen.filter(person => person !== weibliche_ersatz); // Entfernen der eingeladenen Person
+    } else {
+        console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
+        break; // Schleifenabbruch, wenn keine weiteren Frauen verfügbar sind
     }
+}
+
+
+   // Nach Erreichen der Mindestanzahl an Frauen oder wenn keine weiblichen Ersatzpersonen mehr verfügbar sind
+while (eingeladen.length < ordentliche_mitglieder.length) {
+    let verbleibende_person = finde_beliebige_ersatzperson(); // Nächste Person unabhängig vom Geschlecht finden
+    if (verbleibende_person) {
+        eingeladen.push(verbleibende_person);
+        ersatz_personen = ersatz_personen.filter(person => person !== verbleibende_person); // Entfernen der eingeladenen Person
+    } else {
+        break; // Keine weiteren Ersatzpersonen verfügbar
+    }
+}
+
 
     return { eingeladen, nachgeladen_fuer };
 }
@@ -127,7 +109,6 @@ document.getElementById("einladenButton").addEventListener("click", () => {
     // Ergebnisbereich anzeigen
     document.getElementById("ergebnisContainer").style.display = 'block';
 });
-
 
 
 // Fülle die Tabellen

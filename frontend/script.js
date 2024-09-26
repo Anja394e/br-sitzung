@@ -79,27 +79,33 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
 
     // Überprüfen, ob die Mindestanzahl an weiblichen Personen erreicht ist
     while (anzahl_weiblich() < geschlechtsanteil_w) {
-    versuche++;
-    if (versuche > 10) {
-        console.log("Maximale Anzahl an Versuchen erreicht. Schleife wird abgebrochen.");
-        break;
-    }
-
-    let entfernte_person = entferne_letzte_maennliche_person();
-    if (entfernte_person) {
-        let weibliche_ersatz = finde_ersatzperson('w');
-        if (weibliche_ersatz) {
-            eingeladen.push(weibliche_ersatz);
-            nachgeladen_fuer[weibliche_ersatz.name] = `für ${nachgeladen_fuer[entfernte_person.name]}`; // Kennzeichnen, für wen diese Person nachgeladen wurde
-        } else {
-            console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
-            break; // Hier wird die Schleife abgebrochen, wenn keine Frauen mehr verfügbar sind
+        versuche++;
+        if (versuche > 10) {
+            console.log("Maximale Anzahl an Versuchen erreicht. Schleife wird abgebrochen.");
+            break;
         }
-    } else {
-        console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
-        break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
+
+        let entfernte_person = entferne_letzte_maennliche_person();
+        if (entfernte_person) {
+            // Erst überprüfen, ob die Mindestanzahl bereits erreicht ist
+            if (anzahl_weiblich() < geschlechtsanteil_w) {
+                let weibliche_ersatz = finde_ersatzperson('w');
+                if (weibliche_ersatz) {
+                    eingeladen.push(weibliche_ersatz);
+                    nachgeladen_fuer[weibliche_ersatz.name] = `für ${nachgeladen_fuer[entfernte_person.name]}`; // Kennzeichnen, für wen diese Person nachgeladen wurde
+                } else {
+                    console.log("Keine weiteren weiblichen Ersatzpersonen verfügbar.");
+                    break; // Keine weiteren Frauen verfügbar, also Schleifenabbruch
+                }
+            } else {
+                console.log("Mindestanzahl an Frauen erreicht, weitere männliche/diverse Personen werden nachgeladen.");
+                break; // Abbruch der Schleife, wenn Mindestanzahl an Frauen erreicht ist
+            }
+        } else {
+            console.log("Keine weiteren männlichen oder divers geschlechtlichen Ersatzpersonen zum Entfernen verfügbar");
+            break; // Abbruch der Schleife, da keine männlichen Personen zum Entfernen vorhanden sind
+        }
     }
-}
 
 
     return { eingeladen, nachgeladen_fuer };

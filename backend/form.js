@@ -14,6 +14,19 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     let anwesend = document.getElementById("anwesend").checked;
     let listenplatz = parseInt(document.getElementById("listenplatz").value);
 
+    // Überprüfe, ob die Kombination aus Listenplatz und Liste bereits existiert
+    let bereitsVorhanden = false;
+    if (liste === 1) {
+        bereitsVorhanden = ordentliche_mitglieder.some(p => p.listenplatz === listenplatz);
+    } else {
+        bereitsVorhanden = ersatz_personen.some(p => p.listenplatz === listenplatz);
+    }
+
+    if (bereitsVorhanden) {
+        alert('Eine Person mit diesem Listenplatz existiert bereits in der ausgewählten Liste.');
+        return; // Verhindert das Hinzufügen der Person
+    }
+
     // Neue Person erstellen
     let neuePerson = new Person(liste, listenplatz, geschlecht, name, email, anwesend);
 
@@ -30,6 +43,4 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     // Aktualisiere die Tabellen
     displayPersonen();
 
-    // Setze das Formular zurück
-    document.getElementById("personenForm").reset();
 });

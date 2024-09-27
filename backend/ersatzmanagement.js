@@ -1,6 +1,6 @@
 // ersatzmanagement.js
 
-// Initialisierung der Geschlechterquote und Listen
+// Initialisierung der Geschlechterquote aus dem localStorage oder Standardwert 2
 let geschlechtsanteil_w = localStorage.getItem("geschlechtsanteil_w") ? parseInt(localStorage.getItem("geschlechtsanteil_w")) : 2;
 
 // Sucht die männliche Ersatzperson mit dem höchsten Listenplatz

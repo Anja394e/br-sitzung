@@ -30,7 +30,7 @@ function anzahl_weiblich(eingeladen) {
 }
 
 // Logik zur Einladung von Personen und Management der Frauenquote
-function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
+export function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
     let eingeladen = []; // Liste der final eingeladenen Personen
     let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
     let fehlende_mitglieder = ordentliche_mitglieder.filter(person => !person.anwesend).length;

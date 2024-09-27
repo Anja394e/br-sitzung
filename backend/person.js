@@ -1,5 +1,8 @@
 // person.js
 
+import { displayPersonen } from './ui.js';
+
+
 // Personenlisten initialisieren
 let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder")) || [];
 let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen")) || [];

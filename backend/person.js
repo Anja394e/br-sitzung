@@ -65,17 +65,30 @@ export function speicherePersonen() {
     localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
 }
 
-// Funktion zum Bearbeiten einer Person
-export function bearbeitenPerson(index, liste) {
-    let person = liste === 1 ? ordentliche_mitglieder[index] : ersatz_personen[index];
+export function bearbeitenPerson(listenplatz, liste) {
+    let person;
 
+    // Suche die Person anhand des Listenplatzes in der jeweiligen Liste
+    if (liste === "1") {
+        person = ordentliche_mitglieder.find(p => p.listenplatz === parseInt(listenplatz));
+    } else if (liste === "2") {
+        person = ersatz_personen.find(p => p.listenplatz === parseInt(listenplatz));
+    }
+
+    if (!person) {
+        console.error('Person nicht gefunden bei Listenplatz:', listenplatz, 'in Liste:', liste);
+        return;  // Falls die Person nicht existiert, Funktion beenden
+    }
+
+    // Person existiert, nun die Formularfelder mit den Werten füllen
     document.getElementById("name").value = person.name;
     document.getElementById("email").value = person.mail;
     document.getElementById("geschlecht").value = person.geschlecht;
     document.getElementById("liste").value = person.liste;
     document.getElementById("anwesend").checked = person.anwesend;
-    document.getElementById("listenplatz").value = person.listenplatz; // Listenposition wird gefüllt
+    document.getElementById("listenplatz").value = person.listenplatz;
 }
+
 
 // Funktion zum Löschen einer Person
 export function loeschenPerson(index, liste) {

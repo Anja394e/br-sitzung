@@ -13,10 +13,14 @@ function finde_hoechste_maennliche_ersatzperson() {
 
 // Sucht die weibliche Ersatzperson mit dem niedrigsten Listenplatz
 function finde_niedrigste_weibliche_ersatzperson() {
-    return ersatz_personen
-        .filter(person => person.geschlecht === 'w' && !eingeladen.includes(person) && person.anwesend) // Nur weibliche, die noch nicht eingeladen sind
-        .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Niedrigster Listenplatz zuerst
+    let weibliche_ersatz = ersatz_personen
+        .filter(person => person.geschlecht === 'w' && !eingeladen.includes(person) && person.anwesend)
+        .sort((a, b) => a.listenplatz - b.listenplatz)[0]; 
+
+    console.log("Weibliche Ersatzperson gefunden:", weibliche_ersatz);
+    return weibliche_ersatz;
 }
+
 
 class Person {
     constructor(liste, listenplatz, geschlecht, name, mail, anwesend) {
@@ -63,7 +67,7 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
 
     // Für jede nicht anwesende Person wird eine Ersatzperson nachgeladen (niedrigster Listenplatz zuerst)
     ordentliche_mitglieder.forEach(person => {
-    if (!person.anwesend) {
+    if (!person.anwesend && fehlende_mitglieder > 0) {
         let ersatz;
         do {
             ersatz = finde_beliebige_ersatzperson();
@@ -78,6 +82,16 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
         }
     }
 });
+
+    // Benutzer informieren, dass nicht alle ordentlichen Mitglieder ersetzt
+    if (fehlende_mitglieder > 0) {
+        console.log("Es konnten nicht alle ordentlichen Mitglieder ersetzt werden.");
+        alert("Nicht alle fehlenden ordentlichen Mitglieder konnten durch Ersatzpersonen ersetzt werden.");
+    }
+
+    
+    // Überprüfung der initialen Einladungsliste
+    console.log("Initial eingeladene Personen:", eingeladen);
 
 
  // Überprüfe, ob die Mindestanzahl an Frauen erreicht ist
@@ -113,8 +127,10 @@ while (anzahl_weiblich() < geschlechtsanteil_w) {
 
 // Nach der Schleife: Überprüfen und Benutzer informieren, wenn Mindestanzahl Frauen nicht erreichbar ist
 if (anzahl_weiblich() < geschlechtsanteil_w) {
-    alert("Die Mindestanzahl an Frauen konnte nicht erreicht werden. Bitte prüfen Sie die Anwesenheitsliste oder fügen Sie weitere weibliche Ersatzpersonen hinzu.");
+    console.log("Nicht genügend Frauen, Mindestanzahl nicht erreicht.");
+    alert("Die Mindestanzahl an Frauen konnte nicht erreicht werden.");
 }
+
 
 
 // Funktion zum Anzeigen der eingeladenen Personen im HTML

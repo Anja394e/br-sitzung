@@ -69,7 +69,7 @@ export function displayPersonen() {
             </td>
         `;
     });
-
+}
 // Rufe displayPersonen() automatisch beim Laden der Seite auf
 window.onload = function() {
     displayPersonen(); // Ruft die Funktion auf, um die Personen anzuzeigen

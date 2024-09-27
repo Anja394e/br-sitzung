@@ -1,3 +1,10 @@
+// person.js
+
+// Personenlisten initialisieren
+let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder")) || [];
+let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen")) || [];
+
+// Klasse Person zur Definition der Personen
 class Person {
     constructor(liste, listenplatz, geschlecht, name, mail, anwesend) {
         this.liste = liste;
@@ -11,6 +18,12 @@ class Person {
     toString() {
         return `Person(Liste: ${this.liste}, Listenplatz: ${this.listenplatz}, Geschlecht: ${this.geschlecht}, Name: ${this.name}, E-Mail: ${this.mail}, Anwesend: ${this.anwesend})`;
     }
+}
+
+// Funktion zum Speichern der aktuellen Personenlisten im localStorage
+function speicherePersonen(ordentliche_mitglieder, ersatz_personen) {
+    localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
+    localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
 }
 
 // Funktion zum Bearbeiten einer Person
@@ -41,12 +54,6 @@ function loeschenPerson(index, liste) {
 
     // Aktualisiere die Tabelle
     displayPersonen();
-}
-
-// Funktion zum Speichern der aktuellen Personenlisten im localStorage
-function speicherePersonen(ordentliche_mitglieder, ersatz_personen) {
-    localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
-    localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
 }
 
 

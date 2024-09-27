@@ -1,6 +1,5 @@
-// person.js
-
 import { displayPersonen } from './ui.js';
+import { addEventListeners } from './eventListeners.js';  // Stelle sicher, dass addEventListeners verfügbar ist
 
 // Personenlisten initialisieren
 export let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder") || "[]");
@@ -16,22 +15,15 @@ export class Person {
         this.mail = mail;
         this.anwesend = anwesend;
     }
-}
 
-
-
+    // toString-Methode für die Person-Klasse
     toString() {
         return `Person(Liste: ${this.liste}, Listenplatz: ${this.listenplatz}, Geschlecht: ${this.geschlecht}, Name: ${this.name}, E-Mail: ${this.mail}, Anwesend: ${this.anwesend})`;
     }
-
-// Funktion zum Speichern der aktuellen Personenlisten im localStorage
-function speicherePersonen() {
-    localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
-    localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
 }
 
 // Funktion zum Speichern der aktuellen Personenlisten im localStorage
-export function speicherePersonen(ordentliche_mitglieder, ersatz_personen) {
+export function speicherePersonen() {
     localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
     localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
 }
@@ -64,14 +56,16 @@ export function loeschenPerson(index, liste) {
 
     // Aktualisiere die Tabelle
     displayPersonen();
-}
 
+    // Event Listener für die Buttons wieder hinzufügen
+    addEventListeners(); // Nicht vergessen, Event Listener erneut hinzuzufügen
+}
 
 // Funktion zum Hinzufügen einer neuen Person
 document.getElementById("personenForm").addEventListener("submit", function (e) {
     e.preventDefault(); // Verhindert das Neuladen der Seite
 
-    // Hol die Werte aus dem Formular
+    // Hole die Werte aus dem Formular
     let name = document.getElementById("name").value;
     let email = document.getElementById("email").value;
     let geschlecht = document.getElementById("geschlecht").value;
@@ -96,7 +90,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     displayPersonen();
 
     // Event Listener für die Buttons erneut hinzufügen
-    addEventListeners(); // Wichtiger Schritt!
+    addEventListeners(); // Wichtig: Event Listener nach dem Aktualisieren der Liste neu hinzufügen
 
     // Formular zurücksetzen
     document.getElementById("personenForm").reset();

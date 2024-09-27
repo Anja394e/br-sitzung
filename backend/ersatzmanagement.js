@@ -17,6 +17,13 @@ function finde_niedrigste_weibliche_ersatzperson(eingeladen) {
         .sort((a, b) => a.listenplatz - b.listenplatz)[0];
 }
 
+// Sucht die Ersatzperson mit dem niedrigsten Listenplatz (beliebiges Geschlecht)
+function finde_beliebige_ersatzperson(eingeladen) {
+    return ersatz_personen
+        .filter(person => !eingeladen.includes(person) && person.anwesend) // Nur nicht eingeladene und anwesende Personen
+        .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Person mit niedrigstem Listenplatz zuerst
+}
+
 // Berechnet die Anzahl der weiblichen Personen unter den eingeladenen Personen
 function anzahl_weiblich(eingeladen) {
     return eingeladen.filter(person => person.geschlecht === 'w').length;

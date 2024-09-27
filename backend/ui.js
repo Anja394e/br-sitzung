@@ -1,6 +1,7 @@
 import { validierePerson } from "../backend/validation.js"; // Import der Validierungsfunktion
 import { ordentliche_mitglieder } from './person.js';
 import { ersatz_personen } from './person.js';
+import { addEventListeners } from './eventListeners.js';
 
 
 // Funktion zum Anzeigen der eingeladenen Personen im HTML
@@ -50,5 +51,6 @@ export function displayPersonen() {
 // Rufe displayPersonen() automatisch beim Laden der Seite auf
 window.onload = function() {
     displayPersonen(); // Ruft die Funktion auf, um die Personen anzuzeigen
+    addEventListeners(); // Fügt die Event Listener hinzu
 };
 

@@ -1,31 +1,20 @@
-import { validierePerson } from "../backend/validation.js"; // Import der Validierungsfunktion
+import { validierePerson } from "../backend/validation.js";
 import { ordentliche_mitglieder, ersatz_personen, bearbeitenPerson, loeschenPerson } from './person.js';
 import { addEventListeners } from './eventListeners.js';
-import { eingeladene_personen } from './ersatzmanagement.js';
-
-
 
 // Funktion zum Anzeigen der eingeladenen Personen im HTML
-function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
+export function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
     let ergebnisListe = document.getElementById("eingeladenePersonen");
     ergebnisListe.innerHTML = ""; // Leeren der Ergebnisliste
 
+    // Durch die eingeladenen Personen iterieren und sie in der HTML-Liste anzeigen
     eingeladen.forEach(person => {
         let li = document.createElement("li");
         let nachgeladenText = nachgeladen_fuer[person.name] ? ` (nachgeladen für ${nachgeladen_fuer[person.name]})` : '';
         li.textContent = `${person.name} (Listenplatz: ${person.listenplatz}, ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
-        ergebnisListe.appendChild(li);
+        ergebnisListe.appendChild(li); // Füge die Person der HTML-Liste hinzu
     });
 }
-
-// Event Listener für den "Einladen"-Button
-document.getElementById("einladenButton").addEventListener("click", () => {
-    let { eingeladen, nachgeladen_fuer } = eingeladene_personen(ordentliche_mitglieder, ersatz_personen);
-    displayEingeladenePersonen(eingeladen, nachgeladen_fuer);
-
-    // Ergebnisbereich anzeigen
-    document.getElementById("ergebnisContainer").style.display = 'block';
-});
 
 // Funktion zum Anzeigen der Personen
 export function displayPersonen() {
@@ -82,13 +71,11 @@ export function displayPersonen() {
         `;
     });
 
-    // Event Listener für die Buttons erneut hinzufügen
+    // Füge Event Listener für die Buttons erneut hinzu
     addEventListeners();
 }
 
 // Rufe displayPersonen() automatisch beim Laden der Seite auf
 window.onload = function() {
     displayPersonen(); // Ruft die Funktion auf, um die Personen anzuzeigen
-    addEventListeners(); // Fügt die Event Listener hinzu, um die Bearbeiten- und Löschen-Buttons interaktiv zu machen
 };
-

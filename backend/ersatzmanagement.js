@@ -2,8 +2,6 @@
 
 // Initialisierung der Geschlechterquote und Listen
 let geschlechtsanteil_w = localStorage.getItem("geschlechtsanteil_w") ? parseInt(localStorage.getItem("geschlechtsanteil_w")) : 2;
-let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder")) || [];
-let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen")) || [];
 
 // Sucht die männliche Ersatzperson mit dem höchsten Listenplatz
 function finde_hoechste_maennliche_ersatzperson(eingeladen) {

@@ -48,3 +48,33 @@ function speicherePersonen(ordentliche_mitglieder, ersatz_personen) {
     localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
     localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
 }
+
+
+// Funktion zum Hinzufügen einer neuen Person
+document.getElementById("personenForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let geschlecht = document.getElementById("geschlecht").value;
+    let liste = parseInt(document.getElementById("liste").value);
+    let anwesend = document.getElementById("anwesend").checked;
+    let listenplatz = parseInt(document.getElementById("listenplatz").value); // Neue Listenposition
+
+    let neuePerson = new Person(liste, listenplatz, geschlecht, name, email, anwesend);
+
+    if (liste === 1) {
+        ordentliche_mitglieder.push(neuePerson);
+    } else {
+        ersatz_personen.push(neuePerson);
+    }
+
+    // Personen in localStorage speichern
+    speicherePersonen();
+
+    // Aktualisiere die Tabelle
+    displayPersonen();
+
+    // Formular leeren
+    document.getElementById("personenForm").reset();
+});

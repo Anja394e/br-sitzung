@@ -42,3 +42,9 @@ function loeschenPerson(index, liste) {
     // Aktualisiere die Tabelle
     displayPersonen();
 }
+
+// Funktion zum Speichern der aktuellen Personenlisten im localStorage
+function speicherePersonen(ordentliche_mitglieder, ersatz_personen) {
+    localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
+    localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
+}

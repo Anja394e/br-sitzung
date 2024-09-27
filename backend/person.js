@@ -1,9 +1,40 @@
 import { displayPersonen } from './ui.js';
 import { addEventListeners } from './eventListeners.js';  // Stelle sicher, dass addEventListeners verfügbar ist
 
-// Personenlisten initialisieren
-export let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder") || "[]");
-export let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen") || "[]");
+// Überprüfe zuerst die rohen Werte im localStorage und logge sie
+let ordentliche_mitglieder_raw = localStorage.getItem("ordentliche_mitglieder");
+let ersatz_personen_raw = localStorage.getItem("ersatz_personen");
+
+console.log("Raw ordentliche_mitglieder:", ordentliche_mitglieder_raw);
+console.log("Raw ersatz_personen:", ersatz_personen_raw);
+
+// Fallback, falls die Daten nicht existieren
+if (ordentliche_mitglieder_raw === null) {
+    console.warn("Kein Eintrag für ordentliche_mitglieder gefunden, erstelle leeren Array.");
+    localStorage.setItem("ordentliche_mitglieder", "[]");
+    ordentliche_mitglieder_raw = "[]";
+}
+
+if (ersatz_personen_raw === null) {
+    console.warn("Kein Eintrag für ersatz_personen gefunden, erstelle leeren Array.");
+    localStorage.setItem("ersatz_personen", "[]");
+    ersatz_personen_raw = "[]";
+}
+
+// Versuche, die Daten zu parsen und logge den Parsing-Status
+try {
+    export let ordentliche_mitglieder = JSON.parse(ordentliche_mitglieder_raw);
+    console.log("Parsed ordentliche_mitglieder:", ordentliche_mitglieder);
+} catch (e) {
+    console.error("Fehler beim Parsen von ordentliche_mitglieder:", e);
+}
+
+try {
+    export let ersatz_personen = JSON.parse(ersatz_personen_raw);
+    console.log("Parsed ersatz_personen:", ersatz_personen);
+} catch (e) {
+    console.error("Fehler beim Parsen von ersatz_personen:", e);
+}
 
 // Die Person-Klasse definieren und exportieren
 export class Person {

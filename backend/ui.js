@@ -1,3 +1,6 @@
+import { validierePerson } from "../backend/validation.js"; // Import der Validierungsfunktion
+
+
 // Funktion zum Anzeigen der eingeladenen Personen im HTML
 function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
     let ergebnisListe = document.getElementById("eingeladenePersonen");

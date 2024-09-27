@@ -5,7 +5,7 @@ import { displayPersonen } from './ui.js';
 
 // Personenlisten initialisieren
 export let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder")) || [];
-let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen")) || [];
+export let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen")) || [];
 
 // Klasse Person zur Definition der Personen
 class Person {

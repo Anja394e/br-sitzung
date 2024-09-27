@@ -2,30 +2,11 @@
 
 import { displayPersonen } from './ui.js';
 
-let ordentliche_mitglieder = [];
-let ersatz_personen = [];
+// Personenlisten initialisieren
+export let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder") || "[]");
+export let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen") || "[]");
 
-// Personenlisten initialisieren mit sicherer JSON.parse-Überprüfung
-try {
-    let ordentliche_mitglieder_raw = localStorage.getItem("ordentliche_mitglieder");
-    if (ordentliche_mitglieder_raw) {
-        ordentliche_mitglieder = JSON.parse(ordentliche_mitglieder_raw);
-    }
-} catch (e) {
-    console.error("Fehler beim Parsen von ordentliche_mitglieder:", e);
-}
-
-try {
-    let ersatz_personen_raw = localStorage.getItem("ersatz_personen");
-    if (ersatz_personen_raw) {
-        ersatz_personen = JSON.parse(ersatz_personen_raw);
-    }
-} catch (e) {
-    console.error("Fehler beim Parsen von ersatz_personen:", e);
-}
-
-
-// Klasse Person zur Definition der Personen
+// Die Person-Klasse definieren und exportieren
 export class Person {
     constructor(liste, listenplatz, geschlecht, name, mail, anwesend) {
         this.liste = liste;
@@ -35,10 +16,18 @@ export class Person {
         this.mail = mail;
         this.anwesend = anwesend;
     }
+}
+
+
 
     toString() {
         return `Person(Liste: ${this.liste}, Listenplatz: ${this.listenplatz}, Geschlecht: ${this.geschlecht}, Name: ${this.name}, E-Mail: ${this.mail}, Anwesend: ${this.anwesend})`;
     }
+}
+// Funktion zum Speichern der aktuellen Personenlisten im localStorage
+function speicherePersonen() {
+    localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
+    localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
 }
 
 // Funktion zum Speichern der aktuellen Personenlisten im localStorage

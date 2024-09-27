@@ -8,7 +8,7 @@ export let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche
 export let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen")) || [];
 
 // Klasse Person zur Definition der Personen
-class Person {
+export class Person {
     constructor(liste, listenplatz, geschlecht, name, mail, anwesend) {
         this.liste = liste;
         this.listenplatz = listenplatz;

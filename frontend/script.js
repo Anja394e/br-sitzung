@@ -63,15 +63,22 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
 
     // Für jede nicht anwesende Person wird eine Ersatzperson nachgeladen (niedrigster Listenplatz zuerst)
     ordentliche_mitglieder.forEach(person => {
-        if (!person.anwesend && fehlende_mitglieder > 0) {
-            let ersatz = finde_beliebige_ersatzperson();
-            if (ersatz && !eingeladen.includes(ersatz)) {
-                eingeladen.push(ersatz);
-                nachgeladen_fuer[ersatz.name] = person.name; // Speichern, für wen die Person nachgeladen wurde
-                fehlende_mitglieder--; // Reduziere die Anzahl fehlender Mitglieder
-            }
+    if (!person.anwesend) {
+        let ersatz;
+        do {
+            ersatz = finde_beliebige_ersatzperson();
+        } while (ersatz && eingeladen.includes(ersatz)); // Wiederholen, bis eine nicht eingeladene Ersatzperson gefunden wird
+
+        if (ersatz) {
+            eingeladen.push(ersatz);
+            nachgeladen_fuer[ersatz.name] = person.name; // Speichern, für wen die Person nachgeladen wurde
+            fehlende_mitglieder--; // Reduziere die Anzahl fehlender Mitglieder
+        } else {
+            console.log("Keine Ersatzpersonen mehr verfügbar.");
         }
-    });
+    }
+});
+
 
    // Überprüfe, ob die Mindestanzahl an Frauen erreicht ist
 while (anzahl_weiblich() < geschlechtsanteil_w) {

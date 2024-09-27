@@ -1,3 +1,6 @@
+// form.js
+import { Person } from './person.js';
+
 document.getElementById("personenForm").addEventListener("submit", function (e) {
     e.preventDefault(); // Verhindert das Standardverhalten des Formulars
 

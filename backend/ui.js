@@ -1,6 +1,8 @@
 import { validierePerson } from "../backend/validation.js"; // Import der Validierungsfunktion
 import { ordentliche_mitglieder, ersatz_personen, bearbeitenPerson, loeschenPerson } from './person.js';
 import { addEventListeners } from './eventListeners.js';
+import { eingeladene_personen } from './ersatzmanagement.js';
+
 
 
 // Funktion zum Anzeigen der eingeladenen Personen im HTML

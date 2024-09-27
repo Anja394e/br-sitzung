@@ -2,6 +2,8 @@
 
 import { displayPersonen } from './ui.js';
 
+let ordentliche_mitglieder = [];
+let ersatz_personen = [];
 
 // Personenlisten initialisieren mit sicherer JSON.parse-Überprüfung
 try {

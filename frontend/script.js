@@ -112,6 +112,12 @@ while (anzahl_weiblich() < geschlechtsanteil_w) {
     return { eingeladen, nachgeladen_fuer };
 }
 
+// Nach der Schleife: Überprüfen und Benutzer informieren, wenn Mindestanzahl Frauen nicht erreichbar ist
+if (anzahl_weiblich() < geschlechtsanteil_w) {
+    alert("Die Mindestanzahl an Frauen konnte nicht erreicht werden. Bitte prüfen Sie die Anwesenheitsliste oder fügen Sie weitere weibliche Ersatzpersonen hinzu.");
+}
+
+
 // Funktion zum Anzeigen der eingeladenen Personen im HTML
 function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
     let ergebnisListe = document.getElementById("eingeladenePersonen");

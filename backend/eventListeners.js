@@ -1,4 +1,11 @@
 import { loeschenPerson, bearbeitenPerson } from './person.js';
+import { loescheAlleListen } from './person.js';
+
+// Event Listener für den "Alle Listen löschen"-Button
+document.getElementById("loeschenButton").addEventListener('click', () => {
+    loescheAlleListen(); // Rufe die Funktion auf, um die Listen zu löschen
+});
+
 
 // Funktion zum Hinzufügen der Event Listener für die Tabellen
 export function addEventListeners() {

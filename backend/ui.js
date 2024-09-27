@@ -18,10 +18,11 @@ export function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
 
 // Funktion zum Anzeigen der Personen
 export function displayPersonen() {
+    // Referenziere die Tabellen für ordentliche Mitglieder und Ersatzpersonen
     let ordentlicheTabelle = document.getElementById("ordentlicheMitglieder");
     let ersatzTabelle = document.getElementById("ersatzPersonen");
 
-    // Leere die Tabellen
+    // Leere die Tabelleninhalte und setze die Header für die Tabellen
     ordentlicheTabelle.innerHTML = `
         <tr>
             <th>Name</th>
@@ -42,36 +43,44 @@ export function displayPersonen() {
     `;
 
     // Zeige ordentliche Mitglieder in der Tabelle
-    ordentliche_mitglieder.forEach((person, index) => {
+    ordentliche_mitglieder.forEach((person) => {
+        // Füge eine neue Zeile in die Tabelle der ordentlichen Mitglieder ein
         let row = ordentlicheTabelle.insertRow();
+
+        // Fülle die Zellen der Zeile mit den Personendaten
         row.innerHTML = `
             <td>${person.name}</td>
             <td>${person.geschlecht}</td>
             <td>${person.anwesend ? 'Ja' : 'Nein'}</td>
             <td>${person.listenplatz}</td>
             <td>
-                <button class="editButton" data-index="${index}" data-liste="1">Bearbeiten</button>
-                <button class="deleteButton" data-index="${index}" data-liste="1">Löschen</button>
+                <!-- Setze den Listenplatz und die Liste als Datenattribute für die Bearbeiten/Löschen-Schaltflächen -->
+                <button class="editButton" data-listenplatz="${person.listenplatz}" data-liste="1">Bearbeiten</button>
+                <button class="deleteButton" data-listenplatz="${person.listenplatz}" data-liste="1">Löschen</button>
             </td>
         `;
     });
 
     // Zeige Ersatzpersonen in der Tabelle
-    ersatz_personen.forEach((person, index) => {
+    ersatz_personen.forEach((person) => {
+        // Füge eine neue Zeile in die Tabelle der Ersatzpersonen ein
         let row = ersatzTabelle.insertRow();
+
+        // Fülle die Zellen der Zeile mit den Personendaten
         row.innerHTML = `
             <td>${person.name}</td>
             <td>${person.geschlecht}</td>
             <td>${person.anwesend ? 'Ja' : 'Nein'}</td>
             <td>${person.listenplatz}</td>
             <td>
-                <button class="editButton" data-index="${index}" data-liste="2">Bearbeiten</button>
-                <button class="deleteButton" data-index="${index}" data-liste="2">Löschen</button>
+                <!-- Setze den Listenplatz und die Liste als Datenattribute für die Bearbeiten/Löschen-Schaltflächen -->
+                <button class="editButton" data-listenplatz="${person.listenplatz}" data-liste="2">Bearbeiten</button>
+                <button class="deleteButton" data-listenplatz="${person.listenplatz}" data-liste="2">Löschen</button>
             </td>
         `;
     });
 
-    // Füge Event Listener für die Buttons erneut hinzu
+    // Füge die Event Listener für die Schaltflächen hinzu, nachdem die Zeilen dynamisch erstellt wurden
     addEventListeners();
 }
 

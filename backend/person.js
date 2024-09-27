@@ -3,9 +3,14 @@
 import { displayPersonen } from './ui.js';
 
 
-// Personenlisten initialisieren
-export let ordentliche_mitglieder = JSON.parse(localStorage.getItem("ordentliche_mitglieder") || "[]");
-export let ersatz_personen = JSON.parse(localStorage.getItem("ersatz_personen") || "[]");
+// Personenlisten initialisieren mit sicherer JSON.parse-Überprüfung
+export let ordentliche_mitglieder = localStorage.getItem("ordentliche_mitglieder") 
+    ? JSON.parse(localStorage.getItem("ordentliche_mitglieder")) 
+    : [];
+
+export let ersatz_personen = localStorage.getItem("ersatz_personen") 
+    ? JSON.parse(localStorage.getItem("ersatz_personen")) 
+    : [];
 
 // Klasse Person zur Definition der Personen
 export class Person {

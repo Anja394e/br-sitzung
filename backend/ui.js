@@ -1,6 +1,5 @@
 import { validierePerson } from "../backend/validation.js"; // Import der Validierungsfunktion
-import { ordentliche_mitglieder } from './person.js';
-import { ersatz_personen } from './person.js';
+import { ordentliche_mitglieder, ersatz_personen, bearbeitenPerson, loeschenPerson } from './person.js';
 import { addEventListeners } from './eventListeners.js';
 
 

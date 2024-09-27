@@ -19,3 +19,8 @@ export function addEventListeners() {
         });
     });
 }
+
+// Event Listener für den Einstellungen-Button
+document.getElementById("einstellungenButton").addEventListener('click', () => {
+    window.location.href = 'einstellungen.html'; // Leitet den Benutzer zur Einstellungsseite weiter
+});

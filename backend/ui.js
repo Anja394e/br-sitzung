@@ -24,7 +24,7 @@ document.getElementById("einladenButton").addEventListener("click", () => {
 });
 
 // Code zum Füllen der Tabellen mit ordentlichen Mitgliedern und Ersatzpersonen
-function displayPersonen() {
+export function displayPersonen() {
     let ordentlicheTabelle = document.getElementById("ordentlicheMitglieder");
     let ersatzTabelle = document.getElementById("ersatzPersonen");
 

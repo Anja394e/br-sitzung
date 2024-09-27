@@ -24,7 +24,7 @@ class Person {
 }
 
 // Funktion zum Speichern der aktuellen Personenlisten im localStorage
-function speicherePersonen(ordentliche_mitglieder, ersatz_personen) {
+export function speicherePersonen(ordentliche_mitglieder, ersatz_personen) {
     localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));
     localStorage.setItem("ersatz_personen", JSON.stringify(ersatz_personen));
 }
@@ -45,7 +45,7 @@ export function bearbeitenPerson(index, liste) {
 }
 
 // Funktion zum Löschen einer Person
-function loeschenPerson(index, liste) {
+export function loeschenPerson(index, liste) {
     if (liste === 1) {
         ordentliche_mitglieder.splice(index, 1);
     } else {

@@ -136,3 +136,19 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     // Formular zurücksetzen
     document.getElementById("personenForm").reset();
 });
+
+// Funktion zum Löschen der gesamten Liste
+export function loescheAlleListen() {
+    // Lösche die Daten im localStorage
+    localStorage.removeItem('ordentliche_mitglieder'); // Entfernt die Liste der ordentlichen Mitglieder
+    localStorage.removeItem('ersatz_personen'); // Entfernt die Liste der Ersatzpersonen
+
+    // Leere die Arrays im Programm
+    ordentliche_mitglieder = [];
+    ersatz_personen = [];
+
+    // Aktualisiere die Anzeige
+    displayPersonen();
+
+    console.log('Alle Listen wurden erfolgreich gelöscht.');
+}

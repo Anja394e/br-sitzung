@@ -62,8 +62,9 @@ function loeschenPerson(index, liste) {
 
 // Funktion zum Hinzufügen einer neuen Person
 document.getElementById("personenForm").addEventListener("submit", function (e) {
-    e.preventDefault();
+    e.preventDefault(); // Verhindert das Neuladen der Seite
 
+    // Hol die Werte aus dem Formular
     let name = document.getElementById("name").value;
     let email = document.getElementById("email").value;
     let geschlecht = document.getElementById("geschlecht").value;
@@ -71,20 +72,25 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     let anwesend = document.getElementById("anwesend").checked;
     let listenplatz = parseInt(document.getElementById("listenplatz").value); // Neue Listenposition
 
+    // Neue Person erstellen
     let neuePerson = new Person(liste, listenplatz, geschlecht, name, email, anwesend);
 
+    // Füge die neue Person zur entsprechenden Liste hinzu
     if (liste === 1) {
-        ordentliche_mitglieder.push(neuePerson);
+        ordentliche_mitglieder.push(neuePerson); // Zu den ordentlichen Mitgliedern hinzufügen
     } else {
-        ersatz_personen.push(neuePerson);
+        ersatz_personen.push(neuePerson); // Zu den Ersatzpersonen hinzufügen
     }
 
-    // Personen in localStorage speichern
+    // Personen im localStorage speichern
     speicherePersonen();
 
-    // Aktualisiere die Tabelle
+    // Aktualisiere die Tabelle, um die neue Person anzuzeigen
     displayPersonen();
 
-    // Formular leeren
+    // Event Listener für die Buttons erneut hinzufügen
+    addEventListeners(); // Wichtiger Schritt!
+
+    // Formular zurücksetzen
     document.getElementById("personenForm").reset();
 });

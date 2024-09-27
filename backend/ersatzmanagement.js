@@ -1,5 +1,9 @@
 // ersatzmanagement.js
 
+import { ordentliche_mitglieder, ersatz_personen } from './person.js'; // Importiere die Listen der Mitglieder
+import { speicherePersonen } from './person.js'; // Falls du die Speicherung verwenden möchtest
+
+
 // Initialisierung der Geschlechterquote aus dem localStorage oder Standardwert 2
 let geschlechtsanteil_w = localStorage.getItem("geschlechtsanteil_w") ? parseInt(localStorage.getItem("geschlechtsanteil_w")) : 2;
 

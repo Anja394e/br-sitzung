@@ -43,4 +43,48 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     // Aktualisiere die Tabellen
     displayPersonen();
 
+    // Setze das Formular zurück
+    document.getElementById("personenForm").reset();
+
+    // Setze den nächsten freien Listenplatz nach dem Zurücksetzen
+    setzeNaechstenFreienListenplatz(liste);
 });
+
+// Funktion zum Berechnen und Eintragen des nächsten freien Listenplatzes
+function setzeNaechstenFreienListenplatz(liste) {
+    let naechsterListenplatz;
+    
+    if (liste === 1) {
+        // Höchster Listenplatz in der Liste der ordentlichen Mitglieder
+        if (ordentliche_mitglieder.length > 0) {
+            let hoechsterListenplatz = Math.max(...ordentliche_mitglieder.map(p => p.listenplatz));
+            naechsterListenplatz = hoechsterListenplatz + 1;
+        } else {
+            naechsterListenplatz = 1; // Start bei 1, falls die Liste leer ist
+        }
+    } else {
+        // Höchster Listenplatz in der Liste der Ersatzpersonen
+        if (ersatz_personen.length > 0) {
+            let hoechsterListenplatz = Math.max(...ersatz_personen.map(p => p.listenplatz));
+            naechsterListenplatz = hoechsterListenplatz + 1;
+        } else {
+            naechsterListenplatz = 1; // Start bei 1, falls die Liste leer ist
+        }
+    }
+
+    // Setze den Listenplatz im Formular
+    document.getElementById("listenplatz").value = naechsterListenplatz;
+}
+
+// Automatisch den freien Listenplatz beim Laden des Formulars setzen
+document.getElementById("liste").addEventListener("change", function () {
+    let liste = parseInt(this.value);
+    setzeNaechstenFreienListenplatz(liste);
+});
+
+// Setze den Listenplatz initial beim Laden der Seite
+window.onload = function () {
+    let liste = parseInt(document.getElementById("liste").value);
+    setzeNaechstenFreienListenplatz(liste);
+};
+

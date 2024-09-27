@@ -23,7 +23,7 @@ export class Person {
     toString() {
         return `Person(Liste: ${this.liste}, Listenplatz: ${this.listenplatz}, Geschlecht: ${this.geschlecht}, Name: ${this.name}, E-Mail: ${this.mail}, Anwesend: ${this.anwesend})`;
     }
-}
+
 // Funktion zum Speichern der aktuellen Personenlisten im localStorage
 function speicherePersonen() {
     localStorage.setItem("ordentliche_mitglieder", JSON.stringify(ordentliche_mitglieder));

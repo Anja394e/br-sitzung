@@ -80,7 +80,7 @@ function eingeladene_personen(ordentliche_mitglieder, ersatz_personen) {
 });
 
 
-   // Überprüfe, ob die Mindestanzahl an Frauen erreicht ist
+ // Überprüfe, ob die Mindestanzahl an Frauen erreicht ist
 while (anzahl_weiblich() < geschlechtsanteil_w) {
     let weibliche_ersatz = finde_niedrigste_weibliche_ersatzperson();
 
@@ -96,7 +96,6 @@ while (anzahl_weiblich() < geschlechtsanteil_w) {
         console.log("Keine männlichen Ersatzpersonen mehr zum Entfernen verfügbar.");
         break; // Wenn keine männliche Person mehr zum Ersetzen verfügbar ist, abbrechen
     }
-
     // Entferne die männliche Ersatzperson und lade die weibliche nach
     eingeladen = eingeladen.filter(person => person !== maennliche_ersatz);
     eingeladen.push(weibliche_ersatz);

@@ -4,13 +4,24 @@ import { displayPersonen } from './ui.js';
 
 
 // Personenlisten initialisieren mit sicherer JSON.parse-Überprüfung
-export let ordentliche_mitglieder = localStorage.getItem("ordentliche_mitglieder") 
-    ? JSON.parse(localStorage.getItem("ordentliche_mitglieder")) 
-    : [];
+try {
+    let ordentliche_mitglieder_raw = localStorage.getItem("ordentliche_mitglieder");
+    if (ordentliche_mitglieder_raw) {
+        ordentliche_mitglieder = JSON.parse(ordentliche_mitglieder_raw);
+    }
+} catch (e) {
+    console.error("Fehler beim Parsen von ordentliche_mitglieder:", e);
+}
 
-export let ersatz_personen = localStorage.getItem("ersatz_personen") 
-    ? JSON.parse(localStorage.getItem("ersatz_personen")) 
-    : [];
+try {
+    let ersatz_personen_raw = localStorage.getItem("ersatz_personen");
+    if (ersatz_personen_raw) {
+        ersatz_personen = JSON.parse(ersatz_personen_raw);
+    }
+} catch (e) {
+    console.error("Fehler beim Parsen von ersatz_personen:", e);
+}
+
 
 // Klasse Person zur Definition der Personen
 export class Person {

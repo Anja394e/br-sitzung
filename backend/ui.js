@@ -26,50 +26,65 @@ document.getElementById("einladenButton").addEventListener("click", () => {
     document.getElementById("ergebnisContainer").style.display = 'block';
 });
 
+// Funktion zum Anzeigen der Personen
 export function displayPersonen() {
     let ordentlicheTabelle = document.getElementById("ordentlicheMitglieder");
     let ersatzTabelle = document.getElementById("ersatzPersonen");
 
-    // Leere die Tabellen und füge die Kopfzeilen hinzu
-    ordentlicheTabelle.innerHTML = `<tr><th>Name</th><th>Geschlecht</th><th>Anwesend</th><th>Listenplatz</th><th>Aktionen</th></tr>`;
-    ersatzTabelle.innerHTML = `<tr><th>Name</th><th>Geschlecht</th><th>Anwesend</th><th>Listenplatz</th><th>Aktionen</th></tr>`;
+    // Leere die Tabellen
+    ordentlicheTabelle.innerHTML = `
+        <tr>
+            <th>Name</th>
+            <th>Geschlecht</th>
+            <th>Anwesend</th>
+            <th>Listenplatz</th>
+            <th>Aktionen</th>
+        </tr>
+    `;
+    ersatzTabelle.innerHTML = `
+        <tr>
+            <th>Name</th>
+            <th>Geschlecht</th>
+            <th>Anwesend</th>
+            <th>Listenplatz</th>
+            <th>Aktionen</th>
+        </tr>
+    `;
 
-    // Zeige ordentliche Mitglieder
-    // Für jedes ordentliche Mitglied wird eine neue Zeile (row) in der Tabelle erstellt
+    // Zeige ordentliche Mitglieder in der Tabelle
     ordentliche_mitglieder.forEach((person, index) => {
-        let row = ordentlicheTabelle.insertRow(); // Neue Zeile einfügen
+        let row = ordentlicheTabelle.insertRow();
         row.innerHTML = `
-            <td>${person.name}</td>   <!-- Name der Person -->
-            <td>${person.geschlecht}</td>  <!-- Geschlecht der Person -->
-            <td>${person.anwesend ? 'Ja' : 'Nein'}</td>  <!-- Anwesenheitsstatus der Person -->
-            <td>${person.listenplatz}</td>  <!-- Listenplatz der Person -->
+            <td>${person.name}</td>
+            <td>${person.geschlecht}</td>
+            <td>${person.anwesend ? 'Ja' : 'Nein'}</td>
+            <td>${person.listenplatz}</td>
             <td>
-                <!-- Bearbeiten-Button mit CSS-Klasse und data-Attributen -->
-                <button class="bearbeitenButton" data-index="${index}" data-liste="1">Bearbeiten</button>
-                <!-- Löschen-Button mit CSS-Klasse und data-Attributen -->
-                <button class="loeschenButton" data-index="${index}" data-liste="1">Löschen</button>
+                <button class="editButton" data-index="${index}" data-liste="1">Bearbeiten</button>
+                <button class="deleteButton" data-index="${index}" data-liste="1">Löschen</button>
             </td>
         `;
     });
 
-    // Zeige Ersatzpersonen
-    // Für jede Ersatzperson wird eine neue Zeile (row) in der Tabelle erstellt
+    // Zeige Ersatzpersonen in der Tabelle
     ersatz_personen.forEach((person, index) => {
-        let row = ersatzTabelle.insertRow(); // Neue Zeile einfügen
+        let row = ersatzTabelle.insertRow();
         row.innerHTML = `
-            <td>${person.name}</td>   <!-- Name der Person -->
-            <td>${person.geschlecht}</td>  <!-- Geschlecht der Person -->
-            <td>${person.anwesend ? 'Ja' : 'Nein'}</td>  <!-- Anwesenheitsstatus der Person -->
-            <td>${person.listenplatz}</td>  <!-- Listenplatz der Person -->
+            <td>${person.name}</td>
+            <td>${person.geschlecht}</td>
+            <td>${person.anwesend ? 'Ja' : 'Nein'}</td>
+            <td>${person.listenplatz}</td>
             <td>
-                <!-- Bearbeiten-Button mit CSS-Klasse und data-Attributen -->
-                <button class="bearbeitenButton" data-index="${index}" data-liste="2">Bearbeiten</button>
-                <!-- Löschen-Button mit CSS-Klasse und data-Attributen -->
-                <button class="loeschenButton" data-index="${index}" data-liste="2">Löschen</button>
+                <button class="editButton" data-index="${index}" data-liste="2">Bearbeiten</button>
+                <button class="deleteButton" data-index="${index}" data-liste="2">Löschen</button>
             </td>
         `;
     });
+
+    // Event Listener für die Buttons erneut hinzufügen
+    addEventListeners();
 }
+
 // Rufe displayPersonen() automatisch beim Laden der Seite auf
 window.onload = function() {
     displayPersonen(); // Ruft die Funktion auf, um die Personen anzuzeigen

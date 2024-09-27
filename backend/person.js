@@ -30,7 +30,7 @@ function speicherePersonen(ordentliche_mitglieder, ersatz_personen) {
 }
 
 // Funktion zum Bearbeiten einer Person
-function bearbeitenPerson(index, liste) {
+export function bearbeitenPerson(index, liste) {
     let person = liste === 1 ? ordentliche_mitglieder[index] : ersatz_personen[index];
 
     document.getElementById("name").value = person.name;

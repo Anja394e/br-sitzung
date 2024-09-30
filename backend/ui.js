@@ -16,9 +16,8 @@ export function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
     });
 }
 
-// Funktion zum Anzeigen der Personen (sortiert nach Listenplätzen)
 export function displayPersonen() {
-    // Referenziere eine kombinierte Tabelle für ordentliche Mitglieder und Ersatzpersonen
+    // Referenziere die kombinierte Tabelle für alle Personen
     let personenTabelle = document.getElementById("personenTabelle");
 
     // Leere die Tabelleninhalte und setze die Header für die Tabelle
@@ -28,23 +27,29 @@ export function displayPersonen() {
             <th>Geschlecht</th>
             <th>Anwesend</th>
             <th>Listenplatz</th>
-            <th>Typ</th> <!-- Neue Spalte für den Typ -->
+            <th>Ordentlich</th>
+            <th>Liste</th>
             <th>Aktionen</th>
         </tr>
     `;
 
-    // Kombinierte Funktion, um sowohl ordentliche Mitglieder als auch Ersatzpersonen anzuzeigen
-    const allePersonen = [...ordentliche_mitglieder, ...ersatz_personen];
+    // Sortiere die Personen nach 'ordentlich', dann 'liste', dann 'listenplatz'
+    allePersonen.sort((a, b) => {
+        // Sortiere zuerst nach 'ordentlich' (ordentliche Mitglieder kommen zuerst)
+        if (a.ordentlich !== b.ordentlich) {
+            return b.ordentlich - a.ordentlich;
+        }
+        // Sortiere nach 'liste' (z.B. Liste 1, Liste 2 usw.)
+        if (a.liste !== b.liste) {
+            return a.liste - b.liste;
+        }
+        // Sortiere nach 'listenplatz' innerhalb der Liste
+        return a.listenplatz - b.listenplatz;
+    });
 
-    // Sortiere die Personen nach Listenplätzen
-    allePersonen.sort((a, b) => a.listenplatz - b.listenplatz);
-
-    // Zeige alle Personen in der Tabelle (ordentliche und Ersatzpersonen)
+    // Zeige alle Personen in der Tabelle an
     allePersonen.forEach((person) => {
         let row = personenTabelle.insertRow();
-
-        // Bestimme den Typ der Person (1 = Ordentlich, 2 = Ersatz)
-        let typ = ordentliche_mitglieder.includes(person) ? 'Ordentlich' : 'Ersatz';
 
         // Fülle die Zellen der Zeile mit den Personendaten
         row.innerHTML = `
@@ -52,9 +57,9 @@ export function displayPersonen() {
             <td>${person.geschlecht}</td>
             <td>${person.anwesend ? 'Ja' : 'Nein'}</td>
             <td>${person.listenplatz}</td>
-            <td>${typ}</td> <!-- Zeige den Typ der Person (Ordentlich oder Ersatz) -->
+            <td>${person.ordentlich ? 'Ja' : 'Nein'}</td> <!-- Zeige, ob die Person ordentlich ist -->
+            <td>${person.liste}</td> <!-- Zeige die Liste der Person -->
             <td>
-                <!-- Setze den Listenplatz und die Liste als Datenattribute für die Bearbeiten/Löschen-Schaltflächen -->
                 <button class="editButton" data-id="${person.id}">Bearbeiten</button>
                 <button class="deleteButton" data-id="${person.id}">Löschen</button>
             </td>

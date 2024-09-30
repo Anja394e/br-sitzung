@@ -24,6 +24,8 @@ export class Person {
     }
 }
 
+export let allePersonen;
+allePersonen = [];
 
 // Funktion zum Speichern der Personenliste im localStorage
 export function speicherePersonen(allePersonen) {
@@ -40,7 +42,7 @@ export function ladePersonen() {
 }
 
 // Personen beim Start laden
-export let allePersonen = ladePersonen();
+allePersonen = ladePersonen();
 
 
 export function bearbeitenPerson(id) {

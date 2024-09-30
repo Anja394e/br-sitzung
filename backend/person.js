@@ -24,8 +24,7 @@ export class Person {
     }
 }
 
-export let allePersonen;
-allePersonen = [];
+export let allePersonen = [];
 // Personen beim Start laden
 allePersonen = ladePersonen();
 

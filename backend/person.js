@@ -45,6 +45,7 @@ try {
 // Die Person-Klasse definieren und exportieren
 export class Person {
     constructor(liste, listenplatz, geschlecht, name, mail, anwesend) {
+        this.id = this.generateId(); // Neue eindeutige ID
         this.liste = liste;
         this.listenplatz = listenplatz;
         this.geschlecht = geschlecht;
@@ -56,6 +57,11 @@ export class Person {
     // toString-Methode für die Person-Klasse
     toString() {
         return `Person(Liste: ${this.liste}, Listenplatz: ${this.listenplatz}, Geschlecht: ${this.geschlecht}, Name: ${this.name}, E-Mail: ${this.mail}, Anwesend: ${this.anwesend})`;
+    }
+    
+    // Funktion zum Generieren einer eindeutigen ID (z.B. auf Basis eines Zeitstempels)
+    generateId() {
+        return '_' + Math.random().toString(36).substr(2, 9);
     }
 }
 

@@ -82,8 +82,26 @@ function setzeNaechstenFreienListenplatz(liste) {
 // Funktion zum Aktualisieren des Dropdown-Menüs mit den vorhandenen Listen
 function aktualisiereListenDropdown() {
     let dropdown = document.getElementById("liste");
-    dropdown.innerHTML = '<option value="">Liste auswählen</option>';
+    dropdown.innerHTML = '<option value="">Liste auswählen</option>'; // Standardoption
+
     listen.forEach(liste => {
         let option = document.createElement("option");
         option.value = liste;
-        option
+        option.textContent = liste; // Anzeige der Liste im Dropdown
+        dropdown.appendChild(option); // Füge die Option dem Dropdown hinzu
+    });
+}
+
+// Automatisch den freien Listenplatz beim Laden des Formulars setzen
+document.getElementById("liste").addEventListener("change", function () {
+    let liste = this.value;
+    setzeNaechstenFreienListenplatz(liste); // Setze den nächsten freien Listenplatz, wenn die Liste gewechselt wird
+});
+
+// Setze den Listenplatz initial beim Laden der Seite
+window.onload = function () {
+    aktualisiereListenDropdown(); // Aktualisiere das Dropdown-Menü beim Laden der Seite
+    let liste = document.getElementById("liste").value;
+    setzeNaechstenFreienListenplatz(liste); // Setze den Listenplatz basierend auf der ersten Liste
+};
+

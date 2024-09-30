@@ -1,4 +1,4 @@
-import { loeschenPerson, bearbeitenPerson } from './person.js';
+import {loeschenPerson, bearbeitenPerson, allePersonen} from './person.js';
 import { loescheAlleListen } from './person.js';
 import { eingeladene_personen } from './ersatzmanagement.js';  // Importiere die eingeladene_personen Funktion
 

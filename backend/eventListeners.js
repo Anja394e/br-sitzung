@@ -3,7 +3,7 @@ import { loescheAlleListen } from './person.js';
 import { eingeladene_personen } from './ersatzmanagement.js';  // Importiere die eingeladene_personen Funktion
 
 // Event Listener für den "Alle Listen löschen"-Button
-document.getElementById("loeschenButton").addEventListener('click', () => {
+document.getElementById("deleteAllButton").addEventListener('click', () => {
     // Bestätigungsdialog anzeigen
     const confirmation = confirm("Möchten Sie wirklich alle Einträge löschen?");
     
@@ -15,6 +15,7 @@ document.getElementById("loeschenButton").addEventListener('click', () => {
         console.log("Löschvorgang abgebrochen.");
     }
 });
+
 
 
 // Funktion zum Hinzufügen der Event Listener für die Tabellen

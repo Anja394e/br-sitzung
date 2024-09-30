@@ -6,67 +6,77 @@
     <title>Einladungssystem</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.ico">
-
 </head>
 <body>
     <div class="container">
         <h1>Einladungssystem</h1>
 
-        <!-- Einstellungsknopf hinzufügen -->
+        <!-- Einstellungsknopf und Listenlöschung -->
         <button id="einstellungenButton">Einstellungen</button>
         <button id="loeschenButton">Alle Listeninhalte löschen</button>
 
+        <!-- Tabelle für alle Personen -->
         <div>
-            <h2>Ordentliche Mitglieder</h2>
-            <table id="ordentlicheMitglieder">
+            <h2>Personenliste</h2>
+            <table id="personenTabelle">
                 <tr>
                     <th>Name</th>
                     <th>Geschlecht</th>
                     <th>Anwesend</th>
-                    <th>Aktionen</th>
-                </tr>
-            </table>
-        </div>
-
-        <div>
-            <h2>Ersatzpersonen</h2>
-            <table id="ersatzPersonen">
-                <tr>
-                    <th>Name</th>
-                    <th>Geschlecht</th>
-                    <th>Anwesend</th>
+                    <th>Listenplatz</th>
+                    <th>Ordentlich</th>
+                    <th>Liste</th>
                     <th>Aktionen</th>
                 </tr>
             </table>
         </div>
 
         <!-- Formular zum Hinzufügen neuer Personen -->
-<div>
-    <h2>Person hinzufügen</h2>
-    <form id="personenForm">
-        <input type="text" id="name" placeholder="Name" />
-        <input type="email" id="email" placeholder="E-Mail" />
-        <select id="geschlecht">
-            <option value="m">Männlich</option>
-            <option value="w">Weiblich</option>
-            <option value="d">Divers</option>
-        </select>
-        <select id="liste">
-            <option value="1">Ordentliche Mitglieder</option>
-            <option value="2">Ersatzpersonen</option>
-        </select>
-        <label>
-            <input type="checkbox" id="anwesend" checked /> Anwesend
-        </label>
-        <!-- Neues Feld für die Listenposition -->
-        <input type="number" id="listenplatz" placeholder="Listenplatz" required min="1" />
-        <button type="submit">Person hinzufügen</button>
-    </form>
-</div>
+        <div>
+            <h2>Person hinzufügen</h2>
+            <form id="personenForm">
+                <!-- Name der Person -->
+                <input type="text" id="name" placeholder="Name" required />
+                
+                <!-- E-Mail der Person -->
+                <input type="email" id="email" placeholder="E-Mail" required />
+                
+                <!-- Geschlecht der Person -->
+                <select id="geschlecht" required>
+                    <option value="m">Männlich</option>
+                    <option value="w">Weiblich</option>
+                    <option value="d">Divers</option>
+                </select>
 
+                <!-- Auswahl für ordentlich oder Ersatz -->
+                <label for="ordentlich">Ordentlich:</label>
+                <input type="checkbox" id="ordentlich" name="ordentlich" />
 
+                <!-- Dropdown für vorhandene Liste -->
+                <label for="liste">Vorhandene Liste auswählen:</label>
+                <select id="liste">
+                    <option value="">Liste auswählen</option>
+                    <!-- Vorhandene Listen werden hier dynamisch hinzugefügt -->
+                </select>
 
-    <!-- Button, um den Einladungsprozess zu starten -->
+                <!-- Eingabefeld für eine neue Liste -->
+                <label for="neueListe">Neue Liste hinzufügen:</label>
+                <input type="text" id="neueListe" placeholder="Neue Liste hinzufügen" />
+
+                <!-- Feld für die Listenposition -->
+                <input type="number" id="listenplatz" placeholder="Listenplatz" required min="1" />
+
+                <!-- Checkbox für Anwesenheit -->
+                <label>
+                    <input type="checkbox" id="anwesend" checked /> Anwesend
+                </label>
+
+                <!-- Button zum Hinzufügen der Person -->
+                <button type="submit">Person hinzufügen</button>
+            </form>
+        </div>
+
+        <!-- Button, um den Einladungsprozess zu starten -->
         <button id="einladenButton">Personen Einladen</button>
 
         <!-- Ergebnisbereich, anfangs versteckt -->
@@ -79,16 +89,11 @@
 
     <!-- JavaScript-Dateien aus dem backend-Ordner einbinden -->
     <script type="module" src="../backend/storage.js"></script>
-    
-    
     <script type="module" src="../backend/person.js"></script>
     <script type="module" src="../backend/ui.js"></script>
     <script type="module" src="../backend/ersatzmanagement.js"></script>
-    
     <script type="module" src="../backend/form.js"></script>
     <script type="module" src="../backend/eventListeners.js"></script>
-
-
 
 </body>
 </html>

@@ -25,9 +25,6 @@ export class Person {
 }
 
 
-// Exportiere die Personenliste
-export let allePersonen = [];
-
 // Funktion zum Speichern der Personenliste im localStorage
 export function speicherePersonen(allePersonen) {
     localStorage.setItem("allePersonen", JSON.stringify(allePersonen));

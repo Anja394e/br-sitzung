@@ -7,6 +7,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     e.preventDefault(); // Verhindert das Standardverhalten des Formulars
 
     // Werte aus dem Formular abrufen
+    let ordentlich = document.getElementById("ordentlich").checked;
     let name = document.getElementById("name").value;
     let email = document.getElementById("email").value;
     let geschlecht = document.getElementById("geschlecht").value;
@@ -28,7 +29,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     }
 
     // Neue Person erstellen
-    let neuePerson = new Person(liste, listenplatz, geschlecht, name, email, anwesend);
+    let neuePerson = new Person(ordentlich, liste, listenplatz, geschlecht, name, email, anwesend);
 
     // Die neue Person zur entsprechenden Liste hinzufügen
     if (liste === 1) {

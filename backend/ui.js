@@ -55,8 +55,8 @@ export function displayPersonen() {
             <td>${person.listenplatz}</td>
             <td>
                 <!-- Setze den Listenplatz und die Liste als Datenattribute für die Bearbeiten/Löschen-Schaltflächen -->
-                <button class="editButton" data-listenplatz="${person.listenplatz}" data-liste="1">Bearbeiten</button>
-                <button class="deleteButton" data-listenplatz="${person.listenplatz}" data-liste="1">Löschen</button>
+                <button class="editButton" data-id="${person.id}">Bearbeiten</button>
+                <button class="deleteButton" data-id="${person.id>Löschen</button>
             </td>
         `;
     });

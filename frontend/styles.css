@@ -48,7 +48,7 @@ button:hover {
 button.deleteButton {
     background-color: #dc3545; /* Rot für Löschen */
     color: white; /* Weiße Schrift */
-    border: none; /* Keine Umrandung */
+    border: 1px solid #dc3545; /* Passender Rahmen  */
     padding: 8px 20px; /* Größe des Buttons */
     cursor: pointer; /* Zeiger bei Hover */
     font-size: 0.9rem; /* Kleinere Schriftgröße */

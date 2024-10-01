@@ -379,7 +379,8 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
         }
 
         // Männlichen Ersatz gegen weiblichen austauschen
-        eingeladen = eingeladen.filter(person => person !== maennliche_ersatz);
+        // Hier wird die männliche Person basierend auf einer eindeutigen Eigenschaft entfernt
+        eingeladen = eingeladen.filter(person => person.id !== maennliche_ersatz.id);
         eingeladen.push(weibliche_ersatz);
 
         // Grund für das Nachladen aufgrund der Geschlechterquote hinzufügen

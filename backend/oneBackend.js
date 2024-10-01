@@ -304,9 +304,47 @@ function finde_beliebige_ersatzperson(eingeladen) {
         .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Niedrigster Listenplatz zuerst
 }
 
-// Berechnet die Anzahl der weiblichen Personen unter den eingeladenen Personen
-function anzahl_weiblich(eingeladen) {
-    return eingeladen.filter(person => person.geschlecht === 'w').length;
+
+
+// Logik zur Einladung von Personen und Management der Frauenquote
+ function eingeladene_personen() {
+    let eingeladen = []; // Liste der final eingeladenen Personen
+    let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
+
+    // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
+    const ordentlicheMitglieder = allePersonen.filter(person => person.ordentlich);
+    let fehlende_mitglieder = ordentlicheMitglieder.filter(person => !person.anwesend).length;
+
+    ordentlicheMitglieder.forEach(person => {
+        if (person.anwesend) {
+            eingeladen.push(person);
+        }
+    });
+
+    // Für jede fehlende Person wird eine Ersatzperson nachgeladen
+    ordentlicheMitglieder.forEach(person => {
+        if (!person.anwesend && fehlende_mitglieder > 0) {
+            let ersatz = finde_beliebige_ersatzperson(eingeladen); // Ersatzperson suchen
+
+            if (ersatz) {
+                eingeladen.push(ersatz);
+                nachgeladen_fuer[ersatz.name] = person.name; // Nachverfolgung, wer für wen geladen wurde
+                fehlende_mitglieder--;
+            } else {
+                console.log("Keine Ersatzpersonen mehr verfügbar.");
+            }
+        }
+    });
+
+    // Überprüfen, ob die Anzahl der eingeladenen Personen die der ordentlichen Mitglieder und deren Ersatz übersteigt
+    if (eingeladen.length > ordentlicheMitglieder.length) {
+        console.error("Zu viele Personen wurden eingeladen.");
+    }
+
+    // Nach dem Einladen der Ersatzpersonen Geschlechterquote durchsetzen
+    eingeladen = setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer);
+
+    return { eingeladen, nachgeladen_fuer };
 }
 
 function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
@@ -330,43 +368,6 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
     }
 
     return eingeladen;
-}
-
-
-// Logik zur Einladung von Personen und Management der Frauenquote
-  function eingeladene_personen() {
-    let eingeladen = []; // Liste der final eingeladenen Personen
-    let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
-
-    // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
-    const ordentlicheMitglieder = allePersonen.filter(person => person.ordentlich);
-    let fehlende_mitglieder = ordentlicheMitglieder.filter(person => !person.anwesend).length;
-
-    ordentlicheMitglieder.forEach(person => {
-        if (person.anwesend) {
-            eingeladen.push(person);
-        }
-    });
-
-    // Für jedes fehlende Mitglied wird eine Ersatzperson eingeladen
-    ordentlicheMitglieder.forEach(person => {
-        if (!person.anwesend && fehlende_mitglieder > 0) {
-            let ersatz = finde_beliebige_ersatzperson(eingeladen);
-
-            if (ersatz) {
-                eingeladen.push(ersatz);
-                nachgeladen_fuer[ersatz.name] = person.name;
-                fehlende_mitglieder--;
-            } else {
-                console.log("Keine Ersatzpersonen mehr verfügbar.");
-            }
-        }
-    });
-
-    // Nach dem Einladen der Ersatzpersonen wird die Geschlechterquote überprüft und durchgesetzt
-    eingeladen = setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer);
-
-    return { eingeladen, nachgeladen_fuer };
 }
 
 

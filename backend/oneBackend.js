@@ -251,9 +251,7 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
 
 
 // Rufe displayPersonen() automatisch beim Laden der Seite auf
-window.onload = function() {
-    displayPersonen(); // Ruft die Funktion auf, um die Personen anzuzeigen
-};
+
 
 
 // ersatzmanagement.js
@@ -383,6 +381,8 @@ document.getElementById("liste").addEventListener("change", function () {
 
 // Setze den Listenplatz initial beim Laden der Seite
 window.onload = function () {
+  
+    displayPersonen(); // Ruft die Funktion auf, um die Personen anzuzeigen
     aktualisiereListenDropdown(); // Aktualisiere das Dropdown-Menü beim Laden der Seite
     let liste = document.getElementById("liste").value;
     setzeNaechstenFreienListenplatz(liste); // Setze den Listenplatz basierend auf der ersten Liste

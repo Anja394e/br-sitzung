@@ -25,22 +25,23 @@ tr:hover {
 }
 
 button {
-    background-color: var(--secondary-color);
+    background-color: #90ee90; /* Hellgrüne Farbe */
     color: white;
-    padding: 15px 50px; /* Größere Polsterung für dickere Kästen */
-    border: 1px solid var(--secondary-color); /* Fügt einen Rahmen hinzu */
-    border-radius: 25px; /* Abgerundete Ecken für dicke Kästen */
+    padding: 8px 20px; /* Kleinere Polsterung für kleinere Knöpfe */
+    border: 1px solid #90ee90; /* Passender Rahmen in hellgrün */
+    border-radius: 0px; /* Keine abgerundeten Ecken für eckige Knöpfe */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    font-size: 1rem;
-    margin: 20px 0; /* Platz über und unter dem Button */
+    font-size: 0.9rem; /* Kleinere Schriftgröße für die Buttons */
+    margin: 10px 0; /* Geringerer Abstand um den Button */
 }
 
 button:hover {
-    background-color: transparent; /* Transparenter Hintergrund beim Hover */
-    color: var(--secondary-color); /* Textfarbe beim Hover */
-    transform: scale(1.05);
+    background-color: transparent; /* Hintergrund transparent beim Hover */
+    color: #90ee90; /* Textfarbe passend zur Rahmenfarbe */
+    transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }
+
 
 
 button.deleteButton {

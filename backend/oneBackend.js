@@ -123,9 +123,9 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     }
 
     // Überprüfen, ob die Kombination aus Listenplatz und Liste bereits existiert
-    let bereitsVorhanden = allePersonen.some(p => p.listenplatz === listenplatz && p.liste === liste);
+    let vorhandenePerson = allePersonen.find(p => p.listenplatz === listenplatz && p.liste === liste);
 
-    if (bereitsVorhanden) {
+    if (vorhandenePerson) {
         // Bestätigungsdialog, ob die ursprüngliche Person ersetzt werden soll
         let bestaetigung = confirm(`Eine Person mit diesem Listenplatz (${listenplatz}) in der Liste (${liste}) existiert bereits. Möchten Sie ${vorhandenePerson.name} durch ${name} ersetzen?`);
 

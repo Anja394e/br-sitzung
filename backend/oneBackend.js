@@ -1,7 +1,5 @@
-import { displayPersonen } from './ui.js'; // Stelle sicher, dass displayPersonen nur importiert wird
-
-// Die Person-Klasse definieren und exportieren
-export class Person {
+// Die Person-Klasse definieren und  ieren
+  class Person {
     constructor(ordentlich, liste, listenplatz, geschlecht, name, mail, anwesend) {
         this.id = this.generateId();
         this.ordentlich = ordentlich;
@@ -24,18 +22,18 @@ export class Person {
     }
 }
 
-export let allePersonen = [];
+  let allePersonen = [];
 // Personen beim Start laden
 allePersonen = ladePersonen();
 
 
 // Funktion zum Speichern der Personenliste im localStorage
-export function speicherePersonen(allePersonen) {
+  function speicherePersonen(allePersonen) {
     localStorage.setItem("allePersonen", JSON.stringify(allePersonen));
 }
 
 // Funktion zum Laden der Personen aus dem localStorage
-export function ladePersonen() {
+  function ladePersonen() {
     let personenRaw = localStorage.getItem("allePersonen");
     if (personenRaw) {
         return JSON.parse(personenRaw);
@@ -45,7 +43,7 @@ export function ladePersonen() {
 
 
 
-export function bearbeitenPerson(id) {
+  function bearbeitenPerson(id) {
     // Suche die Person anhand der übermittelten ID im gemeinsamen Array 'allePersonen'
     let person = allePersonen.find(p => p.id === id);
 
@@ -68,7 +66,7 @@ export function bearbeitenPerson(id) {
 
 
 // Funktion zum Löschen einer Person
-export function loeschenPerson(id) {
+  function loeschenPerson(id) {
     // Finde den Index der Person anhand der übermittelten ID
     const index = allePersonen.findIndex(p => p.id === id);
 
@@ -125,7 +123,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
 });
 
 
-export function loescheAlleListen() {
+  function loescheAlleListen() {
     // Lösche die Daten im localStorage
     localStorage.removeItem('allePersonen'); // Entfernt die gesamte Personenliste
 
@@ -137,11 +135,9 @@ export function loescheAlleListen() {
 
     console.log('Alle Listeneinträge wurden erfolgreich gelöscht.');
 }
-import { addEventListeners } from './eventListeners.js';
-import { allePersonen } from './person.js';
 
 // Funktion zum Anzeigen der eingeladenen Personen im HTML
-export function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
+  function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
     let ergebnisListe = document.getElementById("eingeladenePersonen");
     ergebnisListe.innerHTML = ""; // Leeren der Ergebnisliste
 
@@ -154,7 +150,7 @@ export function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
     });
 }
 
-export function displayPersonen() {
+  function displayPersonen() {
     // Referenziere die kombinierte Tabelle für alle Personen
     let personenTabelle = document.getElementById("personenTabelle");
 
@@ -216,8 +212,6 @@ window.onload = function() {
 
 
 // ersatzmanagement.js
-import { allePersonen } from './person.js'; // Verwende das gemeinsame Array 'allePersonen'
-import { speicherePersonen } from './person.js'; // Falls du die Speicherung verwenden möchtest
 
 console.log('allePersonen:', allePersonen); // Überprüfe, ob die allePersonen-Liste korrekt geladen wird
 
@@ -251,7 +245,7 @@ function anzahl_weiblich(eingeladen) {
 }
 
 // Logik zur Einladung von Personen und Management der Frauenquote
-export function eingeladene_personen() {
+  function eingeladene_personen() {
     let eingeladen = []; // Liste der final eingeladenen Personen
     let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
 
@@ -304,8 +298,6 @@ export function eingeladene_personen() {
 
     return { eingeladen, nachgeladen_fuer };
 }
-import { Person, allePersonen, speicherePersonen } from './person.js'; // Import der notwendigen Variablen und Funktionen
-import { displayPersonen } from './ui.js'; // Import der displayPersonen Funktion aus ui.js
 
 // Listen aus dem localStorage laden oder initialisieren
 let listen = JSON.parse(localStorage.getItem('listen')) || [];
@@ -411,9 +403,6 @@ window.onload = function () {
     setzeNaechstenFreienListenplatz(liste); // Setze den Listenplatz basierend auf der ersten Liste
 };
 
-import {loeschenPerson, bearbeitenPerson, allePersonen} from './person.js';
-import { loescheAlleListen } from './person.js';
-import { eingeladene_personen } from './ersatzmanagement.js';  // Importiere die eingeladene_personen Funktion
 
 // Event Listener für den "Alle Listen löschen"-Button
 document.addEventListener("DOMContentLoaded", function () {
@@ -435,7 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Funktion zum Hinzufügen der Event Listener für die Tabellen
-export function addEventListeners() {
+  function addEventListeners() {
     // Event Delegation für das Klicken in der gemeinsamen Tabelle für alle Personen
     document.getElementById("personenTabelle").addEventListener('click', (event) => {
         const target = event.target; // Erfasse das angeklickte Element

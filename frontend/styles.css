@@ -7,6 +7,29 @@
     margin-bottom: 20px; /* Abstand zum Rest des Inhalts */
 }
 
+/* Hauptcontainer-Styling */
+.container {
+    max-width: 1200px; /* Maximale Breite des Containers */
+    margin: 0 auto; /* Zentriert den Container auf der Seite */
+    padding: 20px; /* Optionale Polsterung innerhalb des Containers */
+}
+
+/* Optionale Anpassung, um auf kleineren Bildschirmen etwas Whitespace zu erhalten */
+body {
+    background-color: #f4f4f9; /* Hintergrundfarbe für den Whitespace */
+    padding: 0 20px; /* Etwas Polsterung auf den Seiten für kleinere Bildschirme */
+    font-family: Arial, sans-serif;
+}
+
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%; /* Vollständige Breite für mobile Geräte */
+        padding: 10px; /* Kleinere Polsterung auf mobilen Geräten */
+    }
+}
+
+
+
 /* Tabelle  */
 table {
     width: 100%;

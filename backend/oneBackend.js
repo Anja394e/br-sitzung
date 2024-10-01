@@ -126,12 +126,33 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     let bereitsVorhanden = allePersonen.some(p => p.listenplatz === listenplatz && p.liste === liste);
 
     if (bereitsVorhanden) {
-        alert('Eine Person mit diesem Listenplatz existiert bereits in dieser Liste.');
-        return; // Verhindert das Hinzufügen der Person
+        // Bestätigungsdialog, ob die ursprüngliche Person ersetzt werden soll
+        let bestaetigung = confirm(`Eine Person mit diesem Listenplatz (${listenplatz}) in der Liste (${liste}) existiert bereits. Möchten Sie ${vorhandenePerson.name} durch ${name} ersetzen?`);
+
+        if (bestaetigung) {
+            // Person durch die neue ersetzen
+            vorhandenePerson.ordentlich = ordentlich;
+            vorhandenePerson.name = name;
+            vorhandenePerson.mail = email;
+            vorhandenePerson.geschlecht = geschlecht;
+            vorhandenePerson.anwesend = anwesend;
+
+            // Speichern der aktualisierten Personenliste
+            speicherePersonen(allePersonen);
+
+            // Aktualisiere die Anzeige der Personen
+            displayPersonen();
+
+            alert(`Person ${name} hat erfolgreich ${vorhandenePerson.name} ersetzt.`);
+        } else {
+            // Benutzer hat abgelehnt, nichts tun
+            alert('Die Person wurde nicht ersetzt.');
+        }
+        return; // Formularverarbeitung hier beenden
     }
 
-    // Neue Person erstellen
-    let neuePerson = new Person(ordentlich, liste, listenplatz, geschlecht, name, email, anwesend);
+   // Falls keine Person mit diesem Listenplatz und dieser Liste existiert, neue Person erstellen
+   let neuePerson = new Person(ordentlich, liste, listenplatz, geschlecht, name, email, anwesend);
 
     // Füge die neue Person zum gemeinsamen Array hinzu
     allePersonen.push(neuePerson);

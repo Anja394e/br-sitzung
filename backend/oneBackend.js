@@ -378,9 +378,24 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
             break;
         }
 
+        // DEBUGGING: Loggen der relevanten Daten
+        console.log("Weiblicher Ersatz gefunden:", weibliche_ersatz);
+        console.log("Männlicher Ersatz gefunden:", maennliche_ersatz);
+        
         // Männlichen Ersatz gegen weiblichen austauschen
-        // Hier wird die männliche Person basierend auf einer eindeutigen Eigenschaft entfernt
+        // Entfernen der männlichen Person basierend auf eindeutiger ID oder Kombination von listenplatz und liste
+        const anzahlVorher = eingeladen.length;
         eingeladen = eingeladen.filter(person => person.id !== maennliche_ersatz.id);
+        
+        // Überprüfen, ob die Person wirklich entfernt wurde
+        const anzahlNachher = eingeladen.length;
+        if (anzahlVorher === anzahlNachher) {
+            console.error("WARNUNG: Die männliche Person wurde nicht entfernt!");
+        } else {
+            console.log(`Person mit ID ${maennliche_ersatz.id} erfolgreich entfernt.`);
+        }
+
+        // Weibliche Person hinzufügen
         eingeladen.push(weibliche_ersatz);
 
         // Grund für das Nachladen aufgrund der Geschlechterquote hinzufügen
@@ -390,7 +405,7 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
         } else {
             grund += " (Name unbekannt)";
         }
-        nachgeladen_fuer[weibliche_ersatz.name] = grund;
+        nachgeladen_fuer[weibliche_ersatz.name || weibliche_ersatz.listenplatz] = grund;
     }
 
     return eingeladen;

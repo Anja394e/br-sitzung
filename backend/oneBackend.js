@@ -365,15 +365,9 @@ function finde_beliebige_ersatzperson(eingeladen) {
 }
 
 function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
-    // Hilfsfunktion, um die Eigenschaften direkt zu vergleichen
+    // Hilfsfunktion, um nur die ID zu vergleichen, da diese eindeutig sein sollte
     function istGleichePerson(person1, person2) {
-        // Überprüfe, ob alle relevanten Felder übereinstimmen
-        return (
-            person1.id === person2.id &&
-            person1.listenplatz === person2.listenplatz &&
-            person1.liste === person2.liste &&
-            person1.geschlecht === person2.geschlecht
-        );
+        return person1.id === person2.id;  // Vergleiche nur die ID
     }
 
     while (anzahl_weiblich(eingeladen) < geschlechtsanteil_w) {
@@ -393,21 +387,21 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
         console.log("Weiblicher Ersatz gefunden:", weibliche_ersatz);
         console.log("Männlicher Ersatz gefunden:", maennliche_ersatz);
 
-        // Entfernen der männlichen Person durch direkten Vergleich der relevanten Eigenschaften
+        // Entfernen der männlichen Person durch Vergleich der ID
         const anzahlVorher = eingeladen.length;
 
-        // Verwende Array.filter() um die Person zu entfernen
+        // Filtere die Liste und entferne die Person mit der entsprechenden ID
         eingeladen = eingeladen.filter(person => {
             const istGleich = istGleichePerson(person, maennliche_ersatz);
             if (istGleich) {
-                console.log(`Person mit ID ${person.id} und Listenplatz ${person.listenplatz} wird entfernt.`);
+                console.log(`Person mit ID ${person.id} wird entfernt.`);
             }
-            return !istGleich;  // Nur Personen beibehalten, die nicht übereinstimmen
+            return !istGleich;  // Nur Personen beibehalten, deren ID nicht übereinstimmt
         });
 
         const anzahlNachher = eingeladen.length;
         if (anzahlVorher === anzahlNachher) {
-            console.error("WARNUNG: Die männliche Person wurde nicht entfernt! Prüfen Sie die Vergleichslogik.");
+            console.error("WARNUNG: Die männliche Person wurde nicht entfernt! Möglicherweise existiert sie nicht in der Liste.");
         } else {
             console.log(`Person mit ID ${maennliche_ersatz.id} erfolgreich entfernt.`);
         }
@@ -427,6 +421,7 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
 
     return eingeladen;
 }
+
 
 
 

@@ -203,16 +203,17 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
     personenListe.forEach(person => {
         let li = document.createElement("li");
         
-        // Überprüfe, ob die Person nachgeladen wurde und füge ggf. den Text hinzu
-        let nachgeladenText = nachgeladen_fuer[person.name] ? ` (nachgeladen für ${nachgeladen_fuer[person.name]})` : '';
+        // Überprüfe, ob die Person nachgeladen wurde und füge den Grund hinzu
+        let nachgeladenText = nachgeladen_fuer[person.name] ? ` (${nachgeladen_fuer[person.name]})` : '';
         
         // Erstelle die Textrepräsentation der Person
-        li.textContent = `${person.name} (Listenplatz: ${person.listenplatz}, ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
+        li.textContent = `${person.name || "Unbekannte Person"} (Listenplatz: ${person.listenplatz}, Liste: ${person.liste}, ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
         
         // Füge die Person der HTML-Liste hinzu
         ergebnisListe.appendChild(li);
     });
 }
+
 
   function displayPersonen() {
     // Referenziere die kombinierte Tabelle für alle Personen
@@ -334,7 +335,15 @@ function finde_beliebige_ersatzperson(eingeladen) {
 
             if (ersatz) {
                 eingeladen.push(ersatz);
-                nachgeladen_fuer[ersatz.name] = person.name; // Nachverfolgung, wer für wen geladen wurde
+
+                // Grund für das Nachladen mit Listenplatz und Liste hinzufügen
+                let grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}`;
+                if (person.name) {
+                    grund += ` (Person: ${person.name})`; // Falls der Name vorhanden ist, hinzufügen
+                } else {
+                    grund += " (Name unbekannt)";
+                }
+                nachgeladen_fuer[ersatz.name] = grund;
                 fehlende_mitglieder--;
             } else {
                 console.log("Keine Ersatzpersonen mehr verfügbar.");
@@ -342,14 +351,16 @@ function finde_beliebige_ersatzperson(eingeladen) {
         }
     });
 
-    // Überprüfen, ob die Anzahl der eingeladenen Personen die der ordentlichen Mitglieder und deren Ersatz übersteigt
-    if (eingeladen.length > ordentlicheMitglieder.length) {
-        console.error("Zu viele Personen wurden eingeladen.");
-    }
+    
 
     // Nach dem Einladen der Ersatzpersonen Geschlechterquote durchsetzen
     eingeladen = setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer);
 
+    // Überprüfen, ob die Anzahl der eingeladenen Personen die der ordentlichen Mitglieder und deren Ersatz übersteigt
+    if (eingeladen.length > ordentlicheMitglieder.length) {
+        console.error("Zu viele Personen wurden eingeladen.");
+    }
+   
     return { eingeladen, nachgeladen_fuer };
 }
 
@@ -370,11 +381,20 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
         // Männlichen Ersatz gegen weiblichen austauschen
         eingeladen = eingeladen.filter(person => person !== maennliche_ersatz);
         eingeladen.push(weibliche_ersatz);
-        nachgeladen_fuer[weibliche_ersatz.name] = `ersetzt ${maennliche_ersatz.name}`;
+
+        // Grund für das Nachladen aufgrund der Geschlechterquote hinzufügen
+        let grund = `Nachgeladen wegen Geschlechterquote, ersetzt Listenplatz ${maennliche_ersatz.listenplatz}, Liste ${maennliche_ersatz.liste}`;
+        if (maennliche_ersatz.name) {
+            grund += ` (Person: ${maennliche_ersatz.name})`;
+        } else {
+            grund += " (Name unbekannt)";
+        }
+        nachgeladen_fuer[weibliche_ersatz.name] = grund;
     }
 
     return eingeladen;
 }
+
 
 
 

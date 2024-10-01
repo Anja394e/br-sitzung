@@ -154,6 +154,9 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
 
     // Setze den nächsten freien Listenplatz
     setzeNaechstenFreienListenplatz(liste);
+  
+    setzeStandardwerte(); // Setze die Standardwerte, wenn auf den Button geklickt wird
+  
 });
 
 
@@ -368,6 +371,20 @@ function aktualisiereListenDropdown() {
     });
 }
 
+function setzeStandardwerte() {
+    // Prüfen, ob bereits Personen existieren
+    if (allePersonen.length > 0) {
+        // Letzte Person ermitteln
+        let letztePerson = allePersonen[allePersonen.length - 1];
+
+        // Werte der letzten Person in das Formular einfügen
+        document.getElementById("geschlecht").value = letztePerson.geschlecht;
+        document.getElementById("ordentlich").checked = letztePerson.ordentlich;
+        document.getElementById("liste").value = letztePerson.liste;
+    }
+}
+
+
 // Automatisch den freien Listenplatz beim Laden des Formulars setzen
 document.getElementById("liste").addEventListener("change", function () {
     let liste = this.value;
@@ -381,6 +398,10 @@ window.onload = function () {
     aktualisiereListenDropdown(); // Aktualisiere das Dropdown-Menü beim Laden der Seite
     let liste = document.getElementById("liste").value;
     setzeNaechstenFreienListenplatz(liste); // Setze den Listenplatz basierend auf der ersten Liste
+
+    // Setze die Standardwerte basierend auf der letzten Person
+    setzeStandardwerte();
+  
 };
 
 
@@ -448,7 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("einstellungenButton").addEventListener('click', () => {
         console.log("Einstellungen-Button geklickt");
         // Weiterleitung zur Einstellungsseite
-        window.location.href = '../frontend/einstellungen.html';
+        window.location.href = 'einstellungen.html';
     });
 }
 

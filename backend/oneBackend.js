@@ -281,6 +281,12 @@ console.log('allePersonen:', allePersonen); // Überprüfe, ob die allePersonen-
 // Initialisierung der Geschlechterquote aus dem localStorage oder Standardwert 2
 let geschlechtsanteil_w = localStorage.getItem("geschlechtsanteil_w") ? parseInt(localStorage.getItem("geschlechtsanteil_w")) : 2;
 
+// Funktion zum Zählen der Anzahl weiblicher Personen
+function anzahl_weiblich(eingeladen) {
+    return eingeladen.filter(person => person.geschlecht === 'w').length;
+}
+
+
 // Sucht die männliche Ersatzperson mit dem höchsten Listenplatz
 function finde_hoechste_maennliche_ersatzperson(eingeladen) {
     return allePersonen

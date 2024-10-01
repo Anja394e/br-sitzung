@@ -11,10 +11,24 @@
     <div class="container">
         <h1>Einladungssystem</h1>
 
-        <!-- Einstellungsknopf und Listenlöschung -->
-        <button id="einstellungenButton">Einstellungen</button>
-        <button id="deleteAllButton" class="deleteButton">Alle Listeninhalte löschen</button>
+        <!-- Einstellungsknopf, Listenlöschung und Einladen in einer Zeile -->
+        <div class="top-row">
+            <button id="einstellungenButton">Einstellungen</button>
+            <button id="deleteAllButton" class="deleteButton">Alle Listeninhalte löschen</button>
+            
+            <!-- Einladen Formular -->
+            <form id="inviteForm">
+                <input type="email" id="inviteEmail" placeholder="E-Mail zum Einladen" />
+                <button type="submit">Einladen</button>
+            </form>
+        </div>
 
+         <!-- Ergebnisbereich, anfangs versteckt -->
+        <div id="ergebnisContainer" style="display: none; margin-top: 20px;">
+            <h2>Ergebnis</h2>
+            <!-- Hier wird die Liste der eingeladenen Personen angezeigt -->
+            <ul id="eingeladenePersonen"></ul>
+        </div>
 
         <!-- Tabelle für alle Personen -->
         <div>
@@ -82,17 +96,7 @@
                 <button type="submit">Person hinzufügen</button>
             </form>
         </div>
-
-
-        <!-- Button, um den Einladungsprozess zu starten -->
-        <button id="einladenButton">Personen Einladen</button>
-
-        <!-- Ergebnisbereich, anfangs versteckt -->
-        <div id="ergebnisContainer" style="display: none; margin-top: 20px;">
-            <h2>Ergebnis</h2>
-            <!-- Hier wird die Liste der eingeladenen Personen angezeigt -->
-            <ul id="eingeladenePersonen"></ul>
-        </div>
+       
     </div>
 
     <!-- JavaScript-Dateien aus dem backend-Ordner einbinden -->

@@ -453,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("einstellungenButton").addEventListener('click', () => {
         console.log("Einstellungen-Button geklickt");
         // Weiterleitung zur Einstellungsseite
-        window.location.href = 'einstellungen.html';
+        window.location.href = '../frontend/einstellungen.html';
     });
 }
 

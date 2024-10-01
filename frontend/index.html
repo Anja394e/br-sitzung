@@ -37,45 +37,52 @@
             <h2>Person hinzufügen</h2>
             <form id="personenForm">
                 <!-- Name der Person -->
+                <label for="name">Name der Person:</label>
                 <input type="text" id="name" placeholder="Name" />
                 
                 <!-- E-Mail der Person -->
+                <label for="email">E-Mail der Person:</label>
                 <input type="email" id="email" placeholder="E-Mail" />
                 
                 <!-- Geschlecht der Person -->
+                <label for="geschlecht">Geschlecht:</label>
                 <select id="geschlecht" required>
                     <option value="m">Männlich</option>
                     <option value="w">Weiblich</option>
                     <option value="d">Divers</option>
                 </select>
-
+        
                 <!-- Auswahl für ordentlich oder Ersatz -->
                 <label for="ordentlich">Ordentlich:</label>
                 <input type="checkbox" id="ordentlich" name="ordentlich" />
-
+                <br>
+        
                 <!-- Dropdown für vorhandene Liste -->
                 <label for="liste">Vorhandene Liste auswählen:</label>
                 <select id="liste">
                     <option value="">Liste auswählen</option>
                     <!-- Vorhandene Listen werden hier dynamisch hinzugefügt -->
                 </select>
-
+        
                 <!-- Eingabefeld für eine neue Liste -->
                 <label for="neueListe">Neue Liste hinzufügen:</label>
                 <input type="text" id="neueListe" placeholder="Neue Liste hinzufügen" />
-
+        
                 <!-- Feld für die Listenposition -->
+                <label for="listenplatz">Listenplatz:</label>
                 <input type="number" id="listenplatz" placeholder="Listenplatz" required min="1" />
-
+                <br>
+        
                 <!-- Checkbox für Anwesenheit -->
-                <label>
+                <label for="anwesend">
                     <input type="checkbox" id="anwesend" checked /> Anwesend
                 </label>
-
+        
                 <!-- Button zum Hinzufügen der Person -->
                 <button type="submit">Person hinzufügen</button>
             </form>
         </div>
+
 
         <!-- Button, um den Einladungsprozess zu starten -->
         <button id="einladenButton">Personen Einladen</button>

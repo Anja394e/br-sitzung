@@ -57,7 +57,7 @@ button.deleteButton {
 }
 
 button.deleteButton:hover {
-    background-color: #dc3545; /* Dunkleres Rot bei Hover */
+    background-color: #dc3545; /* Textfarbe passend zur Rahmenfarbe */
     background-color: transparent; /* Hintergrund transparent beim Hover */
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }

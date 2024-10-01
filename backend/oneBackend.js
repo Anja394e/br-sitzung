@@ -367,11 +367,12 @@ function finde_beliebige_ersatzperson(eingeladen) {
 function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
     // Hilfsfunktion, um die Eigenschaften direkt zu vergleichen
     function istGleichePerson(person1, person2) {
-        // Stellen sicher, dass alle Vergleiche konsistent und eindeutig sind
+        // Überprüfe, ob alle relevanten Felder übereinstimmen
         return (
-            person1.id === person2.id && 
-            person1.listenplatz === person2.listenplatz && 
-            person1.liste === person2.liste
+            person1.id === person2.id &&
+            person1.listenplatz === person2.listenplatz &&
+            person1.liste === person2.liste &&
+            person1.geschlecht === person2.geschlecht
         );
     }
 
@@ -394,16 +395,21 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
 
         // Entfernen der männlichen Person durch direkten Vergleich der relevanten Eigenschaften
         const anzahlVorher = eingeladen.length;
-        
-        // Erstelle eine neue Liste ohne die zu entfernende Person
-        const neueListe = eingeladen.filter(person => !istGleichePerson(person, maennliche_ersatz));
 
-        const anzahlNachher = neueListe.length;
+        // Verwende Array.filter() um die Person zu entfernen
+        eingeladen = eingeladen.filter(person => {
+            const istGleich = istGleichePerson(person, maennliche_ersatz);
+            if (istGleich) {
+                console.log(`Person mit ID ${person.id} und Listenplatz ${person.listenplatz} wird entfernt.`);
+            }
+            return !istGleich;  // Nur Personen beibehalten, die nicht übereinstimmen
+        });
+
+        const anzahlNachher = eingeladen.length;
         if (anzahlVorher === anzahlNachher) {
             console.error("WARNUNG: Die männliche Person wurde nicht entfernt! Prüfen Sie die Vergleichslogik.");
         } else {
             console.log(`Person mit ID ${maennliche_ersatz.id} erfolgreich entfernt.`);
-            eingeladen = neueListe;  // Aktualisiere die Liste nach dem Entfernen
         }
 
         // Weibliche Person hinzufügen
@@ -421,10 +427,6 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
 
     return eingeladen;
 }
-
-
-
-
 
 
 

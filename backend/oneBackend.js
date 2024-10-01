@@ -365,6 +365,15 @@ function finde_beliebige_ersatzperson(eingeladen) {
 }
 
 function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
+    // Hilfsfunktion, um die Eigenschaften direkt zu vergleichen
+    function istGleichePerson(person1, person2) {
+        return (
+            person1.id === person2.id &&
+            person1.listenplatz === person2.listenplatz &&
+            person1.liste === person2.liste
+        );
+    }
+
     while (anzahl_weiblich(eingeladen) < geschlechtsanteil_w) {
         let weibliche_ersatz = finde_niedrigste_weibliche_ersatzperson(eingeladen);
         if (!weibliche_ersatz) {
@@ -382,15 +391,14 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
         console.log("Weiblicher Ersatz gefunden:", weibliche_ersatz);
         console.log("Männlicher Ersatz gefunden:", maennliche_ersatz);
 
-        // Versuche, die männliche Person zu entfernen, indem mehrere Eigenschaften verglichen werden
+        // Entfernen der männlichen Person durch direkten Vergleich der relevanten Eigenschaften
         const anzahlVorher = eingeladen.length;
         eingeladen = eingeladen.filter(person => {
-            if (person.id === maennliche_ersatz.id || 
-                (person.listenplatz === maennliche_ersatz.listenplatz && person.liste === maennliche_ersatz.liste)) {
+            const istGleich = istGleichePerson(person, maennliche_ersatz);
+            if (istGleich) {
                 console.log(`Person mit ID ${person.id} und Listenplatz ${person.listenplatz} wird entfernt.`);
-                return false;  // Diese Person wird entfernt
             }
-            return true;  // Diese Person bleibt in der Liste
+            return !istGleich;  // Nur Personen beibehalten, die nicht übereinstimmen
         });
 
         const anzahlNachher = eingeladen.length;
@@ -415,6 +423,7 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
 
     return eingeladen;
 }
+
 
 
 

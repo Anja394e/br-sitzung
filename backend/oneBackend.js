@@ -248,21 +248,22 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
     // Zeige alle Personen in der Tabelle an
     allePersonen.forEach((person) => {
         let row = personenTabelle.insertRow();
-
+    
         // Fülle die Zellen der Zeile mit den Personendaten
         row.innerHTML = `
             <td>${person.name}</td>
             <td>${person.geschlecht}</td>
-            <td>${person.anwesend ? 'Ja' : 'Nein'}</td>
+            <td><input type="checkbox" ${person.anwesend ? 'checked' : ''} disabled /></td> <!-- Checkbox für Anwesend -->
             <td>${person.listenplatz}</td>
-            <td>${person.ordentlich ? 'Ja' : 'Nein'}</td> <!-- Zeige, ob die Person ordentlich ist -->
-            <td>${person.liste}</td> <!-- Zeige die Liste der Person -->
+            <td><input type="checkbox" ${person.ordentlich ? 'checked' : ''} disabled /></td> <!-- Checkbox für Ordentlich -->
+            <td>${person.liste}</td>
             <td>
                 <button class="editButton" data-id="${person.id}">Bearbeiten</button>
                 <button class="deleteButton" data-id="${person.id}">Löschen</button>
             </td>
         `;
     });
+
 
     // Füge die Event Listener für die Schaltflächen hinzu, nachdem die Zeilen dynamisch erstellt wurden
     addEventListeners();

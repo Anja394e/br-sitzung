@@ -365,9 +365,9 @@ function finde_beliebige_ersatzperson(eingeladen) {
 }
 
 function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
-    // Hilfsfunktion, um nur die ID zu vergleichen, da diese eindeutig sein sollte
+    // Vergleiche nur nach der ID, da diese einzigartig sein sollte
     function istGleichePerson(person1, person2) {
-        return person1.id === person2.id;  // Vergleiche nur die ID
+        return person1.id === person2.id;
     }
 
     while (anzahl_weiblich(eingeladen) < geschlechtsanteil_w) {
@@ -383,25 +383,29 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
             break;
         }
 
-        // DEBUGGING: Loggen der relevanten Daten
-        console.log("Weiblicher Ersatz gefunden:", weibliche_ersatz);
-        console.log("Männlicher Ersatz gefunden:", maennliche_ersatz);
+        // Prüfe, ob die männliche Person in der Liste ist
+        const istInListe = eingeladen.some(person => istGleichePerson(person, maennliche_ersatz));
+        if (!istInListe) {
+            console.error("Die zu entfernende männliche Person ist nicht in der eingeladenen Liste.");
+            break; // Wenn die Person nicht existiert, brechen wir ab
+        }
 
-        // Entfernen der männlichen Person durch Vergleich der ID
+        // Entfernen der männlichen Person durch ID-Vergleich
         const anzahlVorher = eingeladen.length;
 
+        // Logge die Liste vor dem Entfernen
+        console.log("Liste vor dem Entfernen der Person:", JSON.stringify(eingeladen));
+
         // Filtere die Liste und entferne die Person mit der entsprechenden ID
-        eingeladen = eingeladen.filter(person => {
-            const istGleich = istGleichePerson(person, maennliche_ersatz);
-            if (istGleich) {
-                console.log(`Person mit ID ${person.id} wird entfernt.`);
-            }
-            return !istGleich;  // Nur Personen beibehalten, deren ID nicht übereinstimmt
-        });
+        eingeladen = eingeladen.filter(person => !istGleichePerson(person, maennliche_ersatz));
+
+        // Logge die Liste nach dem Entfernen
+        console.log("Liste nach dem Entfernen der Person:", JSON.stringify(eingeladen));
 
         const anzahlNachher = eingeladen.length;
         if (anzahlVorher === anzahlNachher) {
             console.error("WARNUNG: Die männliche Person wurde nicht entfernt! Möglicherweise existiert sie nicht in der Liste.");
+            break;
         } else {
             console.log(`Person mit ID ${maennliche_ersatz.id} erfolgreich entfernt.`);
         }

@@ -109,12 +109,6 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     let listenplatz = parseInt(document.getElementById("listenplatz").value);
     let anwesend = document.getElementById("anwesend").checked;
 
-    //Überprüfe, dass eine Liste vorhanden ist, und zeige eine Fehlermeldung, wenn keine Liste ausgewählt oder eingegeben wurde.
-    if (!liste) {
-        alert('Bitte wählen Sie eine Liste aus oder geben Sie eine neue Liste ein.');
-        return;
-    }
-
     // Überprüfung und Auswahl der Liste
     let vorhandeneListe = document.getElementById("liste").value;
     let neueListe = document.getElementById("neueListe").value;
@@ -122,6 +116,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     // Falls eine neue Liste eingegeben wurde, hat diese Vorrang
     let liste = neueListe ? neueListe : vorhandeneListe;
 
+   //Überprüfe, ob eine Liste ausgewählt oder eingegeben wurde
     if (!liste) {
         alert('Bitte wählen Sie eine Liste aus oder geben Sie eine neue Liste ein.');
         return;

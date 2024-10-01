@@ -169,17 +169,23 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     console.log('Alle Listeneinträge wurden erfolgreich gelöscht.');
 }
 
-// Funktion zum Anzeigen der eingeladenen Personen im HTML
-  function displayEingeladenePersonen(eingeladen, nachgeladen_fuer) {
+// Funktion zum Anzeigen der Personen im HTML
+function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
     let ergebnisListe = document.getElementById("eingeladenePersonen");
     ergebnisListe.innerHTML = ""; // Leeren der Ergebnisliste
 
-    // Durch die eingeladenen Personen iterieren und sie in der HTML-Liste anzeigen
-    eingeladen.forEach(person => {
+    // Durch die Personenliste iterieren und sie in der HTML-Liste anzeigen
+    personenListe.forEach(person => {
         let li = document.createElement("li");
+        
+        // Überprüfe, ob die Person nachgeladen wurde und füge ggf. den Text hinzu
         let nachgeladenText = nachgeladen_fuer[person.name] ? ` (nachgeladen für ${nachgeladen_fuer[person.name]})` : '';
+        
+        // Erstelle die Textrepräsentation der Person
         li.textContent = `${person.name} (Listenplatz: ${person.listenplatz}, ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
-        ergebnisListe.appendChild(li); // Füge die Person der HTML-Liste hinzu
+        
+        // Füge die Person der HTML-Liste hinzu
+        ergebnisListe.appendChild(li);
     });
 }
 
@@ -445,14 +451,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 }
 
-// Funktion zum Anzeigen der eingeladenen Personen
-function displayEingeladenePersonen(personenListe) {
-    const ul = document.getElementById("eingeladenePersonen");
-    ul.innerHTML = ''; // Leere die Liste
 
-    personenListe.forEach(person => {
-        const li = document.createElement("li");
-        li.textContent = person.name; // Zeige den Namen der eingeladenen Person an
-        ul.appendChild(li);
-    });
-}

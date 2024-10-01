@@ -127,7 +127,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
 
     if (vorhandenePerson) {
         // Bestätigungsdialog, ob die ursprüngliche Person ersetzt werden soll
-        let bestaetigung = confirm(`Eine Person mit diesem Listenplatz (${listenplatz}) in der Liste (${liste}) existiert bereits. Möchten Sie ${vorhandenePerson.name} durch ${name} ersetzen?`);
+        let bestaetigung = confirm(`Eine Person mit diesem Listenplatz (${listenplatz}) in der Liste (${liste}) existiert bereits. Möchten Sie den ursprünglichen durch den neuen Eintrag ersetzen?`);
 
         if (bestaetigung) {
             // Person durch die neue ersetzen

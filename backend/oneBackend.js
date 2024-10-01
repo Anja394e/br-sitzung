@@ -143,7 +143,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
             // Aktualisiere die Anzeige der Personen
             displayPersonen();
 
-            alert(`Person ${name} hat erfolgreich ${vorhandenePerson.name} ersetzt.`);
+            alert(`Eintrag erfolgreich aktualisiert.`);
         } else {
             // Benutzer hat abgelehnt, nichts tun
             alert('Die Person wurde nicht ersetzt.');

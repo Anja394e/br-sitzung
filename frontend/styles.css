@@ -62,3 +62,37 @@ button.deleteButton:hover {
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }
 
+/* Allgemeines Styling für das Formular */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Abstand zwischen den Elementen */
+}
+
+/* Styling für alle Eingabefelder und Selects */
+input[type="text"], input[type="email"], input[type="number"], select {
+    font-size: 1rem;
+    padding: 12px 20px; /* Gleiche Polsterung wie die Buttons */
+    border-radius: 5px; /* Gleiche Ecken wie die Buttons */
+    border: 1px solid #ccc;
+    width: 100%; /* Volle Breite der Felder */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Hover-Effekt für die Input-Felder und Selects */
+input[type="text"]:hover, input[type="email"]:hover, input[type="number"]:hover, select:hover {
+    border-color: #66c766; /* Passend zum Button-Hover */
+}
+
+/* Checkbox-Styling */
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Label-Styling */
+label {
+    font-weight: bold;
+}
+
+

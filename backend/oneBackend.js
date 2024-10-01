@@ -381,13 +381,17 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
         // DEBUGGING: Loggen der relevanten Daten
         console.log("Weiblicher Ersatz gefunden:", weibliche_ersatz);
         console.log("Männlicher Ersatz gefunden:", maennliche_ersatz);
-        
-        // Männlichen Ersatz gegen weiblichen austauschen
-        // Entfernen der männlichen Person basierend auf eindeutiger ID oder Kombination von listenplatz und liste
+
+        // Entfernen der männlichen Person durch expliziten Vergleich der Eigenschaften
         const anzahlVorher = eingeladen.length;
-        eingeladen = eingeladen.filter(person => person.id !== maennliche_ersatz.id);
-        
-        // Überprüfen, ob die Person wirklich entfernt wurde
+        eingeladen = eingeladen.filter(person => {
+            if (person.id === maennliche_ersatz.id) {
+                console.log(`Person mit ID ${person.id} wird entfernt.`);
+                return false;  // Diese Person wird entfernt
+            }
+            return true;  // Diese Person bleibt in der Liste
+        });
+
         const anzahlNachher = eingeladen.length;
         if (anzahlVorher === anzahlNachher) {
             console.error("WARNUNG: Die männliche Person wurde nicht entfernt!");
@@ -410,6 +414,7 @@ function setzeGeschlechterquoteDurch(eingeladen, nachgeladen_fuer) {
 
     return eingeladen;
 }
+
 
 
 

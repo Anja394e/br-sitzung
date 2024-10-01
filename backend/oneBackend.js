@@ -88,7 +88,14 @@ allePersonen = ladePersonen();
 
 
 // Listen aus dem localStorage laden oder initialisieren
-let listen = JSON.parse(localStorage.getItem('listen')) || [];
+let listen = [];
+try {
+    listen = JSON.parse(localStorage.getItem('listen')) || [];
+} catch (e) {
+    console.error("Fehler beim Laden der Listen aus dem localStorage:", e);
+    listen = []; // Falls der localStorage-String ungültig ist, setze listen auf ein leeres Array
+}
+
 
 // Event Listener für das Formular
 document.getElementById("personenForm").addEventListener("submit", function (e) {

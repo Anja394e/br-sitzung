@@ -86,24 +86,40 @@ allePersonen = ladePersonen();
 }
 
 
-// Funktion zum Hinzufügen einer neuen Person
-document.getElementById("personenForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // Verhindert das Neuladen der Seite
 
-    // Hole die Werte aus dem Formular
+// Listen aus dem localStorage laden oder initialisieren
+let listen = JSON.parse(localStorage.getItem('listen')) || [];
+
+// Event Listener für das Formular
+document.getElementById("personenForm").addEventListener("submit", function (e) {
+    e.preventDefault(); // Verhindert das Standardverhalten des Formulars
+
+    // Werte aus dem Formular abrufen
+    let ordentlich = document.getElementById("ordentlich").checked;
     let name = document.getElementById("name").value;
     let email = document.getElementById("email").value;
     let geschlecht = document.getElementById("geschlecht").value;
-    let ordentlich = document.getElementById("ordentlich").checked; // Boolean: ob ordentliches Mitglied
-    let liste = parseInt(document.getElementById("liste").value); // Zugehörige Liste
+    let listenplatz = parseInt(document.getElementById("listenplatz").value);
     let anwesend = document.getElementById("anwesend").checked;
-    let listenplatz = parseInt(document.getElementById("listenplatz").value); // Neue Listenposition
 
-    // Überprüfe, ob bereits eine Person mit demselben Listenplatz in derselben Liste existiert
+    // Überprüfung und Auswahl der Liste
+    let vorhandeneListe = document.getElementById("liste").value;
+    let neueListe = document.getElementById("neueListe").value;
+
+    // Falls eine neue Liste eingegeben wurde, hat diese Vorrang
+    let liste = neueListe ? neueListe : vorhandeneListe;
+
+    if (!liste) {
+        alert('Bitte wählen Sie eine Liste aus oder geben Sie eine neue Liste ein.');
+        return;
+    }
+
+    // Überprüfen, ob die Kombination aus Listenplatz und Liste bereits existiert
     let bereitsVorhanden = allePersonen.some(p => p.listenplatz === listenplatz && p.liste === liste);
+
     if (bereitsVorhanden) {
-        alert('Eine Person mit diesem Listenplatz in dieser Liste existiert bereits.');
-        return; // Beende die Funktion, wenn die Person bereits existiert
+        alert('Eine Person mit diesem Listenplatz existiert bereits in dieser Liste.');
+        return; // Verhindert das Hinzufügen der Person
     }
 
     // Neue Person erstellen
@@ -111,6 +127,13 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
 
     // Füge die neue Person zum gemeinsamen Array hinzu
     allePersonen.push(neuePerson);
+
+    // Falls eine neue Liste erstellt wurde, füge sie zu den Listen hinzu
+    if (neueListe && !listen.includes(neueListe)) {
+        listen.push(neueListe);
+        localStorage.setItem('listen', JSON.stringify(listen)); // Speichern der Listen im localStorage
+        aktualisiereListenDropdown(); // Aktualisiere das Dropdown-Menü
+    }
 
     // Personen im localStorage speichern
     speicherePersonen(allePersonen);
@@ -120,6 +143,9 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
 
     // Formular zurücksetzen
     document.getElementById("personenForm").reset();
+
+    // Setze den nächsten freien Listenplatz
+    setzeNaechstenFreienListenplatz(liste);
 });
 
 
@@ -299,66 +325,6 @@ function anzahl_weiblich(eingeladen) {
     return { eingeladen, nachgeladen_fuer };
 }
 
-// Listen aus dem localStorage laden oder initialisieren
-let listen = JSON.parse(localStorage.getItem('listen')) || [];
-
-// Event Listener für das Formular
-document.getElementById("personenForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // Verhindert das Standardverhalten des Formulars
-
-    // Werte aus dem Formular abrufen
-    let ordentlich = document.getElementById("ordentlich").checked;
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let geschlecht = document.getElementById("geschlecht").value;
-    let listenplatz = parseInt(document.getElementById("listenplatz").value);
-    let anwesend = document.getElementById("anwesend").checked;
-
-    // Überprüfung und Auswahl der Liste
-    let vorhandeneListe = document.getElementById("liste").value;
-    let neueListe = document.getElementById("neueListe").value;
-
-    // Falls eine neue Liste eingegeben wurde, hat diese Vorrang
-    let liste = neueListe ? neueListe : vorhandeneListe;
-
-    if (!liste) {
-        alert('Bitte wählen Sie eine Liste aus oder geben Sie eine neue Liste ein.');
-        return;
-    }
-
-    // Überprüfen, ob die Kombination aus Listenplatz und Liste bereits existiert
-    let bereitsVorhanden = allePersonen.some(p => p.listenplatz === listenplatz && p.liste === liste);
-
-    if (bereitsVorhanden) {
-        alert('Eine Person mit diesem Listenplatz existiert bereits in dieser Liste.');
-        return; // Verhindert das Hinzufügen der Person
-    }
-
-    // Neue Person erstellen
-    let neuePerson = new Person(ordentlich, liste, listenplatz, geschlecht, name, email, anwesend);
-
-    // Füge die neue Person zum gemeinsamen Array hinzu
-    allePersonen.push(neuePerson);
-
-    // Falls eine neue Liste erstellt wurde, füge sie zu den Listen hinzu
-    if (neueListe && !listen.includes(neueListe)) {
-        listen.push(neueListe);
-        localStorage.setItem('listen', JSON.stringify(listen)); // Speichern der Listen im localStorage
-        aktualisiereListenDropdown(); // Aktualisiere das Dropdown-Menü
-    }
-
-    // Personen im localStorage speichern
-    speicherePersonen(allePersonen);
-
-    // Aktualisiere die Tabelle, um die neue Person anzuzeigen
-    displayPersonen();
-
-    // Formular zurücksetzen
-    document.getElementById("personenForm").reset();
-
-    // Setze den nächsten freien Listenplatz
-    setzeNaechstenFreienListenplatz(liste);
-});
 
 // Funktion zum Berechnen und Eintragen des nächsten freien Listenplatzes
 function setzeNaechstenFreienListenplatz(liste) {

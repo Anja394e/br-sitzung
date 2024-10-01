@@ -428,7 +428,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Einladen-Button geklickt");
 
         // Hole die eingeladenen Personen mit der Funktion eingeladene_personen
-        let { eingeladen, nachgeladen_fuer } = eingeladene_personen(allePersonen);
+        let { eingeladen, nachgeladen_fuer } = eingeladene_personen();
 
         // Zeige die eingeladenen Personen an
         displayEingeladenePersonen(eingeladen);

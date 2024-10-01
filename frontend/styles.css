@@ -45,13 +45,20 @@ button:hover {
 
 
 
-button.delete {
-    background-color: #dc3545; /* Rot für den Delete-Button */
-    border: 1px solid #dc3545; /* Roter Rand */
+button.deleteButton {
+    background-color: #dc3545; /* Rot für Löschen */
+    color: white; /* Weiße Schrift */
+    border: none; /* Keine Umrandung */
+    padding: 8px 20px; /* Größe des Buttons */
+    cursor: pointer; /* Zeiger bei Hover */
+    font-size: 0.9rem; /* Kleinere Schriftgröße */
+    border-radius: 0px; /* Eckig, keine abgerundeten Ecken */
+    transition: background-color 0.3s ease;
 }
 
-button.delete:hover {
-    background-color: transparent;
-    color: #dc3545; /* Textfarbe passend zum Rand */
+button.deleteButton:hover {
+    background-color: #c82333; /* Dunkleres Rot bei Hover */
+    background-color: transparent; /* Hintergrund transparent beim Hover */
+    transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }
 

@@ -359,7 +359,7 @@ function eingeladene_personen() {
     // Hole die Einstellungen für das Minderheitengeschlecht und die Anzahl
     let mg_anzahl = parseInt(localStorage.getItem("geschlechtsanteil")) || 2;
     let mg_geschlecht = localStorage.getItem("geschlecht_mg") || "w";
-    let eingeladenes_mg = eingeladen.filter(person => person.geschlecht === mg_geschlecht).length;#
+    let eingeladenes_mg = eingeladen.filter(person => person.geschlecht === mg_geschlecht).length;
 
     // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
     ordentlicheMitglieder.forEach(person => {

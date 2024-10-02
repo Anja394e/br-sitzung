@@ -290,7 +290,7 @@ function erzeuge_platzhalterperson(listenplatz, liste) {
 }
 
 
-function lade_ersatzperson_mit_minderheit(eingeladen, mg_geschlecht, liste, mg_verfuegbar) {
+function lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, liste, mg_verfuegbar) {
     let ersatz;
 
     // Wenn eine MG-Person geladen werden soll
@@ -299,6 +299,7 @@ function lade_ersatzperson_mit_minderheit(eingeladen, mg_geschlecht, liste, mg_v
             .filter(person => person.geschlecht === mg_geschlecht && !person.ordentlich && person.anwesend && !eingeladen.includes(person) && person.liste === liste)
             .sort((a, b) => a.listenplatz - b.listenplatz)[0];
 
+        // Falls keine MG-Person in derselben Liste gefunden wurde, eine beliebige MG-Person suchen
         if (!ersatz) {
             ersatz = allePersonen
                 .filter(person => person.geschlecht === mg_geschlecht && !person.ordentlich && person.anwesend && !eingeladen.includes(person))
@@ -306,26 +307,35 @@ function lade_ersatzperson_mit_minderheit(eingeladen, mg_geschlecht, liste, mg_v
         }
     }
 
-    // Falls keine MG-Person geladen oder MG-Verfügbarkeit nicht mehr relevant, normale Ersatzperson laden
+    // Falls keine MG-Person verfügbar ist, lade eine normale Ersatzperson
     if (!ersatz) {
-        ersatz = allePersonen
-            .filter(person => !person.ordentlich && person.anwesend && !eingeladen.includes(person) && person.liste === liste)
-            .sort((a, b) => a.listenplatz - b.listenplatz)[0];
-
-        if (!ersatz) {
-            ersatz = allePersonen
-                .filter(person => !person.ordentlich && person.anwesend && !eingeladen.includes(person))
-                .sort((a, b) => a.listenplatz - b.listenplatz)[0];
-        }
+        ersatz = lade_ersatzperson_ohne_mg(eingeladen, liste);
     }
 
     return ersatz;
 }
 
+function lade_ersatzperson_ohne_mg(eingeladen, liste) {
+    let ersatz;
 
+    // Zuerst nach einer Ersatzperson in der gleichen Liste suchen
+    ersatz = allePersonen
+        .filter(person => !person.ordentlich && person.anwesend && !eingeladen.includes(person) && person.liste === liste)
+        .sort((a, b) => a.listenplatz - b.listenplatz)[0];
+
+    // Wenn keine Person der gleichen Liste gefunden wird, versuche, eine beliebige Ersatzperson zu finden
+    if (!ersatz) {
+        ersatz = allePersonen
+            .filter(person => !person.ordentlich && person.anwesend && !eingeladen.includes(person))
+            .sort((a, b) => a.listenplatz - b.listenplatz)[0];
+    }
+
+    return ersatz;
+}
 
 function eingeladene_personen() {
     let eingeladen = []; // Liste der final eingeladenen Personen
+    let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
 
     // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
     const ordentlicheMitglieder = allePersonen.filter(person => person.ordentlich);
@@ -342,36 +352,37 @@ function eingeladene_personen() {
             let ersatz;
             let grund;
 
-            const mg_verfuegbar = fehlende_mitglieder <= mg_anzahl && eingeladenes_mg < mg_anzahl;
+            // Zuerst normale Ersatzpersonen einladen, solange die Anzahl der fehlenden Mitglieder größer ist als MG-Anzahl
+            if (fehlende_mitglieder > mg_anzahl) {
+                ersatz = lade_ersatzperson_ohne_mg(eingeladen, person.liste);
+                grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, MG war nicht relevant.`;
+            }
 
-            // Lade eine Ersatzperson (MG oder normal)
-            ersatz = lade_ersatzperson_mit_minderheit(eingeladen, mg_geschlecht, person.liste, mg_verfuegbar);
+            // Wenn die fehlenden Mitglieder kleiner oder gleich der MG-Anzahl sind, prüfe auf MG-Quote
+            if (fehlende_mitglieder <= mg_anzahl) {
+                const mg_verfuegbar = eingeladenes_mg < mg_anzahl;
 
-            if (ersatz) {
-                // Wenn eine MG-Person geladen wurde
-                if (mg_verfuegbar && ersatz.geschlecht === mg_geschlecht) {
-                    eingeladenes_mg++; // Erhöhe die Anzahl der eingeladenen MG Personen
-                    grund = `Nachgeladen wegen Minderheitengeschlecht (${mg_geschlecht}) für ${person.name || "Unbekannte Person"} mit Listenplatz ${person.listenplatz}, Liste ${person.liste}`;
-                } else {
-                    grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, MG war nicht verfügbar.`;
+                ersatz = lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, person.liste, mg_verfuegbar);
+
+                if (ersatz) {
+                    // Falls eine MG-Person geladen wurde, setze den entsprechenden Grund
+                    if (mg_verfuegbar && ersatz.geschlecht === mg_geschlecht) {
+                        eingeladenes_mg++;
+                        grund = `Nachgeladen wegen Minderheitengeschlecht (${mg_geschlecht}) für Listenplatz ${person.listenplatz}, Liste ${person.liste}`;
+                    } else {
+                        grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, MG war nicht verfügbar.`;
+                    }
                 }
+            }
 
+            // Füge die Ersatzperson hinzu, falls eine gefunden wurde
+            if (ersatz) {
                 ersatz.nachladegrund = grund;
                 eingeladen.push(ersatz);
-                fehlende_mitglieder--;
-            } else {
-                // Wenn keine Ersatzperson gefunden wurde, füge eine Platzhalterperson hinzu
-                let platzhalter = erzeuge_platzhalterperson(person.listenplatz, person.liste);
-                eingeladen.push(platzhalter);
                 fehlende_mitglieder--;
             }
         }
     });
-
-    // Überprüfen, ob die Anzahl der eingeladenen Personen die der ordentlichen Mitglieder und deren Ersatz übersteigt
-    if (eingeladen.length > ordentlicheMitglieder.length) {
-        console.error("Zu viele Personen wurden eingeladen.");
-    }
 
     return { eingeladen };
 }

@@ -1,10 +1,10 @@
 // Die Person-Klasse definieren und  ieren
   class Person {
-    constructor(ordentlich, liste, listenplatz, geschlecht, name, mail, anwesend) {
+    constructor(ordentlich, liste, rang, geschlecht, name, mail, anwesend) {
         this.id = this.generateId();
         this.ordentlich = ordentlich;
         this.liste = liste;
-        this.listenplatz = listenplatz;
+        this.rang = rang;
         this.geschlecht = geschlecht;
         this.name = name;
         this.mail = mail;
@@ -18,7 +18,7 @@
 
     // Benutzerdefinierte toString()-Methode für die Textrepräsentation
     toString() {
-        return `${this.name} (Listenplatz: ${this.listenplatz}, ${this.ordentlich ? 'Ordentlich' : 'Ersatz'}, Liste: ${this.liste}, Geschlecht: ${this.geschlecht}, Anwesend: ${this.anwesend ? 'Ja' : 'Nein'})`;
+        return `${this.name} (Rang: ${this.rang}, ${this.ordentlich ? 'Ordentlich' : 'Ersatz'}, Liste: ${this.liste}, Geschlecht: ${this.geschlecht}, Anwesend: ${this.anwesend ? 'Ja' : 'Nein'})`;
     }
 }
 
@@ -28,18 +28,21 @@ allePersonen = ladePersonen();
 
 
 // Funktion zum Speichern der Personenliste im localStorage
-  function speicherePersonen(allePersonen) {
+function speicherePersonen(allePersonen) {
     localStorage.setItem("allePersonen", JSON.stringify(allePersonen));
+    console.log('Personen gespeichert:', allePersonen);
 }
 
 // Funktion zum Laden der Personen aus dem localStorage
-  function ladePersonen() {
+function ladePersonen() {
     let personenRaw = localStorage.getItem("allePersonen");
     if (personenRaw) {
+        console.log('Personen geladen:', JSON.parse(personenRaw));
         return JSON.parse(personenRaw);
     }
     return [];
 }
+
 
 
 
@@ -59,7 +62,7 @@ allePersonen = ladePersonen();
     document.getElementById("ordentlich").checked = person.ordentlich; // Neues Feld für ordentlich
     document.getElementById("liste").value = person.liste;
     document.getElementById("anwesend").checked = person.anwesend;
-    document.getElementById("listenplatz").value = person.listenplatz;
+    document.getElementById("rang").value = person.rang;
 }
 
 
@@ -106,7 +109,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     let name = document.getElementById("name").value;
     let email = document.getElementById("email").value;
     let geschlecht = document.getElementById("geschlecht").value;
-    let listenplatz = parseInt(document.getElementById("listenplatz").value);
+    let rang = parseInt(document.getElementById("rang").value);
     let anwesend = document.getElementById("anwesend").checked;
 
     // Überprüfung und Auswahl der Liste
@@ -122,12 +125,12 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
         return;
     }
 
-    // Überprüfen, ob der Listenplatz bereits existiert
-    let vorhandenePerson = allePersonen.find(p => p.listenplatz === listenplatz);
+    // Überprüfen, ob der Rang bereits existiert
+    let vorhandenePerson = allePersonen.find(p => p.rang === rang);
 
     if (vorhandenePerson) {
         // Bestätigungsdialog, ob die ursprüngliche Person ersetzt werden soll
-        let bestaetigung = confirm(`Eine Person mit diesem Listenplatz (${listenplatz}) existiert bereits. Möchten Sie den ursprünglichen durch den neuen Eintrag ersetzen?`);
+        let bestaetigung = confirm(`Eine Person mit diesem Rang (${rang}) existiert bereits. Möchten Sie den ursprünglichen durch den neuen Eintrag ersetzen?`);
 
         if (bestaetigung) {
             // Person durch die neue ersetzen
@@ -151,8 +154,8 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
         return; // Formularverarbeitung hier beenden
     }
 
-   // Falls keine Person mit diesem Listenplatz existiert, neue Person erstellen
-   let neuePerson = new Person(ordentlich, liste, listenplatz, geschlecht, name, email, anwesend);
+   // Falls keine Person mit diesem Rang existiert, neue Person erstellen
+   let neuePerson = new Person(ordentlich, liste, rang, geschlecht, name, email, anwesend);
 
     // Füge die neue Person zum gemeinsamen Array hinzu
     allePersonen.push(neuePerson);
@@ -173,8 +176,8 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     // Formular zurücksetzen
     document.getElementById("personenForm").reset();
 
-    // Setze den nächsten freien Listenplatz
-    setzeNaechstenFreienListenplatz(liste);
+    // Setze den nächsten freien Rang
+    setzeNaechstenFreienRang(liste);
   
     setzeStandardwerte(); // Setze die Standardwerte, wenn auf den Button geklickt wird
   
@@ -207,7 +210,7 @@ function displayEingeladenePersonen(personenListe) {
         let nachgeladenText = person.nachladegrund ? ` (${person.nachladegrund})` : '';
 
         // Erstelle die Textrepräsentation der Person
-        li.textContent = `${person.name || "Unbekannte Person"} (Listenplatz: ${person.listenplatz}, Liste: ${person.liste}, Geschlecht: ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
+        li.textContent = `${person.name || "Unbekannte Person"} (Rang: ${person.rang}, Liste: ${person.liste}, Geschlecht: ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
 
         // Füge die Person der HTML-Liste hinzu
         ergebnisListe.appendChild(li);
@@ -224,7 +227,7 @@ function displayEingeladenePersonen(personenListe) {
     // Leere die Tabelleninhalte und setze die Header für die Tabelle
     personenTabelle.innerHTML = `
         <tr>
-            <th>Listenplatz</th>
+            <th>Rang</th>
             <th>Name</th>
             <th>Geschlecht</th>
             <th>Anwesend</th>
@@ -234,7 +237,7 @@ function displayEingeladenePersonen(personenListe) {
         </tr>
     `;
 
-    // Sortiere die Personen nach 'ordentlich', dann 'liste', dann 'listenplatz'
+    // Sortiere die Personen nach 'ordentlich', dann 'liste', dann 'rang'
     allePersonen.sort((a, b) => {
         // Sortiere zuerst nach 'ordentlich' (ordentliche Mitglieder kommen zuerst)
         if (a.ordentlich !== b.ordentlich) {
@@ -244,8 +247,8 @@ function displayEingeladenePersonen(personenListe) {
         if (a.liste !== b.liste) {
             return a.liste - b.liste;
         }
-        // Sortiere nach 'listenplatz' innerhalb der Liste
-        return a.listenplatz - b.listenplatz;
+        // Sortiere nach 'rang' innerhalb der Liste
+        return a.rang - b.rang;
     });
 
     // Zeige alle Personen in der Tabelle an
@@ -257,7 +260,7 @@ function displayEingeladenePersonen(personenListe) {
             <td>${person.name}</td>
             <td>${person.geschlecht}</td>
             <td><input type="checkbox" ${person.anwesend ? 'checked' : ''} /></td> <!-- Checkbox für Anwesend, die in der Tabelle geändert werden kann -->
-            <td>${person.listenplatz}</td>
+            <td>${person.rang}</td>
             <td><input type="checkbox" ${person.ordentlich ? 'checked' : ''} disabled /></td> <!-- Checkbox für Ordentlich -->
             <td>${person.liste}</td>
             <td>
@@ -270,11 +273,11 @@ function displayEingeladenePersonen(personenListe) {
     // Füge Event-Listener für die "Anwesend"-Checkboxen hinzu
     document.querySelectorAll('.anwesend-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
-            let listenplatz = this.getAttribute('data-listenplatz');
+            let rang = parseInt(this.getAttribute('data-rang'));
             let isChecked = this.checked;
 
-            // Finde die Person in der allePersonen-Liste anhand des Listenplatzes und aktualisiere den 'anwesend'-Status
-            let person = allePersonen.find(p => p.listenplatz == listenplatz);
+            // Finde die Person in der allePersonen-Liste anhand des Ranges und aktualisiere den 'anwesend'-Status
+            let person = allePersonen.find(p => p.rang === rang);
             if (person) {
                 person.anwesend = isChecked;
 
@@ -296,13 +299,13 @@ function displayEingeladenePersonen(personenListe) {
 
 // ersatzmanagement.js
 
-function erzeuge_platzhalterperson(listenplatz, liste) {
+function erzeuge_platzhalterperson(rang, liste) {
     return {
         name: "Kein Ersatz verfügbar",
-        listenplatz: listenplatz,
+        rang: rang,
         liste: liste,
         geschlecht: "N/A",
-        nachladegrund: `Kein Ersatz mehr verfügbar für Listenplatz ${listenplatz}`
+        nachladegrund: `Kein Ersatz mehr verfügbar für Rang ${rang}`
     };
 }
 
@@ -315,13 +318,13 @@ function lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, liste, mg_verfuegba
     if (mg_verfuegbar) {
         ersatz = allePersonen
             .filter(person => person.geschlecht === mg_geschlecht && !person.ordentlich && person.anwesend && !eingeladen.includes(person) && person.liste === liste)
-            .sort((a, b) => a.listenplatz - b.listenplatz)[0];
+            .sort((a, b) => a.rang - b.rang)[0];
 
         // Falls keine MG-Person in derselben Liste gefunden wurde, eine beliebige MG-Person suchen
         if (!ersatz) {
             ersatz = allePersonen
                 .filter(person => person.geschlecht === mg_geschlecht && !person.ordentlich && person.anwesend && !eingeladen.includes(person))
-                .sort((a, b) => a.listenplatz - b.listenplatz)[0];
+                .sort((a, b) => a.rang - b.rang)[0];
         }
     }
 
@@ -331,7 +334,7 @@ function lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, liste, mg_verfuegba
     }
 
     if (ersatz) {
-        console.log(`Ersatzperson gefunden (MG): ${ersatz.name}, Listenplatz: ${ersatz.listenplatz}, Liste: ${ersatz.liste}`);
+        console.log(`Ersatzperson gefunden (MG): ${ersatz.name}, Rang: ${ersatz.rang}, Liste: ${ersatz.liste}`);
     } else {
         console.log("Keine MG-Person gefunden.");
     }
@@ -346,17 +349,17 @@ function lade_ersatzperson_ohne_minderheit(eingeladen, liste) {
     // Zuerst nach einer Ersatzperson in der gleichen Liste suchen
     ersatz = allePersonen
         .filter(person => !person.ordentlich && person.anwesend && !eingeladen.includes(person) && person.liste === liste)
-        .sort((a, b) => a.listenplatz - b.listenplatz)[0];
+        .sort((a, b) => a.rang - b.rang)[0];
 
     // Wenn keine Person der gleichen Liste gefunden wird, versuche, eine beliebige Ersatzperson zu finden
     if (!ersatz) {
         ersatz = allePersonen
             .filter(person => !person.ordentlich && person.anwesend && !eingeladen.includes(person))
-            .sort((a, b) => a.listenplatz - b.listenplatz)[0];
+            .sort((a, b) => a.rang - b.rang)[0];
     }
 
     if (ersatz) {
-        console.log(`Ersatzperson gefunden: ${ersatz.name}, Listenplatz: ${ersatz.listenplatz}, Liste: ${ersatz.liste}`);
+        console.log(`Ersatzperson gefunden: ${ersatz.name}, Rang: ${ersatz.rang}, Liste: ${ersatz.liste}`);
     } else {
         console.log("Keine normale Ersatzperson gefunden.");
     }
@@ -396,7 +399,7 @@ function eingeladene_personen() {
             // Solange die Anzahl der fehlenden Mitglieder größer ist als die MG-Anzahl, lade nur Ersatzpersonen ohne MG
             if (fehlende_mitglieder > mg_anzahl) {
                 ersatz = lade_ersatzperson_ohne_minderheit(eingeladen, person.liste);
-                grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, MG war nicht relevant.`;
+                grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}, MG war nicht relevant.`;
             }
 
             // Wenn die Anzahl der fehlenden Mitglieder kleiner oder gleich der MG-Anzahl ist, prüfe die MG-Quote
@@ -408,14 +411,14 @@ function eingeladene_personen() {
                     ersatz = lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, person.liste, mg_verfuegbar);
                     if (ersatz) {
                         eingeladenes_mg++;
-                        grund = `Nachgeladen wegen Minderheitengeschlecht (${mg_geschlecht}) für Listenplatz ${person.listenplatz}, Liste ${person.liste}`;
+                        grund = `Nachgeladen wegen Minderheitengeschlecht (${mg_geschlecht}) für Rang ${person.rang}, Liste ${person.liste}`;
                     }
                 }
 
                 // Fallback: Falls keine MG-Person verfügbar ist, lade normale Ersatzperson
                 if (!ersatz) {
                     ersatz = lade_ersatzperson_ohne_minderheit(eingeladen, person.liste);
-                    grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, MG war nicht verfügbar.`;
+                    grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}, MG war nicht verfügbar.`;
                 }
             }
 
@@ -427,10 +430,10 @@ function eingeladene_personen() {
                 console.log(`Ersatzperson ${ersatz.name} eingeladen: ${grund}`);
             } else {
                 // Wenn keine Ersatzperson gefunden wurde, füge eine Platzhalterperson hinzu
-                let platzhalter = erzeuge_platzhalterperson(person.listenplatz, person.liste);
+                let platzhalter = erzeuge_platzhalterperson(person.rang, person.liste);
                 eingeladen.push(platzhalter);
                 fehlende_mitglieder--;
-                console.log(`Platzhalterperson für ${person.listenplatz} eingeladen: ${platzhalter.nachladegrund}`);
+                console.log(`Platzhalterperson für ${person.rang} eingeladen: ${platzhalter.nachladegrund}`);
             }
         }
     });
@@ -443,21 +446,21 @@ function eingeladene_personen() {
 
 
 
-// Funktion zum Berechnen und Eintragen des nächsten freien Listenplatzes
-function setzeNaechstenFreienListenplatz(liste) {
-    let naechsterListenplatz;
+// Funktion zum Berechnen und Eintragen des nächsten freien Ranges
+function setzeNaechstenFreienRang(liste) {
+    let naechsterRang;
 
-    // Filtere Personen nach der gewählten Liste und ermittle den höchsten Listenplatz
+    // Filtere Personen nach der gewählten Liste und ermittle den höchsten Rang
     let personenInListe = allePersonen.filter(p => p.liste === liste);
     if (personenInListe.length > 0) {
-        let hoechsterListenplatz = Math.max(...personenInListe.map(p => p.listenplatz));
-        naechsterListenplatz = hoechsterListenplatz + 1;
+        let hoechsterRang = Math.max(...personenInListe.map(p => p.rang));
+        naechsterRang = hoechsterRang + 1;
     } else {
-        naechsterListenplatz = 1; // Start bei 1, falls die Liste leer ist
+        naechsterRang = 1; // Start bei 1, falls die Liste leer ist
     }
 
-    // Setze den Listenplatz im Formular
-    document.getElementById("listenplatz").value = naechsterListenplatz;
+    // Setze den Rang im Formular
+    document.getElementById("rang").value = naechsterRang;
 }
 
 // Funktion zum Aktualisieren des Dropdown-Menüs mit den vorhandenen Listen
@@ -487,19 +490,19 @@ function setzeStandardwerte() {
 }
 
 
-// Automatisch den freien Listenplatz beim Laden des Formulars setzen
+// Automatisch den freien Rang beim Laden des Formulars setzen
 document.getElementById("liste").addEventListener("change", function () {
     let liste = this.value;
-    setzeNaechstenFreienListenplatz(liste); // Setze den nächsten freien Listenplatz, wenn die Liste gewechselt wird
+    setzeNaechstenFreienRang(liste); // Setze den nächsten freien Rang, wenn die Liste gewechselt wird
 });
 
-// Setze den Listenplatz initial beim Laden der Seite
+// Setze den Rang initial beim Laden der Seite
 window.onload = function () {
   
     displayPersonen(); // Ruft die Funktion auf, um die Personen anzuzeigen
     aktualisiereListenDropdown(); // Aktualisiere das Dropdown-Menü beim Laden der Seite
     let liste = document.getElementById("liste").value;
-    setzeNaechstenFreienListenplatz(liste); // Setze den Listenplatz basierend auf der ersten Liste
+    setzeNaechstenFreienRang(liste); // Setze den Rang basierend auf der ersten Liste
 
     // Setze die Standardwerte basierend auf der letzten Person
     setzeStandardwerte();

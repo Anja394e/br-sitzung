@@ -1,10 +1,10 @@
 // Die Person-Klasse definieren und  ieren
   class Person {
     constructor(ordentlich, liste, rang, geschlecht, name, mail, anwesend) {
-        this.id = rang;
+        this.id = Number(rang); // Stelle sicher, dass die ID (rang) eine Ganzzahl ist
         this.ordentlich = ordentlich;
         this.liste = liste;
-        this.rang = rang;
+        this.rang = Number(rang); // Konvertiere rang in eine Ganzzahl
         this.geschlecht = geschlecht;
         this.name = name;
         this.mail = mail;

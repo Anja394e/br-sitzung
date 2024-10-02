@@ -291,7 +291,7 @@ function anzahl_weiblich(eingeladen) {
 // Sucht die männliche Ersatzperson mit dem höchsten Listenplatz
 function finde_hoechste_maennliche_ersatzperson(eingeladen) {
     return allePersonen
-        .filter(person => person.geschlecht === 'm' && !person.ordentlich && person.anwesend && !eingeladen.includes(person)) // Nur männliche Ersatzpersonen
+        .filter(person => person.geschlecht === 'm' && !person.ordentlich && person.anwesend ) // Nur männliche Ersatzpersonen
         .sort((a, b) => b.listenplatz - a.listenplatz)[0]; // Höchster Listenplatz zuerst
 }
 

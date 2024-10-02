@@ -359,9 +359,16 @@ function eingeladene_personen() {
     // Hole die Einstellungen für das Minderheitengeschlecht und die Anzahl
     let mg_anzahl = parseInt(localStorage.getItem("geschlechtsanteil")) || 2;
     let mg_geschlecht = localStorage.getItem("geschlecht_mg") || "w";
-    let eingeladenes_mg = eingeladen.filter(person => person.geschlecht === mg_geschlecht).length;
+    let eingeladenes_mg = eingeladen.filter(person => person.geschlecht === mg_geschlecht).length;#
 
-    console.log(`Start der Einladung. Fehlende Mitglieder: ${fehlende_mitglieder}, MG-Anzahl: ${mg_anzahl}`);
+    // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
+    ordentlicheMitglieder.forEach(person => {
+        if (person.anwesend) {
+            eingeladen.push(person);
+        }
+    });
+
+    console.log(`Start der Nachlaladung. Fehlende Mitglieder: ${fehlende_mitglieder}, MG-Anzahl: ${mg_anzahl}`);
 
     // Für jede fehlende Person wird eine Ersatzperson nachgeladen
     ordentlicheMitglieder.forEach(person => {

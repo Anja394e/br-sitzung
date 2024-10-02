@@ -352,14 +352,14 @@ function eingeladene_personen() {
             let ersatz;
             let grund;
 
-            // Zuerst normale Ersatzpersonen einladen, solange die Anzahl der fehlenden Mitglieder größer ist als MG-Anzahl
+            // Solange die Anzahl der fehlenden Mitglieder größer ist als die MG-Anzahl, lade nur Ersatzpersonen ohne MG
             if (fehlende_mitglieder > mg_anzahl) {
                 ersatz = lade_ersatzperson_ohne_mg(eingeladen, person.liste);
                 grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, MG war nicht relevant.`;
             }
 
-            // Wenn die fehlenden Mitglieder kleiner oder gleich der MG-Anzahl sind, prüfe auf MG-Quote
-            if (fehlende_mitglieder <= mg_anzahl) {
+            // Wenn die Anzahl der fehlenden Mitglieder kleiner oder gleich der MG-Anzahl ist, lade nur MG-Personen, wenn die MG-Quote noch nicht erfüllt ist
+            if (fehlende_mitglieder <= mg_anzahl && eingeladenes_mg < mg_anzahl) {
                 const mg_verfuegbar = eingeladenes_mg < mg_anzahl;
 
                 ersatz = lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, person.liste, mg_verfuegbar);
@@ -386,6 +386,7 @@ function eingeladene_personen() {
 
     return { eingeladen };
 }
+
 
 
 

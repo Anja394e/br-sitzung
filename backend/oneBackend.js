@@ -202,17 +202,26 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
     // Durch die Personenliste iterieren und sie in der HTML-Liste anzeigen
     personenListe.forEach(person => {
         let li = document.createElement("li");
-        
-        // Überprüfe, ob die Person nachgeladen wurde und füge den Grund hinzu
-        let nachgeladenText = nachgeladen_fuer[person.name] ? ` (${nachgeladen_fuer[person.name]})` : '';
-        
+
+        // Suche nach dem Nachladegrund für diese Person
+        let nachgeladenText = '';
+
+        // Überprüfen, ob die Person im nachgeladen_fuer-Objekt existiert
+        for (let key in nachgeladen_fuer) {
+            if (nachgeladen_fuer.hasOwnProperty(key) && nachgeladen_fuer[key].includes(person.name || person.listenplatz)) {
+                nachgeladenText = ` (${nachgeladen_fuer[key]})`;
+                break;
+            }
+        }
+
         // Erstelle die Textrepräsentation der Person
-        li.textContent = `${person.name || "Unbekannte Person"} (Listenplatz: ${person.listenplatz}, Liste: ${person.liste}, ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
-        
+        li.textContent = `${person.name || "Unbekannte Person"} (Listenplatz: ${person.listenplatz}, Liste: ${person.liste}, Geschlecht: ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
+
         // Füge die Person der HTML-Liste hinzu
         ergebnisListe.appendChild(li);
     });
 }
+
 
 
   function displayPersonen() {
@@ -325,7 +334,7 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
                     .filter(person => !person.ordentlich && person.anwesend && !eingeladen.includes(person)) // Nur anwesende Ersatzpersonen
                     .sort((a, b) => a.listenplatz - b.listenplatz)[0]; // Niedrigster Listenplatz zuerst
                 
-                grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}`;
+                grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, eigentlich wäre Minderheitengeschlecht eingeladen, es ist aber keines verfügbar.`;
             }
 
             if (ersatz) {

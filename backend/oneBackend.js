@@ -358,20 +358,24 @@ function eingeladene_personen() {
                 grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, MG war nicht relevant.`;
             }
 
-            // Wenn die Anzahl der fehlenden Mitglieder kleiner oder gleich der MG-Anzahl ist, lade nur MG-Personen, wenn die MG-Quote noch nicht erfüllt ist
-            if (fehlende_mitglieder <= mg_anzahl && eingeladenes_mg < mg_anzahl) {
+            // Wenn die Anzahl der fehlenden Mitglieder kleiner oder gleich der MG-Anzahl ist, prüfe die MG-Quote
+            if (fehlende_mitglieder <= mg_anzahl) {
                 const mg_verfuegbar = eingeladenes_mg < mg_anzahl;
 
-                ersatz = lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, person.liste, mg_verfuegbar);
+                // Versuche, eine MG-Person zu laden
+                if (mg_verfuegbar) {
+                    ersatz = lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, person.liste, mg_verfuegbar);
 
-                if (ersatz) {
-                    // Falls eine MG-Person geladen wurde, setze den entsprechenden Grund
-                    if (mg_verfuegbar && ersatz.geschlecht === mg_geschlecht) {
+                    if (ersatz) {
                         eingeladenes_mg++;
                         grund = `Nachgeladen wegen Minderheitengeschlecht (${mg_geschlecht}) für Listenplatz ${person.listenplatz}, Liste ${person.liste}`;
-                    } else {
-                        grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, MG war nicht verfügbar.`;
                     }
+                }
+
+                // Fallback: Falls keine MG-Person verfügbar ist, lade normale Ersatzperson
+                if (!ersatz) {
+                    ersatz = lade_ersatzperson_ohne_mg(eingeladen, person.liste);
+                    grund = `Nachgeladen für Listenplatz ${person.listenplatz}, Liste ${person.liste}, MG war nicht verfügbar.`;
                 }
             }
 
@@ -386,6 +390,7 @@ function eingeladene_personen() {
 
     return { eingeladen };
 }
+
 
 
 

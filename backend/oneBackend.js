@@ -524,6 +524,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (target.classList.contains('editButton')) {
             // Hole die ID der Person aus den Datenattributen
             const personId = target.getAttribute('data-id');
+          
+            console.log('Edit Button ID:', editButton.getAttribute('data-id'));
             console.log(`Bearbeiten-Button geklickt: id=${personId}`);
             
             // Rufe die Bearbeiten-Funktion auf und übergebe die ID der Person

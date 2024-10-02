@@ -84,14 +84,32 @@ function bearbeitenPerson(id) {
 
 
 // Funktion zum Löschen einer Person
-  function loeschenPerson(id) {
-    // Finde den Index der Person anhand der übermittelten ID
-    const index = allePersonen.findIndex(p => p.id === id);
+function loeschenPerson(id) {
+    // Logging, um die übergebene ID zu sehen
+    console.log('Funktionsaufruf: loeschenPerson mit ID:', id);
 
+    // Überprüfen, ob die ID gültig ist
+    if (typeof id === 'undefined' || id === null) {
+        console.error('Ungültige ID übergeben:', id);
+        return;  // Beende die Funktion, wenn die ID ungültig ist
+    }
+
+    // Konvertiere die ID in eine Zahl (falls sie als String übergeben wurde)
+    let numericId = Number(id);
+    console.log('Konvertierte ID:', numericId);
+
+    // Finde den Index der Person anhand der übermittelten (konvertierten) ID
+    const index = allePersonen.findIndex(p => p.id === numericId);
+
+    // Überprüfen, ob die Person gefunden wurde
     if (index === -1) {
-        console.error('Person nicht gefunden mit ID:', id);
+        console.error('Person nicht gefunden mit ID:', numericId);
+        console.log('Verfügbare IDs in der Liste:', allePersonen.map(p => p.id)); // Logge alle verfügbaren IDs
         return;  // Falls die Person nicht existiert, Funktion beenden
     }
+
+    // Logge die Person, die gelöscht wird
+    console.log('Lösche Person:', allePersonen[index]);
 
     // Person aus dem gemeinsamen Array entfernen
     allePersonen.splice(index, 1);
@@ -101,7 +119,10 @@ function bearbeitenPerson(id) {
 
     // Aktualisiere die Tabelle
     displayPersonen();
+
+    console.log('Person mit ID', numericId, 'wurde erfolgreich gelöscht.');
 }
+
 
 
 

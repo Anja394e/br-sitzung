@@ -254,17 +254,19 @@ function displayEingeladenePersonen(personenListe) {
     
         // Fülle die Zellen der Zeile mit den Personendaten
         row.innerHTML = `
-            <td>${person.name}</td>
-            <td>${person.geschlecht}</td>
-            <td><input type="checkbox" ${person.anwesend ? 'checked' : ''} /></td> <!-- Checkbox für Anwesend, die in der Tabelle geändert werden kann -->
-            <td>${person.rang}</td>
-            <td><input type="checkbox" ${person.ordentlich ? 'checked' : ''} disabled /></td> <!-- Checkbox für Ordentlich -->
-            <td>${person.liste}</td>
-            <td>
-                <button class="editButton" data-id="${person.id}">Bearbeiten</button>
-                <button class="deleteButton" data-id="${person.id}">Löschen</button>
-            </td>
-        `;
+          <td>${person.rang}</td> <!-- Rang an die erste Stelle setzen -->
+          <td>${person.name}</td> <!-- Name an die zweite Stelle setzen -->
+          <td>${person.geschlecht}</td>
+          <td>
+              <input type="checkbox" class="anwesend-checkbox" data-rang="${person.rang}" ${person.anwesend ? 'checked' : ''} />
+          </td> <!-- Checkbox für Anwesend -->
+          <td><input type="checkbox" ${person.ordentlich ? 'checked' : ''} disabled /></td> <!-- Checkbox für Ordentlich -->
+          <td>${person.liste}</td>
+          <td>
+              <button class="editButton" data-rang="${person.rang}">Bearbeiten</button>
+              <button class="deleteButton" data-rang="${person.rang}">Löschen</button>
+          </td>
+      `;
     });
 
     // Füge Event-Listener für die "Anwesend"-Checkboxen hinzu
@@ -288,10 +290,6 @@ function displayEingeladenePersonen(personenListe) {
     // Füge die Event Listener für die Schaltflächen hinzu, nachdem die Zeilen dynamisch erstellt wurden
     addEventListeners();
 }
-
-
-// Rufe displayPersonen() automatisch beim Laden der Seite auf
-
 
 
 // ersatzmanagement.js

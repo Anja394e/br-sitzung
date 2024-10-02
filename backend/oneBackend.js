@@ -263,8 +263,8 @@ function displayEingeladenePersonen(personenListe) {
           <td><input type="checkbox" ${person.ordentlich ? 'checked' : ''} disabled /></td> <!-- Checkbox für Ordentlich -->
           <td>${person.liste}</td>
           <td>
-              <button class="editButton" data-rang="${person.rang}">Bearbeiten</button>
-              <button class="deleteButton" data-rang="${person.rang}">Löschen</button>
+            <button class="editButton" data-id="${person.id}">Bearbeiten</button> <!-- Verwende die ID -->
+            <button class="deleteButton" data-id="${person.id}">Löschen</button> <!-- Verwende die ID -->
           </td>
       `;
     });

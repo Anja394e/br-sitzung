@@ -195,7 +195,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
 }
 
 // Funktion zum Anzeigen der Personen im HTML
-function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
+function displayEingeladenePersonen(personenListe) {
     let ergebnisListe = document.getElementById("eingeladenePersonen");
     ergebnisListe.innerHTML = ""; // Leeren der Ergebnisliste
 
@@ -203,16 +203,8 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
     personenListe.forEach(person => {
         let li = document.createElement("li");
 
-        // Suche nach dem Nachladegrund für diese Person
-        let nachgeladenText = '';
-
-        // Überprüfen, ob die Person im nachgeladen_fuer-Objekt existiert
-        for (let key in nachgeladen_fuer) {
-            if (nachgeladen_fuer.hasOwnProperty(key) && nachgeladen_fuer[key].includes(person.name || person.listenplatz)) {
-                nachgeladenText = ` (${nachgeladen_fuer[key]})`;
-                break;
-            }
-        }
+        // Hole den Nachladegrund, falls vorhanden
+        let nachgeladenText = person.nachladegrund ? ` (${person.nachladegrund})` : '';
 
         // Erstelle die Textrepräsentation der Person
         li.textContent = `${person.name || "Unbekannte Person"} (Listenplatz: ${person.listenplatz}, Liste: ${person.liste}, Geschlecht: ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
@@ -221,6 +213,7 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
         ergebnisListe.appendChild(li);
     });
 }
+
 
 
 
@@ -287,9 +280,8 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
 // ersatzmanagement.js
 
 // Logik zur Einladung von Personen und Management der Frauenquote
- function eingeladene_personen() {
+function eingeladene_personen() {
     let eingeladen = []; // Liste der final eingeladenen Personen
-    let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
 
     // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
     const ordentlicheMitglieder = allePersonen.filter(person => person.ordentlich);
@@ -297,7 +289,7 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
 
     ordentlicheMitglieder.forEach(person => {
         if (person.anwesend) {
-            eingeladen.push(person);
+            eingeladen.push(person); // Anwesende ordentliche Mitglieder direkt hinzufügen
         }
     });
 
@@ -338,15 +330,11 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
             }
 
             if (ersatz) {
-                eingeladen.push(ersatz);
+                // Füge den Nachladegrund direkt der Ersatzperson hinzu
+                ersatz.nachladegrund = grund;
 
-                // Grund für das Nachladen mit Listenplatz und Liste hinzufügen
-                if (person.name) {
-                    grund += ` (Person: ${person.name})`; // Falls der Name vorhanden ist, hinzufügen
-                } else {
-                    grund += " (Name unbekannt)";
-                }
-                nachgeladen_fuer[ersatz.name || ersatz.listenplatz] = grund;
+                // Füge die Ersatzperson zur Liste der eingeladenen Personen hinzu
+                eingeladen.push(ersatz);
                 fehlende_mitglieder--;
             } else {
                 console.log("Keine Ersatzpersonen mehr verfügbar.");
@@ -358,8 +346,8 @@ function displayEingeladenePersonen(personenListe, nachgeladen_fuer = {}) {
     if (eingeladen.length > ordentlicheMitglieder.length) {
         console.error("Zu viele Personen wurden eingeladen.");
     }
-   
-    return { eingeladen, nachgeladen_fuer };
+
+    return { eingeladen };
 }
 
 

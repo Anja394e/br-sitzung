@@ -1,7 +1,7 @@
 // Die Person-Klasse definieren und  ieren
   class Person {
     constructor(ordentlich, liste, rang, geschlecht, name, mail, anwesend) {
-        this.id = this.generateId();
+        this.id = rang;
         this.ordentlich = ordentlich;
         this.liste = liste;
         this.rang = rang;
@@ -11,10 +11,7 @@
         this.anwesend = anwesend;
     }
 
-    // Generiere eine eindeutige ID
-    generateId() {
-        return '_' + Math.random().toString(36).substr(2, 9);
-    }
+  
 
     // Benutzerdefinierte toString()-Methode für die Textrepräsentation
     toString() {

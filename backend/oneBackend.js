@@ -472,8 +472,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Hole die eingeladenen Personen mit der Funktion eingeladene_personen
         let { eingeladen, nachgeladen_fuer } = eingeladene_personen();
 
-        // Zeige die eingeladenen Personen an
-        displayEingeladenePersonen(eingeladen);
+        // Zeige die eingeladenen Personen an und übergebe auch die Nachladegründe
+    displayEingeladenePersonen(eingeladen, nachgeladen_fuer);
 
         // Mache das Ergebnisfeld sichtbar
         document.getElementById("ergebnisContainer").style.display = 'block';

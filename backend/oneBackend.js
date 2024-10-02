@@ -224,10 +224,10 @@ function displayEingeladenePersonen(personenListe) {
     // Leere die Tabelleninhalte und setze die Header für die Tabelle
     personenTabelle.innerHTML = `
         <tr>
+            <th>Listenplatz</th>
             <th>Name</th>
             <th>Geschlecht</th>
             <th>Anwesend</th>
-            <th>Listenplatz</th>
             <th>Ordentlich</th>
             <th>Liste</th>
             <th>Aktionen</th>
@@ -256,7 +256,7 @@ function displayEingeladenePersonen(personenListe) {
         row.innerHTML = `
             <td>${person.name}</td>
             <td>${person.geschlecht}</td>
-            <td><input type="checkbox" ${person.anwesend ? 'checked' : ''} disabled /></td> <!-- Checkbox für Anwesend -->
+            <td><input type="checkbox" ${person.anwesend ? 'checked' : ''} /></td> <!-- Checkbox für Anwesend, die in der Tabelle geändert werden kann -->
             <td>${person.listenplatz}</td>
             <td><input type="checkbox" ${person.ordentlich ? 'checked' : ''} disabled /></td> <!-- Checkbox für Ordentlich -->
             <td>${person.liste}</td>

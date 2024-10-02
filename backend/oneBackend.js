@@ -44,13 +44,36 @@ function ladePersonen() {
 
 
   function bearbeitenPerson(id) {
-    // Suche die Person anhand der übermittelten ID im gemeinsamen Array 'allePersonen'
-    let person = allePersonen.find(p => p.id === id);
+    console.log('Funktionsaufruf: bearbeitenPerson mit ID:', id);
 
+    // Überprüfen, ob die ID gültig ist
+    if (typeof id === 'undefined' || id === null) {
+        console.error('Ungültige ID übergeben:', id);
+        return;
+    }
+
+    // Logge die gesamte Liste der Personen für eine genauere Überprüfung
+    console.log('Aktuelle Personenliste:', allePersonen);
+
+    // Konvertiere die ID in eine Zahl, falls sie als String übergeben wurde
+    let numericId = Number(id);
+    console.log('Vergleiche mit konvertierter ID (numericId):', numericId);
+
+    // Suche die Person anhand der übermittelten ID im gemeinsamen Array 'allePersonen'
+    let person = allePersonen.find(p => p.id === numericId);
+
+    // Überprüfen, ob die Person gefunden wurde
     if (!person) {
-        console.error('Person nicht gefunden mit ID:', id);
+        console.error('Person nicht gefunden mit ID:', numericId);
+        console.log('Aktuelle Liste der IDs in allePersonen:', allePersonen.map(p => p.id));
         return;  // Falls die Person nicht existiert, Funktion beenden
     }
+
+    // Wenn die Person gefunden wurde, gebe ihre Daten aus
+    console.log('Person gefunden:', person);
+    // Hier kannst du mit den gefundenen Personendaten weiterarbeiten
+}
+
 
     // Person existiert, nun die Formularfelder mit den Werten füllen
     document.getElementById("name").value = person.name;

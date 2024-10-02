@@ -323,17 +323,7 @@ function lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, liste, mg_verfuegba
         }
     }
 
-    // Falls keine MG-Person verfügbar ist, lade eine normale Ersatzperson
-    if (!ersatz) {
-        ersatz = lade_ersatzperson_ohne_minderheit(eingeladen, liste);
-    }
-
-    if (ersatz) {
-        console.log(`Ersatzperson gefunden (MG): ${ersatz.name}, Rang: ${ersatz.rang}, Liste: ${ersatz.liste}`);
-    } else {
-        console.log("Keine MG-Person gefunden.");
-    }
-
+    
     return ersatz;
 }
 

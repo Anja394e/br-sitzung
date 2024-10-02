@@ -122,12 +122,12 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
         return;
     }
 
-    // Überprüfen, ob die Kombination aus Listenplatz und Liste bereits existiert
-    let vorhandenePerson = allePersonen.find(p => p.listenplatz === listenplatz && p.liste === liste);
+    // Überprüfen, ob der Listenplatz bereits existiert
+    let vorhandenePerson = allePersonen.find(p => p.listenplatz === listenplatz);
 
     if (vorhandenePerson) {
         // Bestätigungsdialog, ob die ursprüngliche Person ersetzt werden soll
-        let bestaetigung = confirm(`Eine Person mit diesem Listenplatz (${listenplatz}) in der Liste (${liste}) existiert bereits. Möchten Sie den ursprünglichen durch den neuen Eintrag ersetzen?`);
+        let bestaetigung = confirm(`Eine Person mit diesem Listenplatz (${listenplatz}) existiert bereits. Möchten Sie den ursprünglichen durch den neuen Eintrag ersetzen?`);
 
         if (bestaetigung) {
             // Person durch die neue ersetzen
@@ -151,7 +151,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
         return; // Formularverarbeitung hier beenden
     }
 
-   // Falls keine Person mit diesem Listenplatz und dieser Liste existiert, neue Person erstellen
+   // Falls keine Person mit diesem Listenplatz existiert, neue Person erstellen
    let neuePerson = new Person(ordentlich, liste, listenplatz, geschlecht, name, email, anwesend);
 
     // Füge die neue Person zum gemeinsamen Array hinzu
@@ -270,11 +270,11 @@ function displayEingeladenePersonen(personenListe) {
     // Füge Event-Listener für die "Anwesend"-Checkboxen hinzu
     document.querySelectorAll('.anwesend-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
-            let personId = this.getAttribute('data-id');
+            let listenplatz = this.getAttribute('data-listenplatz');
             let isChecked = this.checked;
 
-            // Finde die Person in der allePersonen-Liste und aktualisiere den 'anwesend'-Status
-            let person = allePersonen.find(p => p.id == personId);
+            // Finde die Person in der allePersonen-Liste anhand des Listenplatzes und aktualisiere den 'anwesend'-Status
+            let person = allePersonen.find(p => p.listenplatz == listenplatz);
             if (person) {
                 person.anwesend = isChecked;
 
@@ -302,7 +302,7 @@ function erzeuge_platzhalterperson(listenplatz, liste) {
         listenplatz: listenplatz,
         liste: liste,
         geschlecht: "N/A",
-        nachladegrund: `Kein Ersatz mehr verfügbar für Listenplatz ${listenplatz}, Liste ${liste}`
+        nachladegrund: `Kein Ersatz mehr verfügbar für Listenplatz ${listenplatz}`
     };
 }
 

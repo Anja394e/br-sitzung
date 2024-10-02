@@ -41,39 +41,32 @@ function ladePersonen() {
 }
 
 
-
-
-  function bearbeitenPerson(id) {
+function bearbeitenPerson(id) {
+    // Logging, um zu sehen, welche ID übergeben wird
     console.log('Funktionsaufruf: bearbeitenPerson mit ID:', id);
 
     // Überprüfen, ob die ID gültig ist
     if (typeof id === 'undefined' || id === null) {
         console.error('Ungültige ID übergeben:', id);
-        return;
+        return;  // Beende die Funktion, wenn die ID ungültig ist
     }
 
-    // Logge die gesamte Liste der Personen für eine genauere Überprüfung
-    console.log('Aktuelle Personenliste:', allePersonen);
-
-    // Konvertiere die ID in eine Zahl, falls sie als String übergeben wurde
+    // Konvertiere die ID in eine Zahl (falls sie als String übergeben wurde)
     let numericId = Number(id);
-    console.log('Vergleiche mit konvertierter ID (numericId):', numericId);
+    console.log('Konvertierte ID:', numericId);
 
-    // Suche die Person anhand der übermittelten ID im gemeinsamen Array 'allePersonen'
+    // Suche die Person anhand der übermittelten (konvertierten) ID im gemeinsamen Array 'allePersonen'
     let person = allePersonen.find(p => p.id === numericId);
 
     // Überprüfen, ob die Person gefunden wurde
     if (!person) {
         console.error('Person nicht gefunden mit ID:', numericId);
-        console.log('Aktuelle Liste der IDs in allePersonen:', allePersonen.map(p => p.id));
+        console.log('Verfügbare IDs in der Liste:', allePersonen.map(p => p.id)); // Logge alle verfügbaren IDs zur Kontrolle
         return;  // Falls die Person nicht existiert, Funktion beenden
     }
 
-    // Wenn die Person gefunden wurde, gebe ihre Daten aus
+    // Logge die gefundene Person
     console.log('Person gefunden:', person);
-    // Hier kannst du mit den gefundenen Personendaten weiterarbeiten
-}
-
 
     // Person existiert, nun die Formularfelder mit den Werten füllen
     document.getElementById("name").value = person.name;
@@ -83,6 +76,8 @@ function ladePersonen() {
     document.getElementById("liste").value = person.liste;
     document.getElementById("anwesend").checked = person.anwesend;
     document.getElementById("rang").value = person.rang;
+
+    console.log('Formular wurde mit den Daten der Person ausgefüllt.');
 }
 
 

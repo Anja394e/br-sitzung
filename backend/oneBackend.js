@@ -384,7 +384,7 @@ function eingeladene_personen() {
             // Solange die Anzahl der fehlenden Mitglieder größer ist als die MG-Anzahl, lade nur Ersatzpersonen ohne MG
             if (fehlende_mitglieder > mg_anzahl) {
                 ersatz = lade_ersatzperson_ohne_minderheit(eingeladen, person.liste);
-                grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}, MG war nicht relevant.`;
+                grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}`;
             }
 
             // Wenn die Anzahl der fehlenden Mitglieder kleiner oder gleich der MG-Anzahl ist, prüfe die MG-Quote
@@ -403,7 +403,7 @@ function eingeladene_personen() {
                 // Fallback: Falls keine MG-Person verfügbar ist, lade normale Ersatzperson
                 if (!ersatz) {
                     ersatz = lade_ersatzperson_ohne_minderheit(eingeladen, person.liste);
-                    grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}, MG war nicht verfügbar.`;
+                    grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}, Minderheitengeschlecht war nicht verfügbar.`;
                 }
             }
 

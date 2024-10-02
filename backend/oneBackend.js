@@ -267,6 +267,23 @@ function displayEingeladenePersonen(personenListe) {
         `;
     });
 
+    // Füge Event-Listener für die "Anwesend"-Checkboxen hinzu
+    document.querySelectorAll('.anwesend-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            let personId = this.getAttribute('data-id');
+            let isChecked = this.checked;
+
+            // Finde die Person in der allePersonen-Liste und aktualisiere den 'anwesend'-Status
+            let person = allePersonen.find(p => p.id == personId);
+            if (person) {
+                person.anwesend = isChecked;
+
+                // Speichere die gesamte aktualisierte Personenliste im localStorage
+                speicherePersonen(allePersonen);
+            }
+        });
+    });
+
 
     // Füge die Event Listener für die Schaltflächen hinzu, nachdem die Zeilen dynamisch erstellt wurden
     addEventListeners();

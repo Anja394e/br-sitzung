@@ -292,6 +292,22 @@ function displayEinladungsButton(eingeladen) {
 function sendeEmailAnEingeladene(eingeladen) {
     // Erstelle eine Liste der E-Mail-Adressen
     let emailAdressen = eingeladen.map(person => person.mail).join(',');
+    let fehlendeEmails = [];
+
+    // Überprüfe jede Person und füge die E-Mail hinzu oder markiere fehlende E-Mails
+    eingeladen.forEach(person => {
+        if (person.mail && person.mail.trim() !== "") {
+            emailAdressen.push(person.mail);
+        } else {
+            fehlendeEmails.push(person.name || "Unbekannte Person");
+        }
+    });
+
+    // Falls es Personen ohne E-Mail gibt, zeige eine Warnung
+    if (fehlendeEmails.length > 0) {
+        alert("Die folgenden Personen haben keine E-Mail-Adresse: " + fehlendeEmails.join(', '));
+        return;  // Aktion abbrechen
+    }
 
     // Falls keine E-Mail-Adressen vorhanden sind, zeige eine Warnung
     if (emailAdressen.length === 0) {

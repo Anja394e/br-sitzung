@@ -485,7 +485,8 @@ function eingeladene_personen() {
     // Hole die Einstellungen für das Minderheitengeschlecht und die Anzahl
     let mg_anzahl = parseInt(localStorage.getItem("geschlechtsanteil")) || 2;
     let mg_geschlecht = localStorage.getItem("geschlecht_mg") || "w";
-    let eingeladenes_mg = eingeladen.filter(person => person.geschlecht === mg_geschlecht).length;
+    let eingeladenes_mg = 0;
+    
 
     // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
     ordentlicheMitglieder.forEach(person => {
@@ -510,6 +511,7 @@ function eingeladene_personen() {
 
             // Wenn die Anzahl der fehlenden Mitglieder kleiner oder gleich der MG-Anzahl ist, prüfe die MG-Quote
             if (fehlende_mitglieder <= mg_anzahl) {
+                eingeladenes_mg = eingeladen.filter(person => person.geschlecht === mg_geschlecht).length;
                 const mg_verfuegbar = eingeladenes_mg < mg_anzahl;
 
                 // Versuche, eine MG-Person zu laden

@@ -465,6 +465,65 @@ function eingeladene_personen() {
     return { eingeladen };
 }
 
+// Funktion zum Herunterladen der LocalStorage-Daten als JSON-Datei
+function downloadLocalStorageData() {
+    const data = localStorage.getItem("allePersonen");
+
+    if (!data) {
+        alert("Keine Daten zum Herunterladen vorhanden.");
+        return;
+    }
+
+    // Erstelle ein Blob-Objekt mit dem JSON-Daten
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    // Erstelle einen temporären Download-Link
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "personen_daten.json";
+
+    // Simuliere einen Klick, um den Download zu starten
+    a.click();
+
+    // Bereinige die URL nach dem Download
+    URL.revokeObjectURL(url);
+}
+
+// Funktion zum Hochladen von Daten und Einfügen in den LocalStorage
+function uploadLocalStorageData(event) {
+    const file = event.target.files[0];
+
+    if (!file) {
+        alert("Keine Datei ausgewählt.");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    // FileReader lädt die Datei und schreibt sie in den localStorage
+    reader.onload = function (e) {
+        try {
+            const jsonData = JSON.parse(e.target.result);
+            // Speichere die hochgeladenen Daten in den localStorage
+            localStorage.setItem("allePersonen", JSON.stringify(jsonData));
+
+            // Aktualisiere die Anzeige
+            allePersonen = ladePersonen();
+            displayPersonen();
+            alert("Daten erfolgreich hochgeladen.");
+        } catch (error) {
+            console.error("Fehler beim Einfügen der Daten:", error);
+            alert("Die Datei enthält keine gültigen Daten.");
+        }
+    };
+
+    // Lese die Datei als Text ein
+    reader.readAsText(file);
+}
+
+// Event-Listener für den Upload-Button
+document.getElementById("uploadButton").addEventListener("change", uploadLocalStorageData);
 
 
 
@@ -602,6 +661,15 @@ document.addEventListener("DOMContentLoaded", function () {
         // Weiterleitung zur Einstellungsseite
         window.location.href = 'einstellungen.html';
     });
+
+
+    
+    // Event Listener für den Download-Button
+    document.querySelector('.downloadButton').addEventListener('click', downloadLocalStorageData);
+    
+    // Event Listener für den Upload-Button (Datei-Upload)
+    document.getElementById('fileUpload').addEventListener('change', uploadLocalStorageData);
+
 }
 
 

@@ -16,12 +16,16 @@
             <!-- Button, um den Einladungsprozess zu starten -->
             <button id="einladenButton">Personen Einladen</button>
 
-            <!-- Button zum Herunterladen der Daten -->
-            <button class="downloadButton" onclick="downloadLocalStorageData()">Daten herunterladen</button>
+            <!-- Datei-Input und Label für den Upload -->
+            <label for="fileUpload" class="uploadLabel">Daten hochladen</label>
+            <input type="file" id="fileUpload">
+
             
             <!-- Datei-Input und Label für den Upload -->
             <label for="fileUpload" class="uploadLabel">Daten hochladen</label>
-            <input type="file" id="fileUpload" onchange="uploadLocalStorageData(event)">
+            <input type="file" id="fileUpload">
+
+            
 
 
             

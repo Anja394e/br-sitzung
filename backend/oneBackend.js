@@ -541,7 +541,7 @@ function eingeladene_personen() {
                 console.log(`Platzhalterperson für ${person.rang} eingeladen: ${platzhalter.nachladegrund}`);
             }
         }
-    };
+    });
 
     return { eingeladen };
 })

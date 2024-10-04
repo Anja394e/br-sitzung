@@ -504,6 +504,18 @@ function uploadLocalStorageData(event) {
         return;
     }
 
+    // Prüfen, ob bereits Daten im localStorage existieren
+    const existingData = localStorage.getItem("allePersonen");
+
+    if (existingData) {
+        // Bestätigungsdialog, wenn bereits Daten vorhanden sind
+        const confirmation = confirm("Es existieren bereits Daten. Möchten Sie diese überschreiben?");
+        if (!confirmation) {
+            alert("Der Upload wurde abgebrochen.");
+            return;  // Abbrechen, wenn der Benutzer nicht überschreiben möchte
+        }
+    }
+
     const reader = new FileReader();
 
     // FileReader lädt die Datei und schreibt sie in den localStorage
@@ -530,6 +542,7 @@ function uploadLocalStorageData(event) {
     // Lese die Datei als Text ein
     reader.readAsText(file);
 }
+
 
 
 // Funktion zum Berechnen und Eintragen des nächsten freien Ranges

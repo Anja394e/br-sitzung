@@ -527,13 +527,6 @@ function uploadLocalStorageData(event) {
     reader.readAsText(file);
 }
 
-// Event-Listener für den Upload-Button
-document.getElementById("uploadButton").addEventListener('click', uploadLocalStorageData);
-
-
-
-
-
 // Funktion zum Berechnen und Eintragen des nächsten freien Ranges
 function setzeNaechstenFreienRang(liste) {
     let naechsterRang;
@@ -598,21 +591,38 @@ window.onload = function () {
 };
 
 
-// Event Listener für den "Alle Listen löschen"-Button
 document.addEventListener("DOMContentLoaded", function () {
+    // Event Listener für den "Alle Listen löschen"-Button
     document.getElementById("deleteAllButton").addEventListener('click', () => {
-        // Bestätigungsdialog anzeigen
         const confirmation = confirm("Möchten Sie wirklich alle Einträge löschen?");
         
-        // Überprüfe, ob der Benutzer auf "Ja" geklickt hat
         if (confirmation) {
-            loescheAlleListen(); // Rufe die Funktion auf, um die Listen zu löschen
-            alert("Alle Einträge wurden gelöscht."); // Optional: Nachricht, dass die Einträge gelöscht wurden
+            loescheAlleListen();
+            alert("Alle Einträge wurden gelöscht.");
         } else {
             console.log("Löschvorgang abgebrochen.");
         }
     });
+
+    // Event Listener für den Download-Button
+    const downloadButton = document.querySelector('.downloadButton');
+    
+    if (downloadButton) {
+        downloadButton.addEventListener('click', downloadLocalStorageData);
+    } else {
+        console.error("Das Download-Button-Element konnte nicht gefunden werden.");
+    }
+
+    // Event Listener für den Upload-Button (Datei-Upload)
+    const uploadButton = document.getElementById('uploadButton');
+    
+    if (uploadButton) {
+        uploadButton.addEventListener('change', uploadLocalStorageData);
+    } else {
+        console.error("Das Upload-Button-Element konnte nicht gefunden werden.");
+    }
 });
+
 
 
 
@@ -666,14 +676,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Weiterleitung zur Einstellungsseite
         window.location.href = 'einstellungen.html';
     });
-
-
-    
-    // Event Listener für den Download-Button
-    document.querySelector('.downloadButton').addEventListener('click', downloadLocalStorageData);
-    
-    // Event Listener für den Upload-Button (Datei-Upload)
-    document.getElementById('fileUpload').addEventListener('change', uploadLocalStorageData);
 
 }
 

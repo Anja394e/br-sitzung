@@ -290,6 +290,12 @@ function displayEingeladenePersonen(personenListe) {
     // Zeige alle Personen in der Tabelle an
     allePersonen.forEach((person) => {
         let row = personenTabelle.insertRow();
+
+       // Überprüfe, ob die Person ordentlich ist, um den Rang fett darzustellen
+        let rangCell = `<td>${person.rang}</td>`;
+        if (person.ordentlich) {
+            rangCell = `<td><strong>${person.rang}</strong></td>`;  // Fettgedruckter Rang für ordentliche Mitglieder
+        }
     
         // Fülle die Zellen der Zeile mit den Personendaten
         row.innerHTML = `

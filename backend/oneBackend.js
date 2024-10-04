@@ -516,7 +516,11 @@ function uploadLocalStorageData(event) {
             // Aktualisiere die Anzeige
             allePersonen = ladePersonen();
             displayPersonen();
+
             alert("Daten erfolgreich hochgeladen.");
+
+            // Optional: Seite neu laden, um alle Änderungen zu übernehmen
+            location.reload(); // Neuladen der Seite nach dem Hochladen der Daten
         } catch (error) {
             console.error("Fehler beim Einfügen der Daten:", error);
             alert("Die Datei enthält keine gültigen Daten.");
@@ -526,6 +530,7 @@ function uploadLocalStorageData(event) {
     // Lese die Datei als Text ein
     reader.readAsText(file);
 }
+
 
 // Funktion zum Berechnen und Eintragen des nächsten freien Ranges
 function setzeNaechstenFreienRang(liste) {

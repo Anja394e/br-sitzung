@@ -523,6 +523,8 @@ function eingeladene_personen() {
               ersatz = lade_ersatzperson_ohne_minderheit(eingeladen, person.liste);
               grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}, Minderheitengeschlecht war nicht verfügbar.`;
               }
+
+            }
                 
 
             // Füge die Ersatzperson hinzu, falls eine gefunden wurde

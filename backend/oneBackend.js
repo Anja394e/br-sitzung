@@ -704,6 +704,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+
+    // Event Listener für den "E-Mail senden"-Button
+    const emailButton = document.getElementById("emailButton");
+
+    // Überprüfen, ob der Button existiert, bevor du den Event Listener hinzufügst
+    if (emailButton) {
+        emailButton.addEventListener('click', function() {
+            sendeEmailAnEingeladene(eingeladen); // Aufruf der Funktion bei Klick
+        });
+    } else {
+        console.error("Der E-Mail-Button konnte nicht gefunden werden.");
+    }
+
     // Event Listener für den Download-Button
     const downloadButton = document.querySelector('.downloadButton');
     

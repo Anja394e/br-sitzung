@@ -544,7 +544,7 @@ function eingeladene_personen() {
     });
 
     return { eingeladen };
-})
+}
 
 // Funktion zum Herunterladen der LocalStorage-Daten als JSON-Datei
 function downloadLocalStorageData() {

@@ -528,7 +528,7 @@ function uploadLocalStorageData(event) {
 }
 
 // Event-Listener für den Upload-Button
-document.getElementById("uploadButton").addEventListener("change", uploadLocalStorageData);
+document.getElementById("uploadButton").addEventListener('click', uploadLocalStorageData);
 
 
 

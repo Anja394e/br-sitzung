@@ -299,7 +299,8 @@ function sendeEmailAnEingeladene(eingeladen) {
         if (person.mail && person.mail.trim() !== "") {
             emailAdressen.push(person.mail); // E-Mail-Adressen sammeln
         } else {
-            fehlendeEmails.push(person.name || "Unbekannte Person"); // Fehlende E-Mails vermerken
+            // Füge Name und Listenplatz der Person ohne E-Mail in die Liste der fehlenden E-Mails hinzu
+            fehlendeEmails.push(`${person.name || "Unbekannte Person"} (Listenplatz: ${person.rang})`);
         }
     });
 

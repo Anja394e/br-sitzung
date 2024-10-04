@@ -290,16 +290,16 @@ function displayEinladungsButton(eingeladen) {
 
 // Sende eine E-Mail an alle eingeladenen Personen
 function sendeEmailAnEingeladene(eingeladen) {
-    // Erstelle eine Liste der E-Mail-Adressen
-    let emailAdressen = eingeladen.map(person => person.mail).join(',');
+    // Initialisiere die Listen für E-Mail-Adressen und fehlende E-Mails
+    let emailAdressen = []; // Email-Adressen müssen als Array initialisiert werden
     let fehlendeEmails = [];
 
     // Überprüfe jede Person und füge die E-Mail hinzu oder markiere fehlende E-Mails
     eingeladen.forEach(person => {
         if (person.mail && person.mail.trim() !== "") {
-            emailAdressen.push(person.mail);
+            emailAdressen.push(person.mail); // E-Mail-Adressen sammeln
         } else {
-            fehlendeEmails.push(person.name || "Unbekannte Person");
+            fehlendeEmails.push(person.name || "Unbekannte Person"); // Fehlende E-Mails vermerken
         }
     });
 
@@ -320,11 +320,12 @@ function sendeEmailAnEingeladene(eingeladen) {
     let body = encodeURIComponent("Hallo,\n\nhiermit lade ich euch zur Sitzung ein.");
 
     // Erstelle den mailto-Link
-    let mailtoLink = `mailto:${emailAdressen}?subject=${subject}&body=${body}`;
+    let mailtoLink = `mailto:${emailAdressen.join(',')}` + `?subject=${subject}&body=${body}`;
 
     // Öffne das E-Mail-Programm mit dem mailto-Link
     window.location.href = mailtoLink;
 }
+
 
   function displayPersonen() {
     // Referenziere die kombinierte Tabelle für alle Personen

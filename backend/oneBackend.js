@@ -256,14 +256,13 @@ function displayEingeladenePersonen(personenListe) {
     // Zeige den Ergebniscontainer an, wenn es eingeladene Personen gibt
     if (personenListe.length > 0) {
         document.getElementById("ergebnisContainer").style.display = 'block';
+        displayEinladungsButton(personenListe); // E-Mail-Button wird generiert
+        addEventListeners(); // Füge alle Event Listener hinzu
     } else {
         document.getElementById("ergebnisContainer").style.display = 'none';
+        alert("Keine Personen zum Einladen verfügbar.");
     }
 
-    // Zeige den E-Mail-Versand-Button nur, wenn es eingeladene Personen gibt
-    if (personenListe.length > 0) {
-        displayEinladungsButton(personenListe); // E-Mail-Button wird generiert
-    }
 }
 
 
@@ -700,17 +699,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    // Event Listener für den "E-Mail senden"-Button
-    const emailButton = document.getElementById("emailButton");
-
-    // Überprüfen, ob der Button existiert, bevor du den Event Listener hinzufügst
-    if (emailButton) {
-        emailButton.addEventListener('click', function() {
-            sendeEmailAnEingeladene(eingeladen); // Aufruf der Funktion bei Klick
-        });
-    } else {
-        console.error("Der E-Mail-Button konnte nicht gefunden werden.");
-    }
 
     // Event Listener für den Download-Button
     const downloadButton = document.querySelector('.downloadButton');
@@ -785,6 +773,19 @@ document.addEventListener("DOMContentLoaded", function () {
         // Weiterleitung zur Einstellungsseite
         window.location.href = 'einstellungen.html';
     });
+
+    
+    // Event Listener für den "E-Mail senden"-Button
+    const emailButton = document.getElementById("emailButton");
+
+    // Überprüfen, ob der Button existiert, bevor du den Event Listener hinzufügst
+    if (emailButton) {
+        emailButton.addEventListener('click', function() {
+            sendeEmailAnEingeladene(eingeladen); // Aufruf der Funktion bei Klick
+        });
+    } else {
+        console.error("Der E-Mail-Button konnte nicht gefunden werden.");
+    }
 
 }
 

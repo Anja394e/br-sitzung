@@ -614,13 +614,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Event Listener für den Upload-Button (Datei-Upload)
-    const uploadButton = document.getElementById('uploadButton');
+    const uploadButton = document.getElementById('fileUpload');  // Hier die ID 'fileUpload' statt 'uploadButton'
     
     if (uploadButton) {
         uploadButton.addEventListener('change', uploadLocalStorageData);
     } else {
         console.error("Das Upload-Button-Element konnte nicht gefunden werden.");
     }
+
 });
 
 

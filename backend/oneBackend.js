@@ -543,7 +543,7 @@ function eingeladene_personen() {
         }
     });
 
-    return { eingeladen };
+    return  eingeladen;
 }
 
 // Funktion zum Herunterladen der LocalStorage-Daten als JSON-Datei

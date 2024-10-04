@@ -17,10 +17,12 @@
             <button id="einladenButton">Personen Einladen</button>
 
             <!-- Button zum Herunterladen der Daten -->
-            <button onclick="downloadLocalStorageData()">Daten herunterladen</button>
+            <button class="downloadButton" onclick="downloadLocalStorageData()">Daten herunterladen</button>
             
-            <!-- Button zum Hochladen der Daten -->
-            <input type="file" id="uploadButton" accept=".json">
+            <!-- Datei-Input und Label für den Upload -->
+            <label for="fileUpload" class="uploadLabel">Daten hochladen</label>
+            <input type="file" id="fileUpload" onchange="uploadLocalStorageData(event)">
+
 
             
             <button id="einstellungenButton">Einstellungen</button>

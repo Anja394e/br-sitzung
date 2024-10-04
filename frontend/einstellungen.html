@@ -14,7 +14,6 @@
         <form id="einstellungenForm">
             <label for="geschlechtsanteil">Mindestanzahl an weiblichen Personen:</label>
             <input type="number" id="geschlechtsanteil" min="0" value="2" required />
-            
         </form>
 
          <!-- Formular zur Anpassung des Minderheitengeschlechts -->
@@ -22,12 +21,17 @@
     <select id="geschlecht_mg" name="geschlecht_mg">
         <option value="w">Weiblich</option>
         <option value="m">Männlich</option>
-        <option value="m">Divers</option>
+        <option value="d">Divers</option>
     </select>
 
+        <!-- Speichern-Button -->
+        <button type="submit" form="einstellungenForm">Speichern</button>
+        
         <!-- Zurück-Button zur Hauptseite -->
-        <button type="submit">Speichern</button>
         <button onclick="window.location.href='index.html'">Zurück</button>
+
+        
+        
     </div>
 
     <script src="einstellungen.js"></script>

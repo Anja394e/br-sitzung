@@ -762,7 +762,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("einladenButton").addEventListener('click', () => {
         console.log("Einladen-Button geklickt");
         // Hole die eingeladenen Personen mit der Funktion eingeladene_personen
-      eingeladen = eingeladene_personen()
+        let eingeladen = eingeladene_personen()
         // Zeige die eingeladenen Personen an 
     displayEingeladenePersonen(eingeladen);
 

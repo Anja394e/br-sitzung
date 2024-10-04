@@ -251,10 +251,64 @@ function displayEingeladenePersonen(personenListe) {
         // Füge die Person der HTML-Liste hinzu
         ergebnisListe.appendChild(li);
     });
+
+    
+    // Zeige den Ergebniscontainer an, wenn es eingeladene Personen gibt
+    if (personenListe.length > 0) {
+        document.getElementById("ergebnisContainer").style.display = 'block';
+    } else {
+        document.getElementById("ergebnisContainer").style.display = 'none';
+    }
+
+    // Zeige den E-Mail-Versand-Button nur, wenn es eingeladene Personen gibt
+    if (personenListe.length > 0) {
+        displayEinladungsButton(personenListe); // E-Mail-Button wird generiert
+    }
 }
 
 
 
+// Generiere und zeige den E-Mail-Versand-Button an
+function displayEinladungsButton(eingeladen) {
+    // Prüfe, ob der Button bereits existiert, um keine doppelten Buttons zu generieren
+    let emailButton = document.getElementById("emailButton");
+    if (!emailButton) {
+        // Erstelle den E-Mail-Button
+        emailButton = document.createElement("button");
+        emailButton.id = "emailButton";
+        emailButton.innerText = "E-Mail an Eingeladene senden";
+
+        // Füge den Button zum Container hinzu
+        document.getElementById("ergebnisContainer").appendChild(emailButton);
+    }
+
+    // Event Listener für den E-Mail-Versand
+    emailButton.addEventListener('click', function() {
+        sendeEmailAnEingeladene(eingeladen);
+    });
+}
+
+// Sende eine E-Mail an alle eingeladenen Personen
+function sendeEmailAnEingeladene(eingeladen) {
+    // Erstelle eine Liste der E-Mail-Adressen
+    let emailAdressen = eingeladen.map(person => person.mail).join(',');
+
+    // Falls keine E-Mail-Adressen vorhanden sind, zeige eine Warnung
+    if (emailAdressen.length === 0) {
+        alert("Es sind keine E-Mail-Adressen vorhanden.");
+        return;
+    }
+
+    // Betreff und Nachrichtentext für die E-Mail
+    let subject = encodeURIComponent("Einladung zur Sitzung");
+    let body = encodeURIComponent("Hallo,\n\nhiermit lade ich euch zur Sitzung ein.");
+
+    // Erstelle den mailto-Link
+    let mailtoLink = `mailto:${emailAdressen}?subject=${subject}&body=${body}`;
+
+    // Öffne das E-Mail-Programm mit dem mailto-Link
+    window.location.href = mailtoLink;
+}
 
   function displayPersonen() {
     // Referenziere die kombinierte Tabelle für alle Personen

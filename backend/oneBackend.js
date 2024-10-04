@@ -281,11 +281,6 @@ function displayEinladungsButton(eingeladen) {
         // Füge den Button zum Container hinzu
         document.getElementById("ergebnisContainer").appendChild(emailButton);
     }
-
-    // Event Listener für den E-Mail-Versand
-    emailButton.addEventListener('click', function() {
-        sendeEmailAnEingeladene(eingeladen);
-    });
 }
 
 // Sende eine E-Mail an alle eingeladenen Personen

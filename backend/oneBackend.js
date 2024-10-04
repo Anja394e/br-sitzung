@@ -261,7 +261,7 @@ function displayEingeladenePersonen(personenListe) {
     } else {
         document.getElementById("ergebnisContainer").style.display = 'none';
         alert("Keine Personen zum Einladen verfügbar.");
-    }
+    } 
 
 }
 
@@ -426,24 +426,21 @@ function erzeuge_platzhalterperson(rang, liste) {
 }
 
 
-function lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, liste, mg_verfuegbar) {
-    console.log(`Aufruf von lade_ersatzperson_mit_mg: mg_geschlecht=${mg_geschlecht}, liste=${liste}, mg_verfuegbar=${mg_verfuegbar}`);
+function lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, liste) {
+    console.log(`Aufruf von lade_ersatzperson_mit_mg: mg_geschlecht=${mg_geschlecht}, liste=${liste}`);
     let ersatz;
 
-    // Wenn eine MG-Person geladen werden soll
-    if (mg_verfuegbar) {
+    // MG-Person laden 
+    ersatz = allePersonen
+        .filter(person => person.geschlecht === mg_geschlecht && !person.ordentlich && person.anwesend && !eingeladen.includes(person) && person.liste === liste)
+        .sort((a, b) => a.rang - b.rang)[0];
+
+    // Falls keine MG-Person in derselben Liste gefunden wurde, eine beliebige MG-Person suchen
+    if (!ersatz) {
         ersatz = allePersonen
-            .filter(person => person.geschlecht === mg_geschlecht && !person.ordentlich && person.anwesend && !eingeladen.includes(person) && person.liste === liste)
+            .filter(person => person.geschlecht === mg_geschlecht && !person.ordentlich && person.anwesend && !eingeladen.includes(person))
             .sort((a, b) => a.rang - b.rang)[0];
-
-        // Falls keine MG-Person in derselben Liste gefunden wurde, eine beliebige MG-Person suchen
-        if (!ersatz) {
-            ersatz = allePersonen
-                .filter(person => person.geschlecht === mg_geschlecht && !person.ordentlich && person.anwesend && !eingeladen.includes(person))
-                .sort((a, b) => a.rang - b.rang)[0];
-        }
     }
-
     
     return ersatz;
 }
@@ -476,7 +473,7 @@ function lade_ersatzperson_ohne_minderheit(eingeladen, liste) {
 
 function eingeladene_personen() {
     let eingeladen = []; // Liste der final eingeladenen Personen
-    let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde
+    //let nachgeladen_fuer = {}; // Dictionary, um nachzuhalten, für wen eine Ersatzperson nachgeladen wurde, entfällt wegen ersatz.nachladegrund.
 
     // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
     const ordentlicheMitglieder = allePersonen.filter(person => person.ordentlich);
@@ -486,6 +483,7 @@ function eingeladene_personen() {
     let mg_anzahl = parseInt(localStorage.getItem("geschlechtsanteil")) || 2;
     let mg_geschlecht = localStorage.getItem("geschlecht_mg") || "w";
     let eingeladenes_mg = 0;
+   
     
 
     // Zunächst werden alle anwesenden ordentlichen Mitglieder eingeladen
@@ -502,33 +500,30 @@ function eingeladene_personen() {
         if (!person.anwesend && fehlende_mitglieder > 0) {
             let ersatz;
             let grund;
+            eingeladenes_mg = eingeladen.filter(person => person.geschlecht === mg_geschlecht).length;
 
             // Solange die Anzahl der fehlenden Mitglieder größer ist als die MG-Anzahl, lade nur Ersatzpersonen ohne MG
-            if (fehlende_mitglieder > mg_anzahl) {
+            // Ist ausreichend MG geladen, lade auch normal nach
+            if (fehlende_mitglieder > mg_anzahl || eingeladenes_mg >= mg_anzahl) {
                 ersatz = lade_ersatzperson_ohne_minderheit(eingeladen, person.liste);
                 grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}`;
             }
 
             // Wenn die Anzahl der fehlenden Mitglieder kleiner oder gleich der MG-Anzahl ist, prüfe die MG-Quote
-            if (fehlende_mitglieder <= mg_anzahl) {
-                eingeladenes_mg = eingeladen.filter(person => person.geschlecht === mg_geschlecht).length;
-                const mg_verfuegbar = eingeladenes_mg < mg_anzahl;
-
-                // Versuche, eine MG-Person zu laden
-                if (mg_verfuegbar) {
-                    ersatz = lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, person.liste, mg_verfuegbar);
-                    if (ersatz) {
-                        eingeladenes_mg++;
-                        grund = `Nachgeladen wegen Minderheitengeschlecht (${mg_geschlecht}) für Rang ${person.rang}, Liste ${person.liste}`;
-                    }
-                }
-
-                // Fallback: Falls keine MG-Person verfügbar ist, lade normale Ersatzperson
-                if (!ersatz) {
-                    ersatz = lade_ersatzperson_ohne_minderheit(eingeladen, person.liste);
-                    grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}, Minderheitengeschlecht war nicht verfügbar.`;
-                }
-            }
+            else {      
+              // Versuche, eine MG-Person zu laden
+              ersatz = lade_ersatzperson_mit_mg(eingeladen, mg_geschlecht, person.liste);
+              //wird eine MG-Person gefunden:
+              if (ersatz) {
+                  eingeladenes_mg++;
+                  grund = `Nachgeladen wegen Minderheitengeschlecht (${mg_geschlecht}) für Rang ${person.rang}, Liste ${person.liste}`;
+              }
+              // Fallback: Falls keine MG-Person verfügbar ist, lade normale Ersatzperson
+              else {
+              ersatz = lade_ersatzperson_ohne_minderheit(eingeladen, person.liste);
+              grund = `Nachgeladen für Rang ${person.rang}, Liste ${person.liste}, Minderheitengeschlecht war nicht verfügbar.`;
+              }
+                
 
             // Füge die Ersatzperson hinzu, falls eine gefunden wurde
             if (ersatz) {
@@ -764,12 +759,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Event Listener für den "Einladen"-Button
     document.getElementById("einladenButton").addEventListener('click', () => {
         console.log("Einladen-Button geklickt");
-
         // Hole die eingeladenen Personen mit der Funktion eingeladene_personen
-        let { eingeladen, nachgeladen_fuer } = eingeladene_personen();
-
-        // Zeige die eingeladenen Personen an und übergebe auch die Nachladegründe
-    displayEingeladenePersonen(eingeladen, nachgeladen_fuer);
+        // Zeige die eingeladenen Personen an 
+    displayEingeladenePersonen(eingeladene_personen());
 
         // Mache das Ergebnisfeld sichtbar
         document.getElementById("ergebnisContainer").style.display = 'block';

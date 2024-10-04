@@ -357,8 +357,9 @@ function sendeEmailAnEingeladene(eingeladen) {
           ${rangCell}  <!-- Rang (fett darstellen, wenn ordentlich) -->
           
           <td>${person.name}</td>
+          <td>${person.mail}</td>
           <td>${person.geschlecht}</td>
-          <td>${person.mail}</td> 
+           
           <td>
               <input type="checkbox" class="anwesend-checkbox" data-rang="${person.rang}" ${person.anwesend ? 'checked' : ''} />
           </td> <!-- Checkbox für Anwesend -->

@@ -481,14 +481,19 @@ function downloadLocalStorageData() {
     // Erstelle einen temporären Download-Link
     const a = document.createElement("a");
     a.href = url;
-    a.download = "personen_daten.json";
+    a.download = "personen_daten.json"; // Datei-Name
 
-    // Simuliere einen Klick, um den Download zu starten
+    // Füge den Link dem DOM hinzu und klicke ihn
+    document.body.appendChild(a);
     a.click();
+
+    // Entferne den Link nach dem Klicken
+    document.body.removeChild(a);
 
     // Bereinige die URL nach dem Download
     URL.revokeObjectURL(url);
 }
+
 
 // Funktion zum Hochladen von Daten und Einfügen in den LocalStorage
 function uploadLocalStorageData(event) {

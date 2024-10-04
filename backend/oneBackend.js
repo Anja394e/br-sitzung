@@ -299,7 +299,8 @@ function displayEingeladenePersonen(personenListe) {
     
         // Fülle die Zellen der Zeile mit den Personendaten
         row.innerHTML = `
-          <td>${person.rang}</td> <!-- Rang an die erste Stelle setzen -->
+          ${rangCell}  <!-- Rang (fett darstellen, wenn ordentlich) -->
+          
           <td>${person.name}</td> <!-- Name an die zweite Stelle setzen -->
           <td>${person.geschlecht}</td>
           <td>

@@ -257,7 +257,7 @@ function displayEingeladenePersonen(personenListe) {
     if (personenListe.length > 0) {
         document.getElementById("ergebnisContainer").style.display = 'block';
         displayEinladungsButton(personenListe); // E-Mail-Button wird generiert
-        addEventListeners(); // Füge alle Event Listener hinzu
+        
     } else {
         document.getElementById("ergebnisContainer").style.display = 'none';
         alert("Keine Personen zum Einladen verfügbar.");

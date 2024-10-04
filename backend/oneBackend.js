@@ -321,7 +321,7 @@ function sendeEmailAnEingeladene(eingeladen) {
     let body = encodeURIComponent("Hallo,\n\nhiermit lade ich euch zur Sitzung ein.");
 
     // Erstelle den mailto-Link
-    let mailtoLink = `mailto:${emailAdressen.join(',')}` + `?subject=${subject}&body=${body}`;
+    let mailtoLink = `mailto:${emailAdressen.join('; ')}` + `?subject=${subject}&body=${body}`;
 
     // Öffne das E-Mail-Programm mit dem mailto-Link
     window.location.href = mailtoLink;

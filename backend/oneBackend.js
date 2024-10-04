@@ -279,6 +279,12 @@ function displayEinladungsButton(eingeladen) {
 
         // Füge den Button zum Container hinzu
         document.getElementById("ergebnisContainer").appendChild(emailButton);
+
+        // Füge den Event Listener hinzu, nachdem der Button erstellt wurde
+          emailButton.addEventListener('click', function() {
+              sendeEmailAnEingeladene(eingeladen);  // Übergibt die eingeladenen Personen
+          });
+      
     }
 }
 
@@ -775,17 +781,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     
-    // Event Listener für den "E-Mail senden"-Button
-    const emailButton = document.getElementById("emailButton");
-
-    // Überprüfen, ob der Button existiert, bevor du den Event Listener hinzufügst
-    if (emailButton) {
-        emailButton.addEventListener('click', function() {
-            sendeEmailAnEingeladene(eingeladen); // Aufruf der Funktion bei Klick
-        });
-    } else {
-        console.error("Der E-Mail-Button konnte nicht gefunden werden.");
-    }
 
 }
 

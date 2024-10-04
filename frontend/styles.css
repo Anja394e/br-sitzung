@@ -128,3 +128,50 @@ label {
 }
 
 
+/* Styling für den Download- und Upload-Button */
+button.downloadButton, button.uploadButton {
+    background-color: #66c766; /* Gleiche Farbe wie die anderen Buttons */
+    color: white; /* Weißer Text */
+    padding: 8px 20px; /* Gleiche Polsterung */
+    border: 1px solid #66c766; /* Gleicher Rahmen */
+    border-radius: 0px; /* Keine abgerundeten Ecken */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 0.9rem; /* Gleiche Schriftgröße */
+    margin: 10px 0; /* Gleicher Abstand */
+}
+
+/* Hover-Effekt für den Download- und Upload-Button */
+button.downloadButton:hover, button.uploadButton:hover {
+    background-color: transparent; /* Gleicher Hover-Effekt */
+    color: #66c766; /* Passende Textfarbe beim Hover */
+    transform: scale(1.05); /* Gleicher Hover-Effekt */
+}
+
+/* Styling für das File-Input-Element */
+input[type="file"] {
+    display: none; /* Standard-Datei-Input verstecken */
+}
+
+/* Styling für das Label, das als Button für den Datei-Upload dient */
+label.uploadLabel {
+    background-color: #66c766;
+    color: white;
+    padding: 8px 20px;
+    border: 1px solid #66c766;
+    border-radius: 0px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block; /* Damit es wie ein Button aussieht */
+    margin: 10px 0;
+}
+
+label.uploadLabel:hover {
+    background-color: transparent;
+    color: #66c766;
+    transform: scale(1.05);
+}
+
+
+

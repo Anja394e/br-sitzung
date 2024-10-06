@@ -452,7 +452,7 @@ END:VTIMEZONE`;
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Einladungssystem//Kalendereintrag//DE
-METHOD:REQUEST
+METHOD:PUBLISH
 UID:${uid}
 ${timezoneInfo}
 BEGIN:VEVENT

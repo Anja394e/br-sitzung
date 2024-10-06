@@ -309,6 +309,12 @@ function displayEinladungsButton(eingeladen) {
         dateInput.id = "meetingDate";
         dateInput.style.margin = "10px"; // Weißraum um das Eingabefeld
 
+        // Setze das Standarddatum auf einen Monat in der Zukunft
+        let today = new Date();
+        today.setMonth(today.getMonth() + 1); // Einen Monat in der Zukunft
+        let defaultDate = today.toISOString().split('T')[0]; // Format für das Eingabefeld (YYYY-MM-DD)
+        dateInput.value = defaultDate;
+
         // Erstelle das Eingabefeld für die Startzeit
         let startTimeLabel = document.createElement("label");
         startTimeLabel.innerText = "Startzeit:";
@@ -319,6 +325,9 @@ function displayEinladungsButton(eingeladen) {
         startTimeInput.id = "startTime";
         startTimeInput.style.margin = "10px"; // Weißraum um das Eingabefeld
 
+        // Setze die Standard-Startzeit auf 09:00 Uhr
+        startTimeInput.value = "09:00";
+
         // Erstelle das Eingabefeld für die Endzeit
         let endTimeLabel = document.createElement("label");
         endTimeLabel.innerText = "Endzeit:";
@@ -328,6 +337,9 @@ function displayEinladungsButton(eingeladen) {
         endTimeInput.type = "time";
         endTimeInput.id = "endTime";
         endTimeInput.style.margin = "10px"; // Weißraum um das Eingabefeld
+
+        // Setze die Standard-Endzeit auf 16:00 Uhr
+        endTimeInput.value = "16:00";
 
         // Erstelle einen Container für die Organisator-E-Mail und die neuen Felder (Datum, Startzeit, Endzeit)
         let div = document.createElement("div");
@@ -456,7 +468,7 @@ BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:${startDateICS}
 DTEND;TZID=Europe/Berlin:${endDateICS}
 SUMMARY:${subject}
-ORGANIZER:mailto:${organizerEmail}  <!-- Dynamische E-Mail-Adresse -->
+ORGANIZER:mailto:${organizerEmail} 
 STATUS:CONFIRMED
 ${attendees}
 ${description}

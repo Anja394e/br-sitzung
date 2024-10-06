@@ -383,29 +383,28 @@ function erstelleOutlookKalendereintrag(eingeladen) {
 
     // Beginne den iCal-Kalendereintrag
     let kalenderEintrag = `
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//DeineOrganisation//Kalendereintrag//DE
-BEGIN:VEVENT
-DTSTART:${startDateICS}
-DTEND:${endDateICS}
-SUMMARY:${subject};
-
-
-    // Füge die eingeladenen Teilnehmer nur mit E-Mail-Adressen als ATTENDEE hinzu
-    eingeladen.forEach(person => {
-        if (person.mail && person.mail.trim() !== "") {
-            // Hinzufügen der ATTENDEE-Felder ohne Namen, nur die E-Mail
-            kalenderEintrag += `
-ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`;
-        }
-    });
-
-    kalenderEintrag += `
-  
-DESCRIPTION:${description}`;
-END:VEVENT
-END:VCALENDAR`;
+    BEGIN:VCALENDAR
+    VERSION:2.0
+    PRODID:-//DeineOrganisation//Kalendereintrag//DE
+    BEGIN:VEVENT
+    DTSTART:${startDateICS}
+    DTEND:${endDateICS}
+    SUMMARY:${subject}`;
+    
+        // Füge die eingeladenen Teilnehmer nur mit E-Mail-Adressen als ATTENDEE hinzu
+        eingeladen.forEach(person => {
+            if (person.mail && person.mail.trim() !== "") {
+                // ATTENDEE-Felder ohne Namen, nur die E-Mail
+                kalenderEintrag += `
+    ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`;
+            }
+        });
+    
+        // Füge die Beschreibung hinzu
+        kalenderEintrag += `
+    DESCRIPTION:${description}
+    END:VEVENT
+    END:VCALENDAR`;
 
     // Erstelle die .ics-Datei und biete sie zum Download an, mit dem Datum im Dateinamen
     let blob = new Blob([kalenderEintrag], { type: "text/calendar" });

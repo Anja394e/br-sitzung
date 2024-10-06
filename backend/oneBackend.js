@@ -364,17 +364,18 @@ function erstelleOutlookKalendereintrag(eingeladen) {
         return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    let formatDateForFile = (date) => {
-        let year = date.getFullYear();
+    // Formatiere das Datum als dd.mm.yyyy
+    let formatDateForDisplay = (date) => {
+        let day = ('0' + date.getDate()).slice(-2);   // Tag mit führender Null
         let month = ('0' + (date.getMonth() + 1)).slice(-2); // Monat mit führender Null
-        let day = ('0' + date.getDate()).slice(-2);           // Tag mit führender Null
-        return `${year}-${month}-${day}`;
+        let year = date.getFullYear();  // Jahr
+        return `${day}.${month}.${year}`;  // Format dd.mm.yyyy
     };
 
     // Formatiere das Datum für die .ics-Datei und für Betreff/Beschreibung
     let startDateICS = formatDateToICS(startDatum); // Startdatum im iCal-Format
     let endDateICS = formatDateToICS(endDatum);     // Enddatum im iCal-Format
-    let formattedDate = formatDateForFile(startDatum); // Format für Dateiname und Betreff
+    let formattedDate = formatDateForDisplay(startDatum); // Format für Dateiname und Betreff
 
     // Betreff und Beschreibung mit Datum
     let subject = `Einladung zur Sitzung am ${formattedDate}`;
@@ -406,7 +407,7 @@ END:VCALENDAR`;
     let blob = new Blob([kalenderEintrag], { type: "text/calendar" });
     let link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `outlook-einladung-${formattedDate}.ics`;  // Dateiname mit Datum
+    link.download = `outlook-einladung-${formattedDate.replace(/\./g, '-')}.ics`;  // Dateiname mit Datum (Punkte in Bindestriche umwandeln)
     link.click();
 }
 

@@ -395,13 +395,15 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     let kalenderEintrag = `
     BEGIN:VCALENDAR
     VERSION:2.0
-    PRODID:-//DeineOrganisation//Kalendereintrag//DE
-    METHOD:PUBLISH
+    PRODID:-//Einladungssystem//Kalendereintrag//DE
+    METHOD:REQUEST
     UID:${uid}
     BEGIN:VEVENT
     DTSTART:${startDateICS}
     DTEND:${endDateICS}
-    SUMMARY:${subject}`;
+    SUMMARY:${subject}
+    SEQUENCE:0
+    STATUS:CONFIRMED`;
     
         // Füge die eingeladenen Teilnehmer nur mit E-Mail-Adressen als ATTENDEE hinzu
         eingeladen.forEach(person => {

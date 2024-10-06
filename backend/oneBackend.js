@@ -290,9 +290,13 @@ function displayEinladungsButton(eingeladen) {
     // Erstelle das Eingabefeld für die Organisator-E-Mail, wenn es noch nicht existiert
     let emailInput = document.getElementById("organizerEmailInput");
     if (!emailInput) {
-        // Erstelle das Eingabefeld
+      
+        // Erstelle das Label
         let emailLabel = document.createElement("label");
         emailLabel.innerText = "E-Mail-Adresse des Organisators:";
+        emailLabel.style.marginRight = "10px"; // Weißraum rechts vom Label
+
+        // Erstelle das Eingabefeld
         emailInput = document.createElement("input");
         emailInput.type = "email";
         emailInput.id = "organizerEmailInput";
@@ -442,7 +446,7 @@ END:VTIMEZONE`;
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Einladungssystem//Kalendereintrag//DE
-METHOD:PUBLISH
+METHOD:REQUEST
 UID:${uid}
 ${timezoneInfo}
 BEGIN:VEVENT

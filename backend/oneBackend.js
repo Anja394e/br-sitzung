@@ -295,12 +295,13 @@ function displayEinladungsButton(eingeladen) {
           outlookButton.id = "outlookButton";
           outlookButton.innerText = "Kalendereintrag für Outlook erstellen";
   
-          // Füge den Button zum Container hinzu
+          // Füge den Button zum Container hinzu und halte etwas Abstand
+          outlookButton.style.margin = "10px"; // Weißraum um den Button
           document.getElementById("ergebnisContainer").appendChild(outlookButton);
   
           // Füge den Event Listener hinzu
           outlookButton.addEventListener('click', function() {
-              erstelleOutlookKalendereintrag();  // Ruft die Funktion für den Outlook-Kalendereintrag auf
+              erstelleOutlookKalendereintrag(eingeladen);  // Ruft die Funktion für den Outlook-Kalendereintrag auf
           });
       }
 }

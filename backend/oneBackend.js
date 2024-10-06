@@ -286,24 +286,46 @@ function displayEinladungsButton(eingeladen) {
           });
       
     }
+  
+    // Erstelle das Eingabefeld für die Organisator-E-Mail, wenn es noch nicht existiert
+    let emailInput = document.getElementById("organizerEmailInput");
+    if (!emailInput) {
+        // Erstelle das Eingabefeld
+        let emailLabel = document.createElement("label");
+        emailLabel.innerText = "E-Mail-Adresse des Organisators:";
+        emailInput = document.createElement("input");
+        emailInput.type = "email";
+        emailInput.id = "organizerEmailInput";
+        emailInput.placeholder = "organizer@example.com";
+        emailInput.style.margin = "10px"; // Weißraum um das Eingabefeld
+        
+        // Füge das Label und das Eingabefeld in den Container ein, nach dem E-Mail-Button
+        document.getElementById("ergebnisContainer").appendChild(emailLabel);
+        document.getElementById("ergebnisContainer").appendChild(emailInput);
+    }
 
-       // Prüfe, ob der Outlook-Kalendereintrag-Button bereits existiert
-      let outlookButton = document.getElementById("outlookButton");
-      if (!outlookButton) {
-          // Erstelle den Outlook-Kalendereintrag-Button
-          outlookButton = document.createElement("button");
-          outlookButton.id = "outlookButton";
-          outlookButton.innerText = "Kalendereintrag für Outlook erstellen";
+    // Prüfe, ob der Outlook-Kalendereintrag-Button bereits existiert
+    let outlookButton = document.getElementById("outlookButton");
+    if (!outlookButton) {
+        // Erstelle den Outlook-Kalendereintrag-Button
+        outlookButton = document.createElement("button");
+        outlookButton.id = "outlookButton";
+        outlookButton.innerText = "Kalendereintrag für Outlook erstellen";
   
-          // Füge den Button zum Container hinzu und halte etwas Abstand
-          outlookButton.style.margin = "10px"; // Weißraum um den Button
-          document.getElementById("ergebnisContainer").appendChild(outlookButton);
+        // Füge den Button zum Container hinzu und halte etwas Abstand
+        outlookButton.style.margin = "10px"; // Weißraum um den Button
+        document.getElementById("ergebnisContainer").appendChild(outlookButton);
   
-          // Füge den Event Listener hinzu
-          outlookButton.addEventListener('click', function() {
-              erstelleOutlookKalendereintrag(eingeladen);  // Ruft die Funktion für den Outlook-Kalendereintrag auf
-          });
-      }
+        // Füge den Event Listener hinzu
+        outlookButton.addEventListener('click', function() {
+            let organizerEmail = document.getElementById("organizerEmailInput").value;
+            if (organizerEmail.trim() === "") {
+                alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+            } else {
+              erstelleOutlookKalendereintrag(eingeladen, organizerEmail);  // Übergibt die E-Mail-Adresse und die Teilnehmer und Ruft die Funktion für den Outlook-Kalendereintrag auf
+            }
+        });
+    }
 }
 
 // Sende eine E-Mail an alle eingeladenen Personen
@@ -347,7 +369,7 @@ function sendeEmailAnEingeladene(eingeladen) {
 
 
 // Funktion, um einen Outlook-Kalendereintrag (im iCal-Format) zu erstellen
-function erstelleOutlookKalendereintrag(eingeladen) {
+function erstelleOutlookKalendereintrag(eingeladen, organizerEmail) {
     // Aktuelles Datum abrufen und um einen Monat erhöhen
     let startDatum = new Date();
     startDatum.setMonth(startDatum.getMonth() + 1); // Einen Monat in die Zukunft
@@ -391,9 +413,6 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     let subject = `Einladung zur Sitzung am ${formattedDate}`;
     let description = `DESCRIPTION:Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
 
-    // Organisator hinzufügen (hier kann der Organisator dynamisch gesetzt werden)
-    let organizer = 'mailto:anja-sophie.kraushaar@telekom.de';
-
     // ATTENDEE-Teil vorab formatieren, wie das Datum
     let attendees = eingeladen
         .filter(person => person.mail && person.mail.trim() !== "")
@@ -430,7 +449,7 @@ BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:${startDateICS}
 DTEND;TZID=Europe/Berlin:${endDateICS}
 SUMMARY:${subject}
-ORGANIZER:${organizer}
+ORGANIZER:mailto:${organizerEmail}  <!-- Dynamische E-Mail-Adresse -->
 SEQUENCE:0
 STATUS:CONFIRMED
 ${attendees}

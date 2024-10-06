@@ -399,17 +399,36 @@ function erstelleOutlookKalendereintrag(eingeladen) {
         .filter(person => person.mail && person.mail.trim() !== "")
         .map(person => `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`)
         .join('\n');
-
+    // Zeitzoneninformationen hinzufügen
+    let timezoneInfo = `
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:STANDARD
+DTSTART:19701025T030000
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:19700329T020000
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+END:DAYLIGHT
+END:VTIMEZONE`;
+  
     // BEGIN:VCALENDAR erstellen
     let kalenderEintrag = `
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Einladungssystem//Kalendereintrag//DE
-METHOD:REQUEST
+METHOD:PUBLISH
 UID:${uid}
+${timezoneInfo}
 BEGIN:VEVENT
-DTSTART:${startDateICS}
-DTEND:${endDateICS}
+DTSTART;TZID=Europe/Berlin:${startDateICS}
+DTEND;TZID=Europe/Berlin:${endDateICS}
 SUMMARY:${subject}
 ORGANIZER:${organizer}
 SEQUENCE:0

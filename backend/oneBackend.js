@@ -303,9 +303,15 @@ function displayEinladungsButton(eingeladen) {
         emailInput.placeholder = "organizer@example.com";
         emailInput.style.margin = "10px"; // Weißraum um das Eingabefeld
         
-        // Füge das Label und das Eingabefeld in den Container ein, nach dem E-Mail-Button
-        document.getElementById("ergebnisContainer").appendChild(emailLabel);
-        document.getElementById("ergebnisContainer").appendChild(emailInput);
+        // Füge das Label und das Eingabefeld in den Container ein
+        let div = document.createElement("div");
+        div.style.display = "flex"; // Flexbox, um die Elemente nebeneinander zu setzen
+        div.style.alignItems = "center"; // Vertikale Ausrichtung der Elemente
+        div.appendChild(emailLabel);
+        div.appendChild(emailInput);
+
+        // Füge das Div in den Container ein
+        document.getElementById("ergebnisContainer").appendChild(div);
     }
 
     // Prüfe, ob der Outlook-Kalendereintrag-Button bereits existiert

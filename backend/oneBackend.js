@@ -391,6 +391,12 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     let subject = `Einladung zur Sitzung am ${formattedDate}`;
     let description = `Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
 
+    // ATTENDEE-Teil vorab formatieren
+    let attendees = eingeladen
+        .filter(person => person.mail && person.mail.trim() !== "")
+        .map(person => `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`)
+        .join('\n');
+  
     // Beginne den iCal-Kalendereintrag
     let kalenderEintrag = `
     BEGIN:VCALENDAR
@@ -403,25 +409,17 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     DTEND:${endDateICS}
     SUMMARY:${subject}
     SEQUENCE:0
-    STATUS:CONFIRMED`;
+    STATUS:CONFIRMED
+    ${attendees}
+    ${description}`;  // Hier wird die Beschreibung eingefügt
     
-        // Füge die eingeladenen Teilnehmer nur mit E-Mail-Adressen als ATTENDEE hinzu
-        eingeladen.forEach(person => {
-            if (person.mail && person.mail.trim() !== "") {
-                // ATTENDEE-Felder ohne Namen, nur die E-Mail
-                kalenderEintrag += `
-    ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`;
-            }
-        });
-    
-        // Füge die Beschreibung hinzu
+        // Schließe den Eintrag
         kalenderEintrag += `
-    DESCRIPTION:${description}
     END:VEVENT
     END:VCALENDAR`;
 
     // Erstelle die .ics-Datei und biete sie zum Download an, mit dem Datum im Dateinamen
-    let blob = new Blob([kalenderEintrag], { type: "text/calendar" });
+     let blob = new Blob([kalenderEintrag.trim()], { type: "text/calendar" }); // trim() entfernt unnötige Leerzeichen
     let link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = `outlook-einladung-${formattedDate.replace(/\./g, '-')}.ics`;  // Dateiname mit Datum (Punkte in Bindestriche umwandeln)

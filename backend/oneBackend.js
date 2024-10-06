@@ -346,18 +346,10 @@ function sendeEmailAnEingeladene(eingeladen) {
         </tr>
     `;
 
-    // Sortiere die Personen nach 'ordentlich', dann 'liste', dann 'rang'
+    // Sortiere die Personen nach 'rang'
     allePersonen.sort((a, b) => {
-        // Sortiere zuerst nach 'ordentlich' (ordentliche Mitglieder kommen zuerst)
-        if (a.ordentlich !== b.ordentlich) {
-            return b.ordentlich - a.ordentlich;
-        }
-        // Sortiere nach 'liste' (z.B. Liste 1, Liste 2 usw.)
-        if (a.liste !== b.liste) {
-            return a.liste - b.liste;
-        }
-        // Sortiere nach 'rang' innerhalb der Liste
-        return a.rang - b.rang;
+        // Sortiere nach 'rang' innerhalb der Liste (in aufsteigender Reihenfolge Personen mit einem kleineren Rang (z.B. Rang 1) werden zuerst angezeigt)
+            return a.rang - b.rang;
     });
 
     // Zeige alle Personen in der Tabelle an

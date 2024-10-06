@@ -391,11 +391,12 @@ DTEND:${endDateICS}
 SUMMARY:${subject}
 DESCRIPTION:${description}`;
 
-    // Füge die eingeladenen Teilnehmer mit ihren E-Mail-Adressen als ATTENDEE hinzu
+    // Füge die eingeladenen Teilnehmer nur mit E-Mail-Adressen als ATTENDEE hinzu
     eingeladen.forEach(person => {
         if (person.mail && person.mail.trim() !== "") {
+            // Hinzufügen der ATTENDEE-Felder ohne Namen, nur die E-Mail
             kalenderEintrag += `
-ATTENDEE;CN=${person.name};RSVP=TRUE:mailto:${person.mail}`;
+            ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`;
         }
     });
 

@@ -385,6 +385,7 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     let startDateICS = formatDateToICS(startDatum); // Startdatum im iCal-Format
     let endDateICS = formatDateToICS(endDatum);     // Enddatum im iCal-Format
     let formattedDate = formatDateForDisplay(startDatum); // Format für Dateiname und Betreff
+    let uid = generateUID(startDatum); // UID generieren
 
     // Betreff und Beschreibung mit Datum
     let subject = `Einladung zur Sitzung am ${formattedDate}`;
@@ -395,6 +396,8 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     BEGIN:VCALENDAR
     VERSION:2.0
     PRODID:-//DeineOrganisation//Kalendereintrag//DE
+    METHOD:PUBLISH
+    UID:${uid}
     BEGIN:VEVENT
     DTSTART:${startDateICS}
     DTEND:${endDateICS}

@@ -392,7 +392,7 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     let description = `DESCRIPTION:Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
 
     // Organisator hinzufügen (hier kann der Organisator dynamisch gesetzt werden)
-    let organizer = 'mailto:organizer@example.com';
+    let organizer = 'mailto:anja-sophie.kraushaar@telekom.de';
 
     // ATTENDEE-Teil vorab formatieren, wie das Datum
     let attendees = eingeladen

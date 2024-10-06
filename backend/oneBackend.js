@@ -286,6 +286,40 @@ function displayEinladungsButton(eingeladen) {
           });
       
     }
+
+    // Prüfe, ob der Kalendereintrag-Button bereits existiert
+      let calendarButton = document.getElementById("calendarButton");
+      if (!calendarButton) {
+          // Erstelle den Kalendereintrag-Button
+          calendarButton = document.createElement("button");
+          calendarButton.id = "calendarButton";
+          calendarButton.innerText = "Kalendereintrag erstellen";
+  
+          // Füge den Button zum Container hinzu
+          document.getElementById("ergebnisContainer").appendChild(calendarButton);
+  
+          // Füge den Event Listener hinzu
+          calendarButton.addEventListener('click', function() {
+              erstelleKalendereintrag();  // Ruft die Funktion für den Kalendereintrag auf
+          });
+      }
+
+       // Prüfe, ob der Outlook-Kalendereintrag-Button bereits existiert
+      let outlookButton = document.getElementById("outlookButton");
+      if (!outlookButton) {
+          // Erstelle den Outlook-Kalendereintrag-Button
+          outlookButton = document.createElement("button");
+          outlookButton.id = "outlookButton";
+          outlookButton.innerText = "Kalendereintrag für Outlook erstellen";
+  
+          // Füge den Button zum Container hinzu
+          document.getElementById("ergebnisContainer").appendChild(outlookButton);
+  
+          // Füge den Event Listener hinzu
+          outlookButton.addEventListener('click', function() {
+              erstelleOutlookKalendereintrag();  // Ruft die Funktion für den Outlook-Kalendereintrag auf
+          });
+      }
 }
 
 // Sende eine E-Mail an alle eingeladenen Personen
@@ -325,6 +359,51 @@ function sendeEmailAnEingeladene(eingeladen) {
 
     // Öffne das E-Mail-Programm mit dem mailto-Link
     window.location.href = mailtoLink;
+}
+
+
+// Funktion, um einen Kalendereintrag (im iCal-Format) zu erstellen
+function erstelleKalendereintrag() {
+    let kalenderEintrag = `
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DeineOrganisation//Kalendereintrag//DE
+BEGIN:VEVENT
+DTSTART:20241007T100000Z
+DTEND:20241007T110000Z
+SUMMARY:Einladung zur Sitzung
+DESCRIPTION:Dies ist die Beschreibung der Sitzung.
+LOCATION:Online
+END:VEVENT
+END:VCALENDAR`;
+
+    let blob = new Blob([kalenderEintrag], { type: "text/calendar" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "einladung.ics";  // Name der herunterzuladenden Datei
+    link.click();
+}
+
+// Funktion, um einen Outlook-Kalendereintrag (im iCal-Format) zu erstellen
+function erstelleOutlookKalendereintrag() {
+    let kalenderEintrag = `
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//DeineOrganisation//Kalendereintrag//DE
+BEGIN:VEVENT
+DTSTART:20241007T100000Z
+DTEND:20241007T110000Z
+SUMMARY:Einladung zur Sitzung
+DESCRIPTION:Dies ist die Beschreibung der Sitzung.
+LOCATION:Online
+END:VEVENT
+END:VCALENDAR`;
+
+    let blob = new Blob([kalenderEintrag], { type: "text/calendar" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "outlook-einladung.ics";  // Name der herunterzuladenden Datei
+    link.click();
 }
 
 

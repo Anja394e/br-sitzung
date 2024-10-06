@@ -287,23 +287,6 @@ function displayEinladungsButton(eingeladen) {
       
     }
 
-    // Prüfe, ob der Kalendereintrag-Button bereits existiert
-      let calendarButton = document.getElementById("calendarButton");
-      if (!calendarButton) {
-          // Erstelle den Kalendereintrag-Button
-          calendarButton = document.createElement("button");
-          calendarButton.id = "calendarButton";
-          calendarButton.innerText = "Kalendereintrag erstellen";
-  
-          // Füge den Button zum Container hinzu
-          document.getElementById("ergebnisContainer").appendChild(calendarButton);
-  
-          // Füge den Event Listener hinzu
-          calendarButton.addEventListener('click', function() {
-              erstelleKalendereintrag();  // Ruft die Funktion für den Kalendereintrag auf
-          });
-      }
-
        // Prüfe, ob der Outlook-Kalendereintrag-Button bereits existiert
       let outlookButton = document.getElementById("outlookButton");
       if (!outlookButton) {
@@ -362,49 +345,71 @@ function sendeEmailAnEingeladene(eingeladen) {
 }
 
 
-// Funktion, um einen Kalendereintrag (im iCal-Format) zu erstellen
-function erstelleKalendereintrag() {
-    let kalenderEintrag = `
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//DeineOrganisation//Kalendereintrag//DE
-BEGIN:VEVENT
-DTSTART:20241007T100000Z
-DTEND:20241007T110000Z
-SUMMARY:Einladung zur Sitzung
-DESCRIPTION:Dies ist die Beschreibung der Sitzung.
-LOCATION:Online
-END:VEVENT
-END:VCALENDAR`;
-
-    let blob = new Blob([kalenderEintrag], { type: "text/calendar" });
-    let link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "einladung.ics";  // Name der herunterzuladenden Datei
-    link.click();
-}
-
 // Funktion, um einen Outlook-Kalendereintrag (im iCal-Format) zu erstellen
-function erstelleOutlookKalendereintrag() {
+function erstelleOutlookKalendereintrag(eingeladen) {
+    // Aktuelles Datum abrufen und um einen Monat erhöhen
+    let startDatum = new Date();
+    startDatum.setMonth(startDatum.getMonth() + 1); // Einen Monat in die Zukunft
+
+    // Setze die Uhrzeit auf 9:00 Uhr
+    startDatum.setHours(9, 0, 0); // 9:00 Uhr
+
+    // Enddatum berechnen (gleiches Datum, aber 16:00 Uhr)
+    let endDatum = new Date(startDatum);
+    endDatum.setHours(16, 0, 0); // 16:00 Uhr
+
+    // Formatiere die Daten im richtigen iCal-Format (YYYYMMDDTHHMMSSZ)
+    let formatDateToICS = (date) => {
+        return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    };
+
+    let formatDateForFile = (date) => {
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth() + 1)).slice(-2); // Monat mit führender Null
+        let day = ('0' + date.getDate()).slice(-2);           // Tag mit führender Null
+        return `${year}-${month}-${day}`;
+    };
+
+    // Formatiere das Datum für die .ics-Datei und für Betreff/Beschreibung
+    let startDateICS = formatDateToICS(startDatum); // Startdatum im iCal-Format
+    let endDateICS = formatDateToICS(endDatum);     // Enddatum im iCal-Format
+    let formattedDate = formatDateForFile(startDatum); // Format für Dateiname und Betreff
+
+    // Betreff und Beschreibung mit Datum
+    let subject = `Einladung zur Sitzung am ${formattedDate}`;
+    let description = `Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
+
     let kalenderEintrag = `
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//DeineOrganisation//Kalendereintrag//DE
 BEGIN:VEVENT
-DTSTART:20241007T100000Z
-DTEND:20241007T110000Z
-SUMMARY:Einladung zur Sitzung
-DESCRIPTION:Dies ist die Beschreibung der Sitzung.
-LOCATION:Online
+DTSTART:${startDateICS}
+DTEND:${endDateICS}
+SUMMARY:${subject}
+DESCRIPTION:${description}`;
+
+    // Füge die eingeladenen Teilnehmer mit ihren E-Mail-Adressen als ATTENDEE hinzu
+    eingeladen.forEach(person => {
+        if (person.mail && person.mail.trim() !== "") {
+            kalenderEintrag += `
+ATTENDEE;CN=${person.name};RSVP=TRUE:mailto:${person.mail}`;
+        }
+    });
+
+    kalenderEintrag += `
 END:VEVENT
 END:VCALENDAR`;
 
+    // Erstelle die .ics-Datei und biete sie zum Download an, mit dem Datum im Dateinamen
     let blob = new Blob([kalenderEintrag], { type: "text/calendar" });
     let link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "outlook-einladung.ics";  // Name der herunterzuladenden Datei
+    link.download = `outlook-einladung-${formattedDate}.ics`;  // Dateiname mit Datum
     link.click();
 }
+
+
 
 
   function displayPersonen() {

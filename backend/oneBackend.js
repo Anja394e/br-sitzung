@@ -381,6 +381,7 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     let subject = `Einladung zur Sitzung am ${formattedDate}`;
     let description = `Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
 
+    // Beginne den iCal-Kalendereintrag
     let kalenderEintrag = `
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -388,19 +389,21 @@ PRODID:-//DeineOrganisation//Kalendereintrag//DE
 BEGIN:VEVENT
 DTSTART:${startDateICS}
 DTEND:${endDateICS}
-SUMMARY:${subject}
-DESCRIPTION:${description}`;
+SUMMARY:${subject};
+
 
     // Füge die eingeladenen Teilnehmer nur mit E-Mail-Adressen als ATTENDEE hinzu
     eingeladen.forEach(person => {
         if (person.mail && person.mail.trim() !== "") {
             // Hinzufügen der ATTENDEE-Felder ohne Namen, nur die E-Mail
             kalenderEintrag += `
-            ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`;
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`;
         }
     });
 
     kalenderEintrag += `
+  
+DESCRIPTION:${description}`;
 END:VEVENT
 END:VCALENDAR`;
 

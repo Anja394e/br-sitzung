@@ -360,12 +360,12 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     endDatum.setHours(16, 0, 0); // 16:00 Uhr
 
     // Formatiere die Daten im richtigen iCal-Format (YYYYMMDDTHHMMSSZ)
-    let formatDateToICS = (date) => {
+    const formatDateToICS = (date) => {
         return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    // Formatiere das Datum als dd.mm.yyyy
-    let formatDateForDisplay = (date) => {
+    // Formatiere das Datum als dd.mm.yyyy für Anzeigezwecke
+    const formatDateForDisplay = (date) => {
         let day = ('0' + date.getDate()).slice(-2);   // Tag mit führender Null
         let month = ('0' + (date.getMonth() + 1)).slice(-2); // Monat mit führender Null
         let year = date.getFullYear();  // Jahr
@@ -373,7 +373,7 @@ function erstelleOutlookKalendereintrag(eingeladen) {
     };
 
     // UID generieren
-    let generateUID = (date) => {
+    const generateUID = (date) => {
         let randomString = Math.random().toString(36).substr(2, 9); // Zufällige Zeichenfolge
         let year = date.getFullYear();
         let month = ('0' + (date.getMonth() + 1)).slice(-2); // Monat mit führender Null
@@ -381,7 +381,7 @@ function erstelleOutlookKalendereintrag(eingeladen) {
         return `event-${year}${month}${day}-${randomString}@164.30.71.160`; // UID mit Datum und Zufallsstring
     };
 
-    // Formatiere das Datum für die .ics-Datei und für Betreff/Beschreibung
+    // Formatiere das Datum für die .ics-Datei
     let startDateICS = formatDateToICS(startDatum); // Startdatum im iCal-Format
     let endDateICS = formatDateToICS(endDatum);     // Enddatum im iCal-Format
     let formattedDate = formatDateForDisplay(startDatum); // Format für Dateiname und Betreff
@@ -389,42 +389,44 @@ function erstelleOutlookKalendereintrag(eingeladen) {
 
     // Betreff und Beschreibung mit Datum
     let subject = `Einladung zur Sitzung am ${formattedDate}`;
-    let description = `Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
+    let description = `DESCRIPTION:Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
 
-    // ATTENDEE-Teil vorab formatieren
+    // Organisator hinzufügen (hier kann der Organisator dynamisch gesetzt werden)
+    let organizer = 'mailto:organizer@example.com';
+
+    // ATTENDEE-Teil vorab formatieren, wie das Datum
     let attendees = eingeladen
         .filter(person => person.mail && person.mail.trim() !== "")
         .map(person => `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`)
         .join('\n');
-  
-    // Beginne den iCal-Kalendereintrag
+
+    // BEGIN:VCALENDAR erstellen
     let kalenderEintrag = `
-    BEGIN:VCALENDAR
-    VERSION:2.0
-    PRODID:-//Einladungssystem//Kalendereintrag//DE
-    METHOD:REQUEST
-    UID:${uid}
-    BEGIN:VEVENT
-    DTSTART:${startDateICS}
-    DTEND:${endDateICS}
-    SUMMARY:${subject}
-    SEQUENCE:0
-    STATUS:CONFIRMED
-    ${attendees}
-    ${description}`;  // Hier wird die Beschreibung eingefügt
-    
-        // Schließe den Eintrag
-        kalenderEintrag += `
-    END:VEVENT
-    END:VCALENDAR`;
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Einladungssystem//Kalendereintrag//DE
+METHOD:REQUEST
+UID:${uid}
+BEGIN:VEVENT
+DTSTART:${startDateICS}
+DTEND:${endDateICS}
+SUMMARY:${subject}
+ORGANIZER:${organizer}
+SEQUENCE:0
+STATUS:CONFIRMED
+${attendees}
+${description}
+END:VEVENT
+END:VCALENDAR`;
 
     // Erstelle die .ics-Datei und biete sie zum Download an, mit dem Datum im Dateinamen
-     let blob = new Blob([kalenderEintrag.trim()], { type: "text/calendar" }); // trim() entfernt unnötige Leerzeichen
+    let blob = new Blob([kalenderEintrag.trim()], { type: "text/calendar" }); // trim() entfernt unnötige Leerzeichen
     let link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = `outlook-einladung-${formattedDate.replace(/\./g, '-')}.ics`;  // Dateiname mit Datum (Punkte in Bindestriche umwandeln)
     link.click();
 }
+
 
 
 

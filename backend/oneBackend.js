@@ -266,13 +266,12 @@ function displayEingeladenePersonen(personenListe) {
 }
 
 
-
-// Generiere und zeige den E-Mail-Versand-Button an
+// Generiere und zeige den E-Mail-Versand-Button und die Eingabefelder an
 function displayEinladungsButton(eingeladen) {
-    // Prüfe, ob der Button bereits existiert, um keine doppelten Buttons zu generieren
+    // Prüfe, ob der E-Mail-Versand-Button bereits existiert, um keine doppelten Buttons zu generieren
     let emailButton = document.getElementById("emailButton");
     if (!emailButton) {
-        // Erstelle den E-Mail-Button
+        // Erstelle den E-Mail-Versand-Button
         emailButton = document.createElement("button");
         emailButton.id = "emailButton";
         emailButton.innerText = "E-Mail an Eingeladene senden";
@@ -280,37 +279,73 @@ function displayEinladungsButton(eingeladen) {
         // Füge den Button zum Container hinzu
         document.getElementById("ergebnisContainer").appendChild(emailButton);
 
-        // Füge den Event Listener hinzu, nachdem der Button erstellt wurde
-          emailButton.addEventListener('click', function() {
-              sendeEmailAnEingeladene(eingeladen);  // Übergibt die eingeladenen Personen
-          });
-      
+        // Füge den Event Listener hinzu, um die Funktion sendeEmailAnEingeladene beim Klick aufzurufen
+        emailButton.addEventListener('click', function() {
+            sendeEmailAnEingeladene(eingeladen);  // Übergibt die eingeladenen Personen an die Funktion
+        });
     }
-  
+
     // Erstelle das Eingabefeld für die Organisator-E-Mail, wenn es noch nicht existiert
     let emailInput = document.getElementById("organizerEmailInput");
     if (!emailInput) {
-      
-        // Erstelle das Label
+        // Erstelle das Label und das Eingabefeld für die E-Mail-Adresse des Organisators
         let emailLabel = document.createElement("label");
         emailLabel.innerText = "E-Mail-Adresse des Organisators:";
         emailLabel.style.marginRight = "10px"; // Weißraum rechts vom Label
 
-        // Erstelle das Eingabefeld
         emailInput = document.createElement("input");
         emailInput.type = "email";
         emailInput.id = "organizerEmailInput";
         emailInput.placeholder = "organizer@example.com";
         emailInput.style.margin = "10px"; // Weißraum um das Eingabefeld
-        
-        // Füge das Label und das Eingabefeld in den Container ein
+
+        // Erstelle das Eingabefeld für das Datum der Sitzung
+        let dateLabel = document.createElement("label");
+        dateLabel.innerText = "Datum der Sitzung:";
+        dateLabel.style.marginRight = "10px"; // Weißraum rechts vom Label
+
+        let dateInput = document.createElement("input");
+        dateInput.type = "date";
+        dateInput.id = "meetingDate";
+        dateInput.style.margin = "10px"; // Weißraum um das Eingabefeld
+
+        // Erstelle das Eingabefeld für die Startzeit
+        let startTimeLabel = document.createElement("label");
+        startTimeLabel.innerText = "Startzeit:";
+        startTimeLabel.style.marginRight = "10px"; // Weißraum rechts vom Label
+
+        let startTimeInput = document.createElement("input");
+        startTimeInput.type = "time";
+        startTimeInput.id = "startTime";
+        startTimeInput.style.margin = "10px"; // Weißraum um das Eingabefeld
+
+        // Erstelle das Eingabefeld für die Endzeit
+        let endTimeLabel = document.createElement("label");
+        endTimeLabel.innerText = "Endzeit:";
+        endTimeLabel.style.marginRight = "10px"; // Weißraum rechts vom Label
+
+        let endTimeInput = document.createElement("input");
+        endTimeInput.type = "time";
+        endTimeInput.id = "endTime";
+        endTimeInput.style.margin = "10px"; // Weißraum um das Eingabefeld
+
+        // Erstelle einen Container für die Organisator-E-Mail und die neuen Felder (Datum, Startzeit, Endzeit)
         let div = document.createElement("div");
-        div.style.display = "flex"; // Flexbox, um die Elemente nebeneinander zu setzen
-        div.style.alignItems = "center"; // Vertikale Ausrichtung der Elemente
+        div.style.display = "flex";
+        div.style.flexDirection = "column"; // Setze die Ausrichtung auf Spalten (vertikal)
+        div.style.marginBottom = "20px"; // Abstand zum nächsten Element (z.B. Button)
+
+        // Füge alle Felder zum Container (div) hinzu
         div.appendChild(emailLabel);
         div.appendChild(emailInput);
+        div.appendChild(dateLabel);
+        div.appendChild(dateInput);
+        div.appendChild(startTimeLabel);
+        div.appendChild(startTimeInput);
+        div.appendChild(endTimeLabel);
+        div.appendChild(endTimeInput);
 
-        // Füge das Div in den Container ein
+        // Füge den Container mit allen Feldern in den Ergebnis-Container ein
         document.getElementById("ergebnisContainer").appendChild(div);
     }
 
@@ -321,82 +356,42 @@ function displayEinladungsButton(eingeladen) {
         outlookButton = document.createElement("button");
         outlookButton.id = "outlookButton";
         outlookButton.innerText = "Kalendereintrag für Outlook erstellen";
-  
-        // Füge den Button zum Container hinzu und halte etwas Abstand
+
+        // Füge den Button zum Container hinzu und halte etwas Abstand (Weißraum)
         outlookButton.style.margin = "10px"; // Weißraum um den Button
         document.getElementById("ergebnisContainer").appendChild(outlookButton);
-  
-        // Füge den Event Listener hinzu
+
+        // Füge den Event Listener hinzu, um die eingegebenen Werte zu verarbeiten und den Kalendereintrag zu erstellen
         outlookButton.addEventListener('click', function() {
+            // Hole die Werte aus den Eingabefeldern (Organisator, Datum, Startzeit, Endzeit)
             let organizerEmail = document.getElementById("organizerEmailInput").value;
-            if (organizerEmail.trim() === "") {
-                alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+            let meetingDate = document.getElementById("meetingDate").value;
+            let startTime = document.getElementById("startTime").value;
+            let endTime = document.getElementById("endTime").value;
+
+            // Überprüfe, ob alle erforderlichen Felder ausgefüllt wurden
+            if (!organizerEmail.trim() || !meetingDate || !startTime || !endTime) {
+                alert("Bitte füllen Sie alle Felder aus.");  // Zeige Warnung, falls Felder fehlen
             } else {
-              erstelleOutlookKalendereintrag(eingeladen, organizerEmail);  // Übergibt die E-Mail-Adresse und die Teilnehmer und Ruft die Funktion für den Outlook-Kalendereintrag auf
+                // Übergibt die E-Mail-Adresse, Datum und Zeiten an die Funktion für den Kalendereintrag
+                erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate, startTime, endTime);
             }
         });
     }
 }
 
-// Sende eine E-Mail an alle eingeladenen Personen
-function sendeEmailAnEingeladene(eingeladen) {
-    // Initialisiere die Listen für E-Mail-Adressen und fehlende E-Mails
-    let emailAdressen = []; // Email-Adressen müssen als Array initialisiert werden
-    let fehlendeEmails = [];
-
-    // Überprüfe jede Person und füge die E-Mail hinzu oder markiere fehlende E-Mails
-    eingeladen.forEach(person => {
-        if (person.mail && person.mail.trim() !== "") {
-            emailAdressen.push(person.mail); // E-Mail-Adressen sammeln
-        } else {
-            // Füge Name und Listenplatz der Person ohne E-Mail in die Liste der fehlenden E-Mails hinzu
-            fehlendeEmails.push(`${person.name || "Unbekannte Person"} (Listenplatz: ${person.rang})`);
-        }
-    });
-
-    // Falls es Personen ohne E-Mail gibt, zeige eine Warnung
-    if (fehlendeEmails.length > 0) {
-        alert("Die folgenden Personen haben keine E-Mail-Adresse: " + fehlendeEmails.join(', '));
-        return;  // Aktion abbrechen
-    }
-
-    // Falls keine E-Mail-Adressen vorhanden sind, zeige eine Warnung
-    if (emailAdressen.length === 0) {
-        alert("Es sind keine E-Mail-Adressen vorhanden.");
-        return;
-    }
-
-    // Betreff und Nachrichtentext für die E-Mail
-    let subject = encodeURIComponent("Einladung zur Sitzung");
-    let body = encodeURIComponent("Hallo,\n\nhiermit lade ich euch zur Sitzung ein.");
-
-    // Erstelle den mailto-Link
-    let mailtoLink = `mailto:${emailAdressen.join('; ')}` + `?subject=${subject}&body=${body}`;
-
-    // Öffne das E-Mail-Programm mit dem mailto-Link
-    window.location.href = mailtoLink;
-}
-
-
 // Funktion, um einen Outlook-Kalendereintrag (im iCal-Format) zu erstellen
-function erstelleOutlookKalendereintrag(eingeladen, organizerEmail) {
-    // Aktuelles Datum abrufen und um einen Monat erhöhen
-    let startDatum = new Date();
-    startDatum.setMonth(startDatum.getMonth() + 1); // Einen Monat in die Zukunft
-
-    // Setze die Uhrzeit auf 9:00 Uhr
-    startDatum.setHours(9, 0, 0); // 9:00 Uhr
-
-    // Enddatum berechnen (gleiches Datum, aber 16:00 Uhr)
-    let endDatum = new Date(startDatum);
-    endDatum.setHours(16, 0, 0); // 16:00 Uhr
+function erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate, startTime, endTime) {
+    // Erstelle ein Datum-Objekt für Start und Ende basierend auf dem eingegebenen Datum und Zeiten
+    let startDatum = new Date(`${meetingDate}T${startTime}`);
+    let endDatum = new Date(`${meetingDate}T${endTime}`);
 
     // Formatiere die Daten im richtigen iCal-Format (YYYYMMDDTHHMMSSZ)
     const formatDateToICS = (date) => {
         return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    // Formatiere das Datum als dd.mm.yyyy für Anzeigezwecke
+    // Formatiere das Datum als dd.mm.yyyy für Anzeigezwecke (z.B. im Betreff oder Dateinamen)
     const formatDateForDisplay = (date) => {
         let day = ('0' + date.getDate()).slice(-2);   // Tag mit führender Null
         let month = ('0' + (date.getMonth() + 1)).slice(-2); // Monat mit führender Null
@@ -404,7 +399,7 @@ function erstelleOutlookKalendereintrag(eingeladen, organizerEmail) {
         return `${day}.${month}.${year}`;  // Format dd.mm.yyyy
     };
 
-    // UID generieren
+    // Generiere eine eindeutige UID (Unique Identifier) für den Kalendereintrag
     const generateUID = (date) => {
         let randomString = Math.random().toString(36).substr(2, 9); // Zufällige Zeichenfolge
         let year = date.getFullYear();
@@ -413,22 +408,23 @@ function erstelleOutlookKalendereintrag(eingeladen, organizerEmail) {
         return `event-${year}${month}${day}-${randomString}@164.30.71.160`; // UID mit Datum und Zufallsstring
     };
 
-    // Formatiere das Datum für die .ics-Datei
+    // Formatiere das Start- und Enddatum im iCal-Format
     let startDateICS = formatDateToICS(startDatum); // Startdatum im iCal-Format
     let endDateICS = formatDateToICS(endDatum);     // Enddatum im iCal-Format
     let formattedDate = formatDateForDisplay(startDatum); // Format für Dateiname und Betreff
     let uid = generateUID(startDatum); // UID generieren
 
-    // Betreff und Beschreibung mit Datum
+    // Betreff und Beschreibung mit Datum für die Sitzung
     let subject = `Einladung zur Sitzung am ${formattedDate}`;
     let description = `DESCRIPTION:Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
 
-    // ATTENDEE-Teil vorab formatieren, wie das Datum
+    // Erstelle die Liste der eingeladenen Teilnehmer (mit E-Mail-Adressen)
     let attendees = eingeladen
-        .filter(person => person.mail && person.mail.trim() !== "")
-        .map(person => `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`)
+        .filter(person => person.mail && person.mail.trim() !== "") // Nur Personen mit gültigen E-Mail-Adressen
+        .map(person => `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`) // Teilnehmerformat im iCal-Standard
         .join('\n');
-    // Zeitzoneninformationen hinzufügen
+
+    // Zeitzoneninformationen für Europe/Berlin hinzufügen (iCal-Format)
     let timezoneInfo = `
 BEGIN:VTIMEZONE
 TZID:Europe/Berlin
@@ -446,21 +442,21 @@ TZOFFSETTO:+0200
 TZNAME:CEST
 END:DAYLIGHT
 END:VTIMEZONE`;
-  
-    // BEGIN:VCALENDAR erstellen
+
+    // Erstelle den vollständigen Kalendereintrag im iCal-Format
     let kalenderEintrag = `
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Einladungssystem//Kalendereintrag//DE
 METHOD:PUBLISH
 UID:${uid}
+SEQUENCE:0
 ${timezoneInfo}
 BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:${startDateICS}
 DTEND;TZID=Europe/Berlin:${endDateICS}
 SUMMARY:${subject}
 ORGANIZER:mailto:${organizerEmail}  <!-- Dynamische E-Mail-Adresse -->
-SEQUENCE:0
 STATUS:CONFIRMED
 ${attendees}
 ${description}
@@ -477,6 +473,45 @@ END:VCALENDAR`;
 
 
 
+
+  // Sende eine E-Mail an alle eingeladenen Personen
+  function sendeEmailAnEingeladene(eingeladen) {
+      // Initialisiere die Listen für E-Mail-Adressen und fehlende E-Mails
+      let emailAdressen = []; // Email-Adressen müssen als Array initialisiert werden
+      let fehlendeEmails = [];
+  
+      // Überprüfe jede Person und füge die E-Mail hinzu oder markiere fehlende E-Mails
+      eingeladen.forEach(person => {
+          if (person.mail && person.mail.trim() !== "") {
+              emailAdressen.push(person.mail); // E-Mail-Adressen sammeln
+          } else {
+              // Füge Name und Listenplatz der Person ohne E-Mail in die Liste der fehlenden E-Mails hinzu
+              fehlendeEmails.push(`${person.name || "Unbekannte Person"} (Listenplatz: ${person.rang})`);
+          }
+      });
+  
+      // Falls es Personen ohne E-Mail gibt, zeige eine Warnung
+      if (fehlendeEmails.length > 0) {
+          alert("Die folgenden Personen haben keine E-Mail-Adresse: " + fehlendeEmails.join(', '));
+          return;  // Aktion abbrechen
+      }
+  
+      // Falls keine E-Mail-Adressen vorhanden sind, zeige eine Warnung
+      if (emailAdressen.length === 0) {
+          alert("Es sind keine E-Mail-Adressen vorhanden.");
+          return;
+      }
+  
+      // Betreff und Nachrichtentext für die E-Mail
+      let subject = encodeURIComponent("Einladung zur Sitzung");
+      let body = encodeURIComponent("Hallo,\n\nhiermit lade ich euch zur Sitzung ein.");
+  
+      // Erstelle den mailto-Link
+      let mailtoLink = `mailto:${emailAdressen.join('; ')}` + `?subject=${subject}&body=${body}`;
+  
+      // Öffne das E-Mail-Programm mit dem mailto-Link
+      window.location.href = mailtoLink;
+  }
 
 
   function displayPersonen() {

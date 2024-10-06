@@ -372,6 +372,15 @@ function erstelleOutlookKalendereintrag(eingeladen) {
         return `${day}.${month}.${year}`;  // Format dd.mm.yyyy
     };
 
+    // UID generieren
+    let generateUID = (date) => {
+        let randomString = Math.random().toString(36).substr(2, 9); // Zufällige Zeichenfolge
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth() + 1)).slice(-2); // Monat mit führender Null
+        let day = ('0' + date.getDate()).slice(-2); // Tag mit führender Null
+        return `event-${year}${month}${day}-${randomString}@164.30.71.160`; // UID mit Datum und Zufallsstring
+    };
+
     // Formatiere das Datum für die .ics-Datei und für Betreff/Beschreibung
     let startDateICS = formatDateToICS(startDatum); // Startdatum im iCal-Format
     let endDateICS = formatDateToICS(endDatum);     // Enddatum im iCal-Format

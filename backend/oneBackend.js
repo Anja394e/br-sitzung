@@ -233,36 +233,64 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     console.log('Alle Listeneinträge wurden erfolgreich gelöscht.');
 }
 
-// Funktion zum Anzeigen der Personen im HTML
+// Funktion zum Anzeigen der eingeladenen Personen im Standard-Tabellenformat
 function displayEingeladenePersonen(personenListe) {
-    let ergebnisListe = document.getElementById("eingeladenePersonen");
-    ergebnisListe.innerHTML = ""; // Leeren der Ergebnisliste
+    // Referenziere die Tabelle für die eingeladenen Personen
+    let ergebnisTabelle = document.getElementById("eingeladenePersonenTabelle");
 
-    // Durch die Personenliste iterieren und sie in der HTML-Liste anzeigen
+    // Leere die Tabelleninhalte und setze die Header für die Tabelle
+    ergebnisTabelle.innerHTML = `
+        <thead>
+            <tr>
+                <th>Rang</th>
+                <th>Name</th>
+                <th>E-Mail</th>
+                <th>Geschlecht</th>
+                <th>Ordentlich</th>
+                <th>Liste</th>
+                <th>Nachladegrund</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    `;
+
+    // Sortiere die eingeladenen Personen nach 'rang'
+    personenListe.sort((a, b) => a.rang - b.rang);
+
+    // Zeige die eingeladenen Personen in der Tabelle an
     personenListe.forEach(person => {
-        let li = document.createElement("li");
+        let row = ergebnisTabelle.querySelector('tbody').insertRow();
 
-        // Hole den Nachladegrund, falls vorhanden
-        let nachgeladenText = person.nachladegrund ? ` (${person.nachladegrund})` : '';
+        // Überprüfe, ob die Person ordentlich ist, um den Rang fett darzustellen
+        let rangCell = `<td>${person.rang}</td>`;
+        if (person.ordentlich) {
+            rangCell = `<td><strong>${person.rang}</strong></td>`;  // Fettgedruckter Rang für ordentliche Mitglieder
+        }
 
-        // Erstelle die Textrepräsentation der Person
-        li.textContent = `${person.name || "Unbekannte Person"} (Rang: ${person.rang}, Liste: ${person.liste}, Geschlecht: ${person.geschlecht.toUpperCase()})${nachgeladenText}`;
+        // Setze den Nachladegrund, falls vorhanden, oder automatisch "ordentlich" für ordentliche Mitglieder
+        let nachladegrundText = person.ordentlich ? 'ordentlich' : (person.nachladegrund || 'Kein Grund angegeben');
 
-        // Füge die Person der HTML-Liste hinzu
-        ergebnisListe.appendChild(li);
+        // Fülle die Zellen der Zeile mit den Personendaten
+        row.innerHTML = `
+          ${rangCell}  <!-- Rang (fett darstellen, wenn ordentlich) -->
+          <td>${person.name}</td>
+          <td>${person.mail}</td>
+          <td>${person.geschlecht.toUpperCase()}</td>
+          <td><input type="checkbox" ${person.ordentlich ? 'checked' : ''} disabled /></td> <!-- Checkbox für Ordentlich -->
+          <td>${person.liste}</td>
+          <td>${nachladegrundText}</td> <!-- Nachladegrund anzeigen -->
+        `;
     });
 
-    
     // Zeige den Ergebniscontainer an, wenn es eingeladene Personen gibt
     if (personenListe.length > 0) {
         document.getElementById("ergebnisContainer").style.display = 'block';
         displayEinladungsButton(personenListe); // E-Mail-Button wird generiert
-        
     } else {
         document.getElementById("ergebnisContainer").style.display = 'none';
         alert("Keine Personen zum Einladen verfügbar.");
-    } 
-
+    }
 }
 
 

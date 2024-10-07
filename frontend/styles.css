@@ -130,30 +130,3 @@ label {
     font-weight: bold;
 }
 
-/* Styling für das File-Input-Element */
-input[type="file"] {
-    display: none; /* Standard-Datei-Input verstecken */
-}
-
-/* Styling für das Label, das als Button für den Datei-Upload dient */
-label.uploadLabel {
-    background-color: #66c766;
-    color: white;
-    padding: 8px 20px;
-    border: 1px solid #66c766;
-    border-radius: 0px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    display: inline-block; /* Damit es wie ein Button aussieht */
-    margin: 10px 0;
-}
-
-label.uploadLabel:hover {
-    background-color: transparent;
-    color: #66c766;
-    transform: scale(1.05);
-}
-
-
-

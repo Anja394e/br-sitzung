@@ -102,7 +102,7 @@ form {
 }
 
 /* Styling für alle Eingabefelder und Selects */
-input[type="text"], input[type="email"], input[type="number"], select {
+input[type="text"], input[type="email"], input[type="number"], input[type="date"], input[type="time"], select {
     font-size: 1rem;
     padding: 12px 20px; /* Gleiche Polsterung wie die Buttons */
     border-radius: 5px; /* Gleiche Ecken wie die Buttons */

@@ -314,6 +314,24 @@ function displayEinladungsButton(eingeladen) {
         });
     }
 
+     // Prüfe, ob der Export-Button bereits existiert
+    let exportButton = document.getElementById("exportButton");
+    if (!exportButton) {
+        // Erstelle den Export-Button
+        exportButton = document.createElement("button");
+        exportButton.id = "exportButton";
+        exportButton.innerText = "Export in CSV";
+        exportButton.className = "custom-button"; // Spezifische Klasse für den Button
+
+        // Füge den Button zum Container hinzu
+        document.getElementById("ergebnisContainer").appendChild(exportButton);
+
+        // Füge den Event Listener hinzu
+        exportButton.addEventListener('click', function() {
+            exportToCSV(eingeladen); // CSV-Export-Funktion aufrufen
+        });
+    }
+
     // Erstelle das Eingabefeld für die Organisator-E-Mail, wenn es noch nicht existiert
     let emailInput = document.getElementById("organizerEmailInput");
     if (!emailInput) {
@@ -551,6 +569,39 @@ END:VCALENDAR`;
       // Öffne das E-Mail-Programm mit dem mailto-Link
       window.location.href = mailtoLink;
   }
+
+// Funktion zum Exportieren der eingeladenen Personen als CSV
+function exportToCSV(eingeladen) {
+    // Erstelle eine CSV-Zeichenkette
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Rang,Name,E-Mail,Geschlecht,Ordentlich,Liste,Nachladegrund\n"; // Kopfzeilen
+
+    // Füge jede Person als CSV-Zeile hinzu
+    eingeladen.forEach(person => {
+        let row = [
+            person.rang,
+            person.name,
+            person.mail,
+            person.geschlecht.toUpperCase(),
+            person.ordentlich ? "Ja" : "Nein",
+            person.liste,
+            person.nachladegrund || "Kein Grund angegeben"
+        ].join(","); // Verbinde die Werte mit Komma
+        csvContent += row + "\n"; // Füge die Zeile der CSV-Zeichenkette hinzu
+    });
+
+    // Erstelle ein unsichtbares Element zum Herunterladen der Datei
+    let encodedUri = encodeURI(csvContent);
+    let link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "eingeladene_personen.csv");
+
+    // Simuliere einen Klick auf das Download-Element
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 
 
   function displayPersonen() {

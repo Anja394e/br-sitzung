@@ -303,6 +303,7 @@ function displayEinladungsButton(eingeladen) {
         emailButton = document.createElement("button");
         emailButton.id = "emailButton";
         emailButton.innerText = "E-Mail an Eingeladene senden";
+        emailButton.className = "button"; // Button-Klasse für Konsistenz
 
         // Füge den Button zum Container hinzu
         document.getElementById("ergebnisContainer").appendChild(emailButton);
@@ -319,23 +320,23 @@ function displayEinladungsButton(eingeladen) {
         // Erstelle das Label und das Eingabefeld für die E-Mail-Adresse des Organisators
         let emailLabel = document.createElement("label");
         emailLabel.innerText = "E-Mail-Adresse des Organisators:";
-        emailLabel.style.marginRight = "10px"; // Weißraum rechts vom Label
+        emailLabel.className = "label"; // Label-Styling
 
         emailInput = document.createElement("input");
         emailInput.type = "email";
         emailInput.id = "organizerEmailInput";
         emailInput.placeholder = "organizer@example.com";
-        emailInput.style.margin = "10px"; // Weißraum um das Eingabefeld
+        emailInput.className = "input"; // Klasse für Eingabefelder
 
         // Erstelle das Eingabefeld für das Datum der Sitzung
         let dateLabel = document.createElement("label");
         dateLabel.innerText = "Datum der Sitzung:";
-        dateLabel.style.marginRight = "10px"; // Weißraum rechts vom Label
+        dateLabel.className = "label";
 
         let dateInput = document.createElement("input");
         dateInput.type = "date";
         dateInput.id = "meetingDate";
-        dateInput.style.margin = "10px"; // Weißraum um das Eingabefeld
+        dateInput.className = "input";
 
         // Setze das Standarddatum auf einen Monat in der Zukunft
         let today = new Date();
@@ -346,12 +347,12 @@ function displayEinladungsButton(eingeladen) {
         // Erstelle das Eingabefeld für die Startzeit
         let startTimeLabel = document.createElement("label");
         startTimeLabel.innerText = "Startzeit:";
-        startTimeLabel.style.marginRight = "10px"; // Weißraum rechts vom Label
+        startTimeLabel.className = "label";
 
         let startTimeInput = document.createElement("input");
         startTimeInput.type = "time";
         startTimeInput.id = "startTime";
-        startTimeInput.style.margin = "10px"; // Weißraum um das Eingabefeld
+        startTimeInput.className = "input";
 
         // Setze die Standard-Startzeit auf 09:00 Uhr
         startTimeInput.value = "09:00";
@@ -359,21 +360,19 @@ function displayEinladungsButton(eingeladen) {
         // Erstelle das Eingabefeld für die Endzeit
         let endTimeLabel = document.createElement("label");
         endTimeLabel.innerText = "Endzeit:";
-        endTimeLabel.style.marginRight = "10px"; // Weißraum rechts vom Label
+       endTimeLabel.className = "label";
 
         let endTimeInput = document.createElement("input");
         endTimeInput.type = "time";
         endTimeInput.id = "endTime";
-        endTimeInput.style.margin = "10px"; // Weißraum um das Eingabefeld
+        endTimeInput.className = "input";
 
         // Setze die Standard-Endzeit auf 16:00 Uhr
         endTimeInput.value = "16:00";
 
         // Erstelle einen Container für die Organisator-E-Mail und die neuen Felder (Datum, Startzeit, Endzeit)
         let div = document.createElement("div");
-        div.style.display = "flex";
-        div.style.flexDirection = "column"; // Setze die Ausrichtung auf Spalten (vertikal)
-        div.style.marginBottom = "20px"; // Abstand zum nächsten Element (z.B. Button)
+        div.className = "form-group"; // Klasse hinzufügen für ein flexibles Layout
 
         // Füge alle Felder zum Container (div) hinzu
         div.appendChild(emailLabel);
@@ -396,9 +395,9 @@ function displayEinladungsButton(eingeladen) {
         outlookButton = document.createElement("button");
         outlookButton.id = "outlookButton";
         outlookButton.innerText = "Kalendereintrag für Outlook erstellen";
+        outlookButton.className = "button"; // Gleiche Button-Klasse
 
-        // Füge den Button zum Container hinzu und halte etwas Abstand (Weißraum)
-        outlookButton.style.margin = "10px"; // Weißraum um den Button
+        // Füge den Button zum Container hinzu 
         document.getElementById("ergebnisContainer").appendChild(outlookButton);
 
         // Füge den Event Listener hinzu, um die eingegebenen Werte zu verarbeiten und den Kalendereintrag zu erstellen

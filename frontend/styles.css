@@ -65,7 +65,9 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     font-size: 0.9rem; /* Kleinere Schriftgröße für die Buttons */
-    margin: 10px 0; /* Geringerer Abstand um den Button */
+    margin-right: 10px;  /* Abstand nach rechts, um Buttons nebeneinander zu haben */
+    margin-bottom: 10px; /* Abstand nach unten, um Platz zu den darunterliegenden Elementen zu schaffen */
+    
 }
 
 button:hover {

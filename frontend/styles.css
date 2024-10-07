@@ -77,7 +77,10 @@ button:hover, label.uploadLabel:hover {
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }
 
-
+/* Styling für das versteckte Datei-Input */
+input[type="file"] {
+    display: none; /* Verstecke den eigentlichen Datei-Input */
+}
 
 
 button.deleteButton {

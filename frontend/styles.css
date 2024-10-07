@@ -66,7 +66,8 @@ button, label.uploadLabel {
     transition: background-color 0.3s ease, transform 0.3s ease;
     font-size: 0.9rem; /* Kleinere Schriftgröße für die Buttons */
     margin-right: 10px;  /* Abstand nach rechts, um Buttons nebeneinander zu haben */
-    margin-bottom: 10px; /* Abstand nach unten, um Platz zu den darunterliegenden Elementen zu schaffen */
+    margin-top: 10px; /* Abstand nach oben */
+    margin-bottom: 5px; /* Abstand nach unten, um Platz zu den darunterliegenden Elementen zu schaffen */
     
 }
 
@@ -128,8 +129,15 @@ input[type="checkbox"] {
     margin-right: 10px;
 }
 
-/* Label-Styling */
+/* Allgemeines Styling für alle Labels */
 label {
-    font-weight: bold;
+    
+    font-size: 1rem;             /* Setzt die Schriftgröße auf 1rem */
+    display: block;              /* Lässt Labels auf einer eigenen Zeile stehen */
+    
+    /* Abstand nach oben und unten */
+    margin-top: 15px;            /* Abstand nach oben */
+    margin-bottom: 15px;         /* Abstand nach unten */
 }
+
 

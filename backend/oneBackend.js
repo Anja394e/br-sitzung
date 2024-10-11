@@ -530,45 +530,42 @@ END:VCALENDAR`;
 
 
 
+// Sende eine E-Mail an alle eingeladenen Personen
+function sendeEmailAnEingeladene(eingeladen) {
+    // Initialisiere die Listen für E-Mail-Adressen und fehlende E-Mails
+    let emailAdressen = []; // E-Mail-Adressen müssen als Array initialisiert werden
+    let fehlendeEmails = [];
 
-  // Sende eine E-Mail an alle eingeladenen Personen
-  function sendeEmailAnEingeladene(eingeladen) {
-      // Initialisiere die Listen für E-Mail-Adressen und fehlende E-Mails
-      let emailAdressen = []; // Email-Adressen müssen als Array initialisiert werden
-      let fehlendeEmails = [];
-  
-      // Überprüfe jede Person und füge die E-Mail hinzu oder markiere fehlende E-Mails
-      eingeladen.forEach(person => {
-          if (person.mail && person.mail.trim() !== "") {
-              emailAdressen.push(person.mail); // E-Mail-Adressen sammeln
-          } else {
-              // Füge Name und Listenplatz der Person ohne E-Mail in die Liste der fehlenden E-Mails hinzu
-              fehlendeEmails.push(`${person.name || "Unbekannte Person"} (Listenplatz: ${person.rang})`);
-          }
-      });
-  
-      // Falls es Personen ohne E-Mail gibt, zeige eine Warnung
-      if (fehlendeEmails.length > 0) {
-          alert("Die folgenden Personen haben keine E-Mail-Adresse: " + fehlendeEmails.join(', '));
-          return;  // Aktion abbrechen
-      }
-  
-      // Falls keine E-Mail-Adressen vorhanden sind, zeige eine Warnung
-      if (emailAdressen.length === 0) {
-          alert("Es sind keine E-Mail-Adressen vorhanden.");
-          return;
-      }
-  
-      // Betreff und Nachrichtentext für die E-Mail
-      let subject = encodeURIComponent("Einladung zur Sitzung");
-      let body = encodeURIComponent("Hallo,\n\nhiermit lade ich euch zur Sitzung ein.");
-  
-      // Erstelle den mailto-Link
-      let mailtoLink = `mailto:${emailAdressen.join('; ')}` + `?subject=${subject}&body=${body}`;
-  
-      // Öffne das E-Mail-Programm mit dem mailto-Link
-      window.location.href = mailtoLink;
-  }
+    // Überprüfe jede Person und füge die E-Mail hinzu oder den Namen, falls keine E-Mail vorhanden ist
+    eingeladen.forEach(person => {
+        if (person.mail && person.mail.trim() !== "") {
+            emailAdressen.push(person.mail); // E-Mail-Adressen sammeln
+        } else if (person.name && person.name.trim() !== "") {
+            // Falls keine E-Mail vorhanden ist, kopiere den Namen als Ersatz in die E-Mail-Liste
+            emailAdressen.push(person.name);
+        } else {
+            // Falls weder E-Mail noch Name vorhanden ist, markiere die Person als "Unbekannt"
+            fehlendeEmails.push(`Unbekannte Person (Listenplatz: ${person.rang})`);
+        }
+    });
+
+    // Falls es Personen ohne E-Mail und ohne Namen gibt, zeige eine Warnung
+    if (fehlendeEmails.length > 0) {
+        alert("Die folgenden Personen haben weder Name noch E-Mail-Adresse: " + fehlendeEmails.join(', '));
+        return;  // Aktion abbrechen
+    }
+
+    // Betreff und Nachrichtentext für die E-Mail
+    let subject = encodeURIComponent("Einladung zur Sitzung");
+    let body = encodeURIComponent("Hallo,\n\nhiermit lade ich euch zur Sitzung ein.");
+
+    // Erstelle den mailto-Link
+    let mailtoLink = `mailto:${emailAdressen.join('; ')}` + `?subject=${subject}&body=${body}`;
+
+    // Öffne das E-Mail-Programm mit dem mailto-Link
+    window.location.href = mailtoLink;
+}
+
 
 // Funktion zum Exportieren der eingeladenen Personen als CSV
 function exportToCSV(eingeladen) {

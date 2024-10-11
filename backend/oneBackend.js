@@ -307,8 +307,21 @@ function handleEmailClick(eingeladen) {
     window.location.href = mailtoLink;
 }
 
-// Funktion für den CSV-Export
+let exportButtonActive = false; // Flag zur Verfolgung des Status des Export-Buttons
+
+// Funktion zum Überprüfen des Status des Export-Buttons
+function checkExportButtonStatus() {
+    if (exportButtonActive) {
+        console.log("Der Event-Listener für den Export-Button ist aktiv.");
+    } else {
+        console.log("Der Event-Listener für den Export-Button ist nicht aktiv.");
+    }
+}
+
+// Funktion zum Exportieren der eingeladenen Personen als CSV
 function handleExportClick(eingeladen) {
+    console.log("Exportiere die eingeladenen Personen...");
+    // Hier kannst du den Export-Logik-Code hinzufügen
     exportToCSV(eingeladen);  // Übergibt die aktuelle Liste an die Export-Funktion
 }
     
@@ -354,10 +367,10 @@ function displayEinladungsButton(eingeladen) {
     emailButton.addEventListener('click', () => handleEmailClick(eingeladen));
     
     
-     // Prüfe, ob der Export-Button bereits existiert
+    // Prüfe, ob der Export-Button bereits existiert
     let exportButton = document.getElementById("exportButton");
     if (!exportButton) {
-        // Erstelle den Export-Button
+        // Erstelle den Export-Button, wenn er nicht existiert
         exportButton = document.createElement("button");
         exportButton.id = "exportButton";
         exportButton.innerText = "Export in CSV";
@@ -365,16 +378,20 @@ function displayEinladungsButton(eingeladen) {
 
         // Füge den Button zum Container hinzu
         document.getElementById("ergebnisContainer").appendChild(exportButton);
+        console.log("Export-Button erstellt.");
+    } else {
+        // Entferne den vorherigen Event-Listener (falls vorhanden)
+        if (exportButtonActive) {
+            exportButton.removeEventListener('click', handleExportClick);
+            console.log("Alter Event-Listener für den Export-Button entfernt.");
+            exportButtonActive = false; // Setze das Flag auf nicht aktiv
+        }
     }
-    
-    // Entferne den vorherigen Event-Listener (falls vorhanden)
-    else {
-        exportButton.removeEventListener('click', handleExportClick);
-    }
-        
+
     // Füge den neuen Event-Listener hinzu
     exportButton.addEventListener('click', () => handleExportClick(eingeladen));
-    
+    exportButtonActive = true; // Setze das Flag auf aktiv
+    console.log("Neuer Event-Listener für den Export-Button hinzugefügt.");
     
 
     // Erstelle das Eingabefeld für die Organisator-E-Mail, wenn es noch nicht existiert

@@ -1,4 +1,4 @@
-// Die Person-Klasse definieren und  ieren
+// Die Person-Klasse definieren
   class Person {
     constructor(ordentlich, liste, rang, geschlecht, name, mail, anwesend) {
         this.id = Number(rang); // Stelle sicher, dass die ID (rang) eine Ganzzahl ist
@@ -364,7 +364,8 @@ function displayEinladungsButton(eingeladen) {
     }
     
     // Füge den neuen Event-Listener hinzu
-    emailButton.addEventListener('click', handleEmailClick(eingeladen));
+    const handlerEmailClick = handleEmailClick(eingeladen);
+    emailButton.addEventListener('click', handlerEmailClick );
     
     
     // Prüfe, ob der Export-Button bereits existiert
@@ -389,7 +390,8 @@ function displayEinladungsButton(eingeladen) {
     }
 
     // Füge den neuen Event-Listener hinzu
-    exportButton.addEventListener('click', handleExportClick(eingeladen));
+    const handlerExportClick = handleExportClick(eingeladen);
+    exportButton.addEventListener('click', handlerExportClick);
     exportButtonActive = true; // Setze das Flag auf aktiv
     console.log("Neuer Event-Listener für den Export-Button hinzugefügt.");
     
@@ -487,7 +489,8 @@ function displayEinladungsButton(eingeladen) {
     }
     
     // Füge den neuen Event-Listener hinzu
-    outlookButton.addEventListener('click', handleOutlookClick(eingeladen));
+    const handlerOutlookClick = handleOutlookClick(eingeladen);
+    outlookButton.addEventListener('click', handlerOutlookClick);
 
 }
 

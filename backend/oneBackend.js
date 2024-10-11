@@ -296,7 +296,7 @@ function displayEingeladenePersonen(personenListe) {
 // Globale Funktionen für die Event-Handler
 
 // Funktion für den E-Mail-Versand (der Klick-Event-Handler)
-function handleEmailClick() {
+function handleEmailClick(eingeladen) {
     // Hole die verarbeiteten E-Mail-Daten aus der sendeEmailAnEingeladene-Funktion
     const { emailAdressen, subject, body } = sendeEmailAnEingeladene(eingeladen);
 
@@ -308,12 +308,12 @@ function handleEmailClick() {
 }
 
 // Funktion für den CSV-Export
-function handleExportClick() {
+function handleExportClick(eingeladen) {
     exportToCSV(eingeladen);  // Übergibt die aktuelle Liste an die Export-Funktion
 }
     
 // Funktion für den Outlook-Kalendereintrag
-function handleOutlookClick() {
+function handleOutlookClick(eingeladen) {
     // Hole die Werte aus den Eingabefeldern (Organisator, Datum, Startzeit, Endzeit)
     let organizerEmail = document.getElementById("organizerEmailInput").value;
     let meetingDate = document.getElementById("meetingDate").value;

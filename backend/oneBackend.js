@@ -315,11 +315,16 @@ function displayEinladungsButton(eingeladen) {
     // Füge den neuen Event-Listener hinzu
     emailButton.addEventListener('click', handleEmailClick);
     
-    // Funktion für den E-Mail-Versand
+    // Funktion für den E-Mail-Versand (der Klick-Event-Handler)
     function handleEmailClick() {
-        sendeEmailAnEingeladene(eingeladen);  // Übergibt die aktuelle Liste an die Funktion
+        // Hole die verarbeiteten E-Mail-Daten aus der sendeEmailAnEingeladene-Funktion
+        const { emailAdressen, subject, body } = sendeEmailAnEingeladene(eingeladen);
     
-
+        // Erstelle den mailto-Link mit den verarbeiteten Daten
+        let mailtoLink = `mailto:${emailAdressen.join('; ')}` + `?subject=${subject}&body=${body}`;
+    
+        // Öffne das E-Mail-Programm mit dem mailto-Link
+        window.location.href = mailtoLink;
     }
 
      // Prüfe, ob der Export-Button bereits existiert
@@ -552,7 +557,7 @@ END:VCALENDAR`;
 
 
 
-// Sende eine E-Mail an alle eingeladenen Personen
+// Funktion zum Sammeln und Verarbeiten der E-Mail-Adressen und Inhalte
 function sendeEmailAnEingeladene(eingeladen) {
     // Initialisiere die Listen für E-Mail-Adressen und fehlende E-Mails
     let emailAdressen = []; // E-Mail-Adressen müssen als Array initialisiert werden
@@ -581,12 +586,8 @@ function sendeEmailAnEingeladene(eingeladen) {
     let subject = encodeURIComponent("Einladung zur Sitzung");
     let body = encodeURIComponent("Hallo,\n\nhiermit lade ich euch zur Sitzung ein.");
 
-    // Erstelle den mailto-Link
-    let mailtoLink = `mailto:${emailAdressen.join('; ')}` + `?subject=${subject}&body=${body}`;
-
-    // Öffne das E-Mail-Programm mit dem mailto-Link
-    window.location.href = mailtoLink;
-}
+    // Rückgabe der gesammelten E-Mail-Adressen, Betreff und Nachricht
+    return { emailAdressen, subject, body };
 
 
 

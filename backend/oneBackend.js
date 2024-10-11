@@ -567,6 +567,7 @@ function sendeEmailAnEingeladene(eingeladen) {
 }
 
 
+
 // Funktion zum Exportieren der eingeladenen Personen als CSV
 function exportToCSV(eingeladen) {
     // Erstelle eine CSV-Zeichenkette

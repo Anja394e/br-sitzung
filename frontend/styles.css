@@ -101,6 +101,26 @@ button.deleteButton:hover {
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }
 
+/* Blauer Button mit weißem Rahmen */
+.info-button {
+    background-color: #007bff; /* Blau */
+    color: white; /* Weißer Text */
+    padding: 10px 20px; /* Polsterung um den Text */
+    border: 2px solid white; /* Weißer Rahmen */
+    border-radius: 5px; /* Abgerundete Ecken */
+    font-size: 1rem; /* Schriftgröße */
+    cursor: pointer; /* Zeiger-Cursor bei Hover */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Übergangseffekt */
+}
+
+/* Hover-Effekt, der zu den anderen Buttons passt */
+.info-button:hover {
+    background-color: transparent; /* Hintergrund transparent beim Hover */
+    color: #007bff; /* Text wird blau */
+    transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
+}
+
+
 /* Allgemeines Styling für das Formular */
 form {
     display: flex;

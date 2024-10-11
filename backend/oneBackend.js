@@ -344,9 +344,11 @@ function displayEinladungsButton(eingeladen) {
         // Füge den Button zum Container hinzu
         document.getElementById("ergebnisContainer").appendChild(emailButton);
     }
-
+    
     // Entferne den vorherigen Event-Listener (falls vorhanden)
-    emailButton.removeEventListener('click', handleEmailClick);
+    else {
+        emailButton.removeEventListener('click', handleEmailClick);
+    }
     
     // Füge den neuen Event-Listener hinzu
     emailButton.addEventListener('click', () => handleEmailClick(eingeladen));
@@ -364,10 +366,12 @@ function displayEinladungsButton(eingeladen) {
         // Füge den Button zum Container hinzu
         document.getElementById("ergebnisContainer").appendChild(exportButton);
     }
-  
-    // Entferne den vorherigen Event-Listener (falls vorhanden)
-    exportButton.removeEventListener('click', handleExportClick);
     
+    // Entferne den vorherigen Event-Listener (falls vorhanden)
+    else {
+        exportButton.removeEventListener('click', handleExportClick);
+    }
+        
     // Füge den neuen Event-Listener hinzu
     exportButton.addEventListener('click', () => handleExportClick(eingeladen));
     
@@ -459,9 +463,11 @@ function displayEinladungsButton(eingeladen) {
         // Füge den Button zum Container hinzu 
         document.getElementById("ergebnisContainer").appendChild(outlookButton);
     }
-  
+    
     // Entferne den vorherigen Event-Listener (falls vorhanden)
-    outlookButton.removeEventListener('click', handleOutlookClick);
+    else {
+        outlookButton.removeEventListener('click', handleOutlookClick);
+    }
     
     // Füge den neuen Event-Listener hinzu
     outlookButton.addEventListener('click', () => handleOutlookClick(eingeladen));

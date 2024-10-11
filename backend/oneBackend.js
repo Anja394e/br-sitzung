@@ -308,10 +308,17 @@ function displayEinladungsButton(eingeladen) {
         // Füge den Button zum Container hinzu
         document.getElementById("ergebnisContainer").appendChild(emailButton);
 
-        // Füge den Event Listener hinzu, um die Funktion sendeEmailAnEingeladene beim Klick aufzurufen
-        emailButton.addEventListener('click', function() {
-            sendeEmailAnEingeladene(eingeladen);  // Übergibt die eingeladenen Personen an die Funktion
-        });
+        // Entferne den vorherigen Event-Listener (falls vorhanden)
+        emailButton.removeEventListener('click', handleEmailClick);
+        
+        // Füge den neuen Event-Listener hinzu
+        emailButton.addEventListener('click', handleEmailClick);
+        
+        // Funktion für den E-Mail-Versand
+        function handleEmailClick() {
+            sendeEmailAnEingeladene(eingeladen);  // Übergibt die aktuelle Liste an die Funktion
+        }
+
     }
 
      // Prüfe, ob der Export-Button bereits existiert
@@ -326,10 +333,17 @@ function displayEinladungsButton(eingeladen) {
         // Füge den Button zum Container hinzu
         document.getElementById("ergebnisContainer").appendChild(exportButton);
 
-        // Füge den Event Listener hinzu
-        exportButton.addEventListener('click', function() {
-            exportToCSV(eingeladen); // CSV-Export-Funktion aufrufen
-        });
+        // Entferne den vorherigen Event-Listener (falls vorhanden)
+        exportButton.removeEventListener('click', handleExportClick);
+        
+        // Füge den neuen Event-Listener hinzu
+        exportButton.addEventListener('click', handleExportClick);
+        
+        // Funktion für den CSV-Export
+        function handleExportClick() {
+            exportToCSV(eingeladen);  // Übergibt die aktuelle Liste an die Export-Funktion
+        }
+
     }
 
     // Erstelle das Eingabefeld für die Organisator-E-Mail, wenn es noch nicht existiert
@@ -418,14 +432,20 @@ function displayEinladungsButton(eingeladen) {
         // Füge den Button zum Container hinzu 
         document.getElementById("ergebnisContainer").appendChild(outlookButton);
 
-        // Füge den Event Listener hinzu, um die eingegebenen Werte zu verarbeiten und den Kalendereintrag zu erstellen
-        outlookButton.addEventListener('click', function() {
+        // Entferne den vorherigen Event-Listener (falls vorhanden)
+        outlookButton.removeEventListener('click', handleOutlookClick);
+        
+        // Füge den neuen Event-Listener hinzu
+        outlookButton.addEventListener('click', handleOutlookClick);
+        
+        // Funktion für den Outlook-Kalendereintrag
+        function handleOutlookClick() {
             // Hole die Werte aus den Eingabefeldern (Organisator, Datum, Startzeit, Endzeit)
             let organizerEmail = document.getElementById("organizerEmailInput").value;
             let meetingDate = document.getElementById("meetingDate").value;
             let startTime = document.getElementById("startTime").value;
             let endTime = document.getElementById("endTime").value;
-
+        
             // Überprüfe, ob alle erforderlichen Felder ausgefüllt wurden
             if (!organizerEmail.trim() || !meetingDate || !startTime || !endTime) {
                 alert("Bitte füllen Sie alle Felder aus.");  // Zeige Warnung, falls Felder fehlen
@@ -433,7 +453,8 @@ function displayEinladungsButton(eingeladen) {
                 // Übergibt die E-Mail-Adresse, Datum und Zeiten an die Funktion für den Kalendereintrag
                 erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate, startTime, endTime);
             }
-        });
+        }
+
     }
 }
 

@@ -313,7 +313,7 @@ function displayEinladungsButton(eingeladen) {
     emailButton.removeEventListener('click', handleEmailClick);
     
     // Füge den neuen Event-Listener hinzu
-    emailButton.addEventListener('click', handleEmailClick);
+    emailButton.addEventListener('click', () => handleEmailClick(eingeladen));
     
     // Funktion für den E-Mail-Versand (der Klick-Event-Handler)
     function handleEmailClick() {
@@ -344,7 +344,7 @@ function displayEinladungsButton(eingeladen) {
     exportButton.removeEventListener('click', handleExportClick);
     
     // Füge den neuen Event-Listener hinzu
-    exportButton.addEventListener('click', handleExportClick);
+    exportButton.addEventListener('click', () => handleExportClick(eingeladen));
     
     // Funktion für den CSV-Export
     function handleExportClick() {
@@ -442,7 +442,8 @@ function displayEinladungsButton(eingeladen) {
     outlookButton.removeEventListener('click', handleOutlookClick);
     
     // Füge den neuen Event-Listener hinzu
-    outlookButton.addEventListener('click', handleOutlookClick);
+    outlookButton.addEventListener('click', () => handleOutlookClick(eingeladen));
+
     
     // Funktion für den Outlook-Kalendereintrag
     function handleOutlookClick() {

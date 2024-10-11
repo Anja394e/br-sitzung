@@ -360,11 +360,14 @@ function displayEinladungsButton(eingeladen) {
     
     // Entferne den vorherigen Event-Listener (falls vorhanden)
     else {
-        emailButton.removeEventListener('click', handleEmailClick);
+        if (emailButton._handler) {
+            emailButton.removeEventListener('click', emailButton._handler);
+        }
     }
     
     // Füge den neuen Event-Listener hinzu
-    const handlerEmailClick = handleEmailClick(eingeladen);
+    const handlerEmailClick = () => handleEmailClick(eingeladen);
+    emailButton._handler = handlerEmailClick;
     emailButton.addEventListener('click', handlerEmailClick );
     
     
@@ -382,18 +385,15 @@ function displayEinladungsButton(eingeladen) {
         console.log("Export-Button erstellt.");
     } else {
         // Entferne den vorherigen Event-Listener (falls vorhanden)
-        if (exportButtonActive) {
-            exportButton.removeEventListener('click', handleExportClick);
-            console.log("Alter Event-Listener für den Export-Button entfernt.");
-            exportButtonActive = false; // Setze das Flag auf nicht aktiv
+        if (exportButton._handler) {
+            exportButton.removeEventListener('click', exportButton._handler);
         }
     }
 
     // Füge den neuen Event-Listener hinzu
-    const handlerExportClick = handleExportClick(eingeladen);
+    const handlerExportClick = () => handleExportClick(eingeladen);
+    exportButton._handler = handlerExportClick;
     exportButton.addEventListener('click', handlerExportClick);
-    exportButtonActive = true; // Setze das Flag auf aktiv
-    console.log("Neuer Event-Listener für den Export-Button hinzugefügt.");
     
 
     // Erstelle das Eingabefeld für die Organisator-E-Mail, wenn es noch nicht existiert
@@ -485,11 +485,15 @@ function displayEinladungsButton(eingeladen) {
     
     // Entferne den vorherigen Event-Listener (falls vorhanden)
     else {
-        outlookButton.removeEventListener('click', handleOutlookClick);
+        if (outlookButton._handler) {
+            outlookButton.removeEventListener('click', outlookButton._handler);
+        }
+
     }
     
-    // Füge den neuen Event-Listener hinzu
-    const handlerOutlookClick = handleOutlookClick(eingeladen);
+    // Erstelle und füge den neuen Event-Listener hinzu
+    const handlerOutlookClick = () => handleOutlookClick(eingeladen);
+    outlookButton._handler = handlerOutlookClick;
     outlookButton.addEventListener('click', handlerOutlookClick);
 
 }

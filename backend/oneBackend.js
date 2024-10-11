@@ -1100,7 +1100,11 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = 'einstellungen.html';
     });
 
-    
+    // Event-Listener für den blauen "Informationen"-Button
+    document.getElementById("infoButton").addEventListener('click', function() {
+        window.location.href = "informationen.html"; // Hier wird auf die Seite mit den Informationen weitergeleitet
+    });
+
 
 }
 

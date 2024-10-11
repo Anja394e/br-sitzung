@@ -589,7 +589,7 @@ function sendeEmailAnEingeladene(eingeladen) {
     // Rückgabe der gesammelten E-Mail-Adressen, Betreff und Nachricht
     return { emailAdressen, subject, body };
 
-
+}
 
 // Funktion zum Exportieren der eingeladenen Personen als CSV
 function exportToCSV(eingeladen) {

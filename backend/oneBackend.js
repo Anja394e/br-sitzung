@@ -364,7 +364,7 @@ function displayEinladungsButton(eingeladen) {
     }
     
     // Füge den neuen Event-Listener hinzu
-    emailButton.addEventListener('click', () => handleEmailClick(eingeladen));
+    emailButton.addEventListener('click', handleEmailClick(eingeladen));
     
     
     // Prüfe, ob der Export-Button bereits existiert
@@ -389,7 +389,7 @@ function displayEinladungsButton(eingeladen) {
     }
 
     // Füge den neuen Event-Listener hinzu
-    exportButton.addEventListener('click', () => handleExportClick(eingeladen));
+    exportButton.addEventListener('click', handleExportClick(eingeladen));
     exportButtonActive = true; // Setze das Flag auf aktiv
     console.log("Neuer Event-Listener für den Export-Button hinzugefügt.");
     
@@ -487,7 +487,7 @@ function displayEinladungsButton(eingeladen) {
     }
     
     // Füge den neuen Event-Listener hinzu
-    outlookButton.addEventListener('click', () => handleOutlookClick(eingeladen));
+    outlookButton.addEventListener('click', handleOutlookClick(eingeladen));
 
 }
 

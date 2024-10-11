@@ -293,6 +293,42 @@ function displayEingeladenePersonen(personenListe) {
     }
 }
 
+// Globale Funktionen für die Event-Handler
+
+// Funktion für den E-Mail-Versand (der Klick-Event-Handler)
+function handleEmailClick() {
+    // Hole die verarbeiteten E-Mail-Daten aus der sendeEmailAnEingeladene-Funktion
+    const { emailAdressen, subject, body } = sendeEmailAnEingeladene(eingeladen);
+
+    // Erstelle den mailto-Link mit den verarbeiteten Daten
+    let mailtoLink = `mailto:${emailAdressen.join('; ')}` + `?subject=${subject}&body=${body}`;
+
+    // Öffne das E-Mail-Programm mit dem mailto-Link
+    window.location.href = mailtoLink;
+}
+
+// Funktion für den CSV-Export
+function handleExportClick() {
+    exportToCSV(eingeladen);  // Übergibt die aktuelle Liste an die Export-Funktion
+}
+    
+// Funktion für den Outlook-Kalendereintrag
+function handleOutlookClick() {
+    // Hole die Werte aus den Eingabefeldern (Organisator, Datum, Startzeit, Endzeit)
+    let organizerEmail = document.getElementById("organizerEmailInput").value;
+    let meetingDate = document.getElementById("meetingDate").value;
+    let startTime = document.getElementById("startTime").value;
+    let endTime = document.getElementById("endTime").value;
+
+    // Überprüfe, ob alle erforderlichen Felder ausgefüllt wurden
+    if (!organizerEmail.trim() || !meetingDate || !startTime || !endTime) {
+        alert("Bitte füllen Sie alle Felder aus.");  // Zeige Warnung, falls Felder fehlen
+    } else {
+        // Übergibt die E-Mail-Adresse, Datum und Zeiten an die Funktion für den Kalendereintrag
+        erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate, startTime, endTime);
+    }
+}
+
 
 // Generiere und zeige den E-Mail-Versand-Button und die Eingabefelder an
 function displayEinladungsButton(eingeladen) {
@@ -315,18 +351,7 @@ function displayEinladungsButton(eingeladen) {
     // Füge den neuen Event-Listener hinzu
     emailButton.addEventListener('click', () => handleEmailClick(eingeladen));
     
-    // Funktion für den E-Mail-Versand (der Klick-Event-Handler)
-    function handleEmailClick() {
-        // Hole die verarbeiteten E-Mail-Daten aus der sendeEmailAnEingeladene-Funktion
-        const { emailAdressen, subject, body } = sendeEmailAnEingeladene(eingeladen);
     
-        // Erstelle den mailto-Link mit den verarbeiteten Daten
-        let mailtoLink = `mailto:${emailAdressen.join('; ')}` + `?subject=${subject}&body=${body}`;
-    
-        // Öffne das E-Mail-Programm mit dem mailto-Link
-        window.location.href = mailtoLink;
-    }
-
      // Prüfe, ob der Export-Button bereits existiert
     let exportButton = document.getElementById("exportButton");
     if (!exportButton) {
@@ -346,10 +371,7 @@ function displayEinladungsButton(eingeladen) {
     // Füge den neuen Event-Listener hinzu
     exportButton.addEventListener('click', () => handleExportClick(eingeladen));
     
-    // Funktion für den CSV-Export
-    function handleExportClick() {
-        exportToCSV(eingeladen);  // Übergibt die aktuelle Liste an die Export-Funktion
-    }
+    
 
     // Erstelle das Eingabefeld für die Organisator-E-Mail, wenn es noch nicht existiert
     let emailInput = document.getElementById("organizerEmailInput");
@@ -444,25 +466,6 @@ function displayEinladungsButton(eingeladen) {
     // Füge den neuen Event-Listener hinzu
     outlookButton.addEventListener('click', () => handleOutlookClick(eingeladen));
 
-    
-    // Funktion für den Outlook-Kalendereintrag
-    function handleOutlookClick() {
-        // Hole die Werte aus den Eingabefeldern (Organisator, Datum, Startzeit, Endzeit)
-        let organizerEmail = document.getElementById("organizerEmailInput").value;
-        let meetingDate = document.getElementById("meetingDate").value;
-        let startTime = document.getElementById("startTime").value;
-        let endTime = document.getElementById("endTime").value;
-    
-        // Überprüfe, ob alle erforderlichen Felder ausgefüllt wurden
-        if (!organizerEmail.trim() || !meetingDate || !startTime || !endTime) {
-            alert("Bitte füllen Sie alle Felder aus.");  // Zeige Warnung, falls Felder fehlen
-        } else {
-            // Übergibt die E-Mail-Adresse, Datum und Zeiten an die Funktion für den Kalendereintrag
-            erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate, startTime, endTime);
-        }
-        
-
-    }
 }
 
 // Funktion, um einen Outlook-Kalendereintrag (im iCal-Format) zu erstellen

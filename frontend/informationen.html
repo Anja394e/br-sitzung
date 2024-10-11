@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informationen zur Website</title>
+    <link rel="stylesheet" href="styles.css"> <!-- vorhandenes CSS-Stylesheet -->
+</head>
+<body>
+    <div class="container">
+        <h1>Informationen zur Website</h1>
+        <p>Hier findest du alle wichtigen Informationen zur Nutzung der Website, wie z.B.:</p>
+        <ul>
+            <li>Wie du dich auf der Website registrierst</li>
+            <li>Wie du dein Profil anpasst</li>
+            <li>Wie du Einladungen verschickst</li>
+            <li>Welche Sicherheitsfeatures die Website bietet</li>
+        </ul>
+        <p>... und vieles mehr!</p>
+
+        <button id="backButton" class="info-button">Zurück zur Startseite</button>
+    </div>
+
+    <script>
+        // Zurück-Button, um zur vorherigen Seite zurückzukehren
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();  // Geht zur vorherigen Seite zurück
+        });
+    </script>
+</body>
+</html>

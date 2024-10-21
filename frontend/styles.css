@@ -42,6 +42,7 @@ th, td {
     padding: 10px;
     text-align: left;
     border: 1px solid #ddd;
+    height: 60px; /* Feste Höhe */
 }
 
 th {

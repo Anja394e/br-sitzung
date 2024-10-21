@@ -250,10 +250,7 @@ td {
     background-color: #58b757; /* Etwas dunkleres Grün beim Hover, wenn aktiv */
 }
 
-/* Optional: Fokuszustand */
-.full-width-checkbox:focus + .custom-checkbox {
-    outline: 2px solid blue; /* Fokusrahmen hinzufügen */
-}
+
 
 /* Stil für die deaktivierte Checkbox */
 .full-width-checkbox:disabled + .custom-checkbox {

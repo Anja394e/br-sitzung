@@ -227,7 +227,7 @@ input[type="checkbox"].full-width-checkbox  {
 }
 
 /* Wenn die Checkbox angeklickt ist */
-input[type="checkbox"]:full-width-checkbox:checked + .checkbox-label::before {
+input[type="checkbox"].full-width-checkbox:checked + .checkbox-label::before {
     background-color: #66c766; /* Färbt die Checkbox, wenn sie angeklickt ist */
 }
 

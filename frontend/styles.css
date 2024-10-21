@@ -69,7 +69,7 @@ button, label.uploadLabel {
     margin-right: 10px;  /* Abstand nach rechts, um Buttons nebeneinander zu haben */
     margin-top: 10px; /* Abstand nach oben */
     margin-bottom: 5px; /* Abstand nach unten, um Platz zu den darunterliegenden Elementen zu schaffen */
-    height: 50px; /* Feste Höhe */
+    height: 75px; /* Feste Höhe */
 }
 
 /* Hover-Effekt für größere und abgerundete Buttons */
@@ -89,7 +89,7 @@ button:hover, label.uploadLabel:hover {
     font-size: 1.1rem; /* Etwas größere Schriftgröße */
     cursor: pointer; /* Zeiger-Cursor bei Hover */
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Übergangseffekt */
-    height: 50px; /* Feste Höhe */
+    height: 75px; /* Feste Höhe */
 }
 
 /* Hover-Effekt für den blauen Button */
@@ -156,7 +156,7 @@ input[type="text"], input[type="email"], input[type="number"], input[type="date"
     width: 100%; /* Volle Breite der Felder */
     box-sizing: border-box;
     transition: border-color 0.3s ease;
-    height: 50px; /* Feste Höhe */
+    height: 75px; /* Feste Höhe */
 }
 
 /* Hover-Effekt für die Input-Felder und Selects */

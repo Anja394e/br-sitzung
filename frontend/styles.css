@@ -211,7 +211,7 @@ input[type="checkbox"].full-width-checkbox  {
     cursor: pointer; /* Zeigt einen Zeiger-Cursor an */
 }
 
-/* Optional: Style für eine sichtbare Checkbox-Alternative */
+/* Sichtbare Checkbox-Hintergrundalternative */
 .checkbox-label::before {
     content: ''; /* Erzeugt ein leeres Element vor der Checkbox */
     display: inline-block;
@@ -228,6 +228,11 @@ input[type="checkbox"].full-width-checkbox  {
 
 /* Wenn die Checkbox angeklickt ist */
 input[type="checkbox"].full-width-checkbox:checked + .checkbox-label::before {
+    background-color: #66c766; /* Färbt die Checkbox, wenn sie angeklickt ist */
+}
+
+/* Den richtigen Selektor verwenden */
+.checkbox-label input[type="checkbox"]:checked + .checkbox-label::before {
     background-color: #66c766; /* Färbt die Checkbox, wenn sie angeklickt ist */
 }
 

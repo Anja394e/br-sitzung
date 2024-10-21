@@ -187,31 +187,22 @@ input[type="text"]:hover, input[type="email"]:hover, input[type="number"]:hover,
     border-color: #66c766; /* Passend zum Button-Hover */
 }
 
-/* Checkbox-Styling */
-/* Styling für Checkboxen, die die gesamte Tabellenzelle einnehmen */
-td.checkbox-cell {
-    width: 100%; /* Nimmt die gesamte Breite der Zelle ein */
-    text-align: center; /* Zentriert den Inhalt */
+/* Checkbox-Styling außerhalb einer Tabellenzelle */
+
+/* Label-Styling für die Checkbox */
+label {
+    display: flex; /* Flexbox, um den Text und die Checkbox in einer Zeile zu platzieren */
+    align-items: center; /* Zentriert die Checkbox und den Text vertikal */
     cursor: pointer; /* Zeigt einen Zeiger-Cursor an */
-    padding: 0; /* Entfernt den Padding-Abstand */
 }
 
-/* Vergrößert die Checkbox */
-td.checkbox-cell input[type="checkbox"] {
-    width: 100%; /* Checkbox nimmt die gesamte Breite ein */
-    height: 100%; /* Checkbox nimmt die gesamte Höhe ein */
-    margin: 0; /* Entfernt den Standardabstand */
+/* Styling für die Checkbox */
+input[type="checkbox"] {
+    width: 20px; /* Größe der Checkbox */
+    height: 20px; /* Höhe der Checkbox */
+    margin-right: 10px; /* Abstand zwischen der Checkbox und dem Text */
     cursor: pointer; /* Zeigt einen Zeiger-Cursor an */
-    position: relative; /* Stellt sicher, dass sie im Rahmen bleibt */
-    box-sizing: border-box; /* Bezieht Polsterung und Ränder in die Größe ein */
-}
-
-/* Macht das gesamte Tabellenfeld klickbar */
-td.checkbox-cell label {
-    display: block; /* Lässt das Label den gesamten Bereich einnehmen */
-    width: 100%; /* Nimmt die gesamte Breite der Zelle ein */
-    height: 100%; /* Nimmt die gesamte Höhe der Zelle ein */
-    cursor: pointer; /* Zeigt einen Zeiger-Cursor an */
+    accent-color: #66c766; /* Ändert die Farbe der Checkbox (moderne Browser unterstützen dies) */
 }
 
 /* Allgemeines Styling für alle Labels */

@@ -95,7 +95,7 @@ button:hover, label.uploadLabel:hover {
     padding: 12px 30px; /* Größere Polsterung um den Text */
     border: 2px solid #007bff; /* Blauer Rand */
     border-radius: 10px; /* Abgerundete Ecken */
-    font-size: 1.1rem; /* Etwas größere Schriftgröße */
+    font-size: 1rem; /* Etwas größere Schriftgröße */
     cursor: pointer; /* Zeiger-Cursor bei Hover */
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Übergangseffekt */
     height: 60px; /* Feste Höhe */
@@ -116,7 +116,7 @@ button.editButton {
     border: 1px solid #ffc107; /* Passender Rahmen */
     border-radius: 10px; /* Abgerundete Ecken */
     cursor: pointer;
-    font-size: 0.9rem; /* Kleinere Schriftgröße */
+    font-size: 1rem; /* Kleinere Schriftgröße */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -134,7 +134,7 @@ button.deleteButton {
     border: 1px solid #dc3545; /* Passender Rahmen */
     border-radius: 10px; /* Abgerundete Ecken */
     cursor: pointer; /* Zeiger bei Hover */
-    font-size: 0.9rem; /* Kleinere Schriftgröße */
+    font-size: 1rem; /* Kleinere Schriftgröße */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 

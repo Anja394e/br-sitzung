@@ -34,7 +34,10 @@ body {
 table {
     width: 100%;
     margin-bottom: 20px;
-    border-collapse: collapse;
+    border-collapse: separate; /* Wichtig, um runde Ecken zu ermöglichen */
+    border-spacing: 0; /* Optional: Entfernt den Abstand zwischen Zellen */
+    border-radius: 10px; /* Runde Ecken für die Tabelle */
+    overflow: hidden; /* Stellt sicher, dass der Inhalt in der Tabelle bleibt */
     background-color: #fff; /* Tabellen-Hintergrundfarbe */
 }
 
@@ -45,16 +48,30 @@ th, td {
     height: 60px; /* Feste Höhe */
 }
 
-th {
-    background-color: #f4f4f4; /* Kopfzeilen-Hintergrundfarbe */
+/* Runde Ecken nur an den Ecken der Tabelle */
+table th:first-child {
+    border-top-left-radius: 10px;
 }
 
+table th:last-child {
+    border-top-right-radius: 10px;
+}
+
+table td:first-child:last-child {
+    border-bottom-left-radius: 10px;
+}
+
+table td:last-child:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+/* Alternative Zeilenhintergrundfarbe */
 tr:nth-child(even) {
-    background-color: #f9f9f9; /* Abwechselnde Zeilenhintergrundfarbe */
+    background-color: #f9f9f9;
 }
 
 tr:hover {
-    background-color: #f1f1f1; /* Hover-Effekt für Zeilen */
+    background-color: #f1f1f1;
 }
 
 

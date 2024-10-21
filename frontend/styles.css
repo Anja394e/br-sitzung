@@ -182,6 +182,12 @@ button#deleteAllButton {
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+button#deleteAllButton:hover {
+    background-color: transparent; /* Hintergrund transparent beim Hover */
+    color: #dc3545; /* Textfarbe wird rot beim Hover */
+    transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
+}
+
 /* Allgemeines Styling für das Formular */
 form {
     display: flex;

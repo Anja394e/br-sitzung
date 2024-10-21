@@ -223,17 +223,17 @@ input[type="checkbox"].full-width-checkbox  {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Zentriert die Checkbox im Label */
+    transform: translate(-50%); /* Zentriert die Checkbox im Label */
 }
 
 /* Wenn die Checkbox angeklickt ist */
-input[type="checkbox"].full-width-checkbox:checked + .checkbox-label::before {
-    background-color: #66c766; /* Färbt die Checkbox, wenn sie angeklickt ist */
+input[type="checkbox"].full-width-checkbox:checked + span::before {
+    background-color: #66c766;
 }
 
-/* Den richtigen Selektor verwenden */
-.checkbox-label input[type="checkbox"]:checked + .checkbox-label::before {
-    background-color: #66c766; /* Färbt die Checkbox, wenn sie angeklickt ist */
+/* Checkbox-Text richtig platzieren */
+.checkbox-label span {
+    margin-left: 40px; /* Abstand, um Platz für die Checkbox zu lassen */
 }
 
 

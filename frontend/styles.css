@@ -160,4 +160,59 @@ label {
     margin-bottom: 15px;         /* Abstand nach unten */
 }
 
+/* Textgestaltung für allgemeinen Fließtext */
+p {
+    font-size: 1.1rem; /* Etwas größere Schriftgröße für besseren Lesefluss */
+    line-height: 1.8; /* Erhöhte Zeilenhöhe für bessere Lesbarkeit */
+    color: #333; /* Ein dunkles Grau für modernen, gut lesbaren Text */
+    margin-bottom: 20px; /* Abstand nach unten zwischen den Absätzen */
+}
+
+/* Link-Styling */
+a {
+    color: #3498db; /* Moderne blaue Farbe für Links */
+    text-decoration: none; /* Entfernt die Unterstreichung für Links */
+    transition: color 0.3s ease, text-decoration 0.3s ease; /* Sanfter Übergang beim Hover */
+}
+
+a:hover {
+    color: #2980b9; /* Dunkleres Blau beim Hover */
+    text-decoration: underline; /* Unterstreichung wird beim Hover hinzugefügt */
+}
+
+/* Styling für Überschriften */
+h1, h2 {
+    color: #2c3e50; /* Dunkelblau für moderne Überschriften */
+    font-family: 'Lato', sans-serif; /* Alternativschriftart für moderne Überschriften */
+    font-weight: 700; /* Fettgedruckte Überschriften */
+    margin-bottom: 20px; /* Abstand nach unten */
+}
+
+h1 {
+    font-size: 2.5rem; /* Große Schriftgröße für den Haupttitel */
+    text-align: center; /* Zentriere den Haupttitel */
+}
+
+h2 {
+    font-size: 2rem; /* Etwas kleinere Schriftgröße für Untertitel */
+    border-bottom: 2px solid #2980b9; /* Dünner, blauer Rahmen unter den Untertiteln */
+    padding-bottom: 10px; /* Abstand zwischen Text und Rahmen */
+}
+
+/* Verbesserung der Lesbarkeit für Tabellen */
+table {
+    font-size: 1rem; /* Schriftgröße für Tabelleninhalte */
+    color: #333; /* Dunkles Grau für besseren Kontrast */
+}
+
+th, td {
+    font-size: 1rem; /* Konsistente Schriftgröße in Zellen */
+}
+
+/* Absatzformatierung für Text in Formularen oder in längeren Abschnitten */
+form p {
+    font-size: 1rem; /* Konsistente Schriftgröße für Texte innerhalb von Formularen */
+    color: #444; /* Etwas helleres Grau für Formulartexte */
+    margin-bottom: 15px; /* Abstand zwischen den Absätzen in Formularen */
+}
 

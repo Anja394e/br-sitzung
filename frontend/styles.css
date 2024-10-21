@@ -209,7 +209,7 @@ input[type="text"]:hover, input[type="email"]:hover, input[type="number"]:hover,
 /* Checkbox-Styling 
 /* Die Tabellenzelle so formatieren, dass die Checkbox die gesamte Zelle einnimmt */
 td {
-    padding: 8px 5px; /* Abstand in der Zelle */
+    padding: 2px 1px; /* Abstand in der Zelle */
     text-align: center; /* Zentriert die Checkbox horizontal */
     vertical-align: middle; /* Zentriert die Checkbox vertikal */
 }
@@ -255,13 +255,17 @@ td {
     position: absolute;
     left: 15px; /* Zentriert den Haken horizontal */
     top: 8px; /* Positioniert den Haken vertikal */
-    width: 12px; /* Breite des Haken */
-    height: 20px; /* Höhe des Haken */
+    width: 50px; /* Breite des Haken */
+    height: 40px; /* Höhe des Haken */
     border: solid white;
     border-width: 0 4px 4px 0; /* Dickere Linien für den Haken */
     transform: rotate(45deg); /* Der Haken im richtigen Winkel */
 }
 
+/* Haken für deaktivierte Checkboxen */
+.full-width-checkbox:disabled:checked + .custom-checkbox::after {
+    border-color: black; /* Schwarzer Haken bei deaktivierter Checkbox */
+}
 
 /* Fokuszustand */
 .full-width-checkbox:focus + .custom-checkbox {

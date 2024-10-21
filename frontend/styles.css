@@ -239,7 +239,8 @@ td {
 
 /* Hover-Effekt nur bei aktivierten Checkboxen */
 .full-width-checkbox:not(:disabled) + .custom-checkbox:hover {
-    background-color: #e0e0e0; /* Hellgrau bei Hover */
+    background-color: white; /* Hintergrund weiß beim Hover */
+    border-color: #66c766; /* Grüner Haken beim Hover */
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }
 

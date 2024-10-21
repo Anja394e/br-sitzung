@@ -277,7 +277,12 @@ function displayEingeladenePersonen(personenListe) {
           <td>${person.name}</td>
           <td>${person.mail}</td>
           <td>${person.geschlecht.toUpperCase()}</td>
-          <td><input type="checkbox" ${person.ordentlich ? 'checked' : ''} disabled /></td> <!-- Checkbox für Ordentlich -->
+          <td>
+              <label class="checkbox-label">
+                <input type="checkbox" class="full-width-checkbox" ${person.ordentlich ? 'checked' : ''} disabled />
+                <span></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
+              </label>
+            </td> <!-- Checkbox für Ordentlich -->
           <td>${person.liste}</td>
           <td>${nachladegrundText}</td> <!-- Nachladegrund anzeigen -->
         `;
@@ -700,17 +705,29 @@ function exportToCSV(eingeladen) {
           <td>${person.name}</td>
           <td>${person.mail}</td>
           <td>${person.geschlecht}</td>
-           
+          
           <td>
-              <input type="checkbox" class="anwesend-checkbox" data-rang="${person.rang}" ${person.anwesend ? 'checked' : ''} />
+            <label class="checkbox-label">
+              <input type="checkbox" class="anwesend-checkbox full-width-checkbox" data-rang="${person.rang}" ${person.anwesend ? 'checked' : ''} />
+              <span></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
+            </label>
           </td> <!-- Checkbox für Anwesend -->
-          <td><input type="checkbox" ${person.ordentlich ? 'checked' : ''} disabled /></td> <!-- Checkbox für Ordentlich -->
+          
+          <td>
+            <label class="checkbox-label">
+              <input type="checkbox" class="full-width-checkbox" ${person.ordentlich ? 'checked' : ''} disabled />
+              <span></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
+            </label>
+          </td> <!-- Checkbox für Ordentlich -->
+        
           <td>${person.liste}</td>
+          
           <td>
             <button class="editButton" data-id="${person.id}">Bearbeiten</button> <!-- Verwende die ID -->
             <button class="deleteButton" data-id="${person.id}">Löschen</button> <!-- Verwende die ID -->
           </td>
-      `;
+        `;
+
     });
 
     // Füge Event-Listener für die "Anwesend"-Checkboxen hinzu

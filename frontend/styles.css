@@ -69,6 +69,7 @@ button, label.uploadLabel {
     margin-right: 10px;  /* Abstand nach rechts, um Buttons nebeneinander zu haben */
     margin-top: 10px; /* Abstand nach oben */
     margin-bottom: 5px; /* Abstand nach unten, um Platz zu den darunterliegenden Elementen zu schaffen */
+    height: 50px; /* Feste Höhe */
 }
 
 /* Hover-Effekt für größere und abgerundete Buttons */
@@ -88,6 +89,7 @@ button:hover, label.uploadLabel:hover {
     font-size: 1.1rem; /* Etwas größere Schriftgröße */
     cursor: pointer; /* Zeiger-Cursor bei Hover */
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Übergangseffekt */
+    height: 50px; /* Feste Höhe */
 }
 
 /* Hover-Effekt für den blauen Button */
@@ -133,7 +135,10 @@ button.deleteButton:hover {
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }
 
-
+/* Versteckter Datei-Input */
+input[type="file"] {
+    display: none; /* Versteckt das eigentliche Datei-Input-Feld */
+}
 
 /* Allgemeines Styling für das Formular */
 form {
@@ -151,6 +156,7 @@ input[type="text"], input[type="email"], input[type="number"], input[type="date"
     width: 100%; /* Volle Breite der Felder */
     box-sizing: border-box;
     transition: border-color 0.3s ease;
+    height: 50px; /* Feste Höhe */
 }
 
 /* Hover-Effekt für die Input-Felder und Selects */
@@ -159,8 +165,30 @@ input[type="text"]:hover, input[type="email"]:hover, input[type="number"]:hover,
 }
 
 /* Checkbox-Styling */
-input[type="checkbox"] {
-    margin-right: 10px;
+/* Styling für Checkboxen, die die gesamte Tabellenzelle einnehmen */
+td.checkbox-cell {
+    width: 100%; /* Nimmt die gesamte Breite der Zelle ein */
+    text-align: center; /* Zentriert den Inhalt */
+    cursor: pointer; /* Zeigt einen Zeiger-Cursor an */
+    padding: 0; /* Entfernt den Padding-Abstand */
+}
+
+/* Vergrößert die Checkbox */
+td.checkbox-cell input[type="checkbox"] {
+    width: 100%; /* Checkbox nimmt die gesamte Breite ein */
+    height: 100%; /* Checkbox nimmt die gesamte Höhe ein */
+    margin: 0; /* Entfernt den Standardabstand */
+    cursor: pointer; /* Zeigt einen Zeiger-Cursor an */
+    position: relative; /* Stellt sicher, dass sie im Rahmen bleibt */
+    box-sizing: border-box; /* Bezieht Polsterung und Ränder in die Größe ein */
+}
+
+/* Macht das gesamte Tabellenfeld klickbar */
+td.checkbox-cell label {
+    display: block; /* Lässt das Label den gesamten Bereich einnehmen */
+    width: 100%; /* Nimmt die gesamte Breite der Zelle ein */
+    height: 100%; /* Nimmt die gesamte Höhe der Zelle ein */
+    cursor: pointer; /* Zeigt einen Zeiger-Cursor an */
 }
 
 /* Allgemeines Styling für alle Labels */

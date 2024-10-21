@@ -195,11 +195,11 @@ td {
 }
 
 .full-width-checkbox {
-    width: 100%;
-    height: 100%;
-    margin: 0; /* Entfernt den Standardabstand um die Checkbox */
+    width: 50px;  /* Setze die Breite der Checkbox */
+    height: 40px; /* Setze die Höhe der Checkbox */
+    margin: 0;    /* Entfernt den Standardabstand um die Checkbox */
     cursor: pointer; /* Zeigt an, dass die ganze Checkbox klickbar ist */
-    display: block; /* Sorgt dafür, dass die Checkbox blockweise angezeigt wird und die Zelle ausfüllt */
+    display: block; /* Sorgt dafür, dass die Checkbox blockweise angezeigt wird */
 }
 
 

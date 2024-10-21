@@ -212,7 +212,7 @@ input[type="checkbox"].full-width-checkbox  {
 }
 
 /* Sichtbare Checkbox-Hintergrundalternative */
-.checkbox-label::before {
+.checkbox-label span::before {
     content: ''; /* Erzeugt ein leeres Element vor der Checkbox */
     display: inline-block;
     width: 20px; /* Breite der sichtbaren Checkbox */

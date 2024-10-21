@@ -1102,7 +1102,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event-Listener für den blauen "Informationen"-Button
     document.getElementById("infoButton").addEventListener('click', function() {
-        window.location.href = "../frontend/informationen.html"; // Hier wird auf die Seite mit den Informationen weitergeleitet
+        window.location.href = 'informationen.html'; // Hier wird auf die Seite mit den Informationen weitergeleitet
     });
 
 

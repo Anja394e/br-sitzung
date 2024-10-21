@@ -56,6 +56,12 @@ tr:hover {
     background-color: #f1f1f1; /* Hover-Effekt für Zeilen */
 }
 
+
+/* Versteckter Datei-Input */
+input[type="file"] {
+    display: none; /* Versteckt das eigentliche Datei-Input-Feld komplett */
+}
+
 /* Größere und abgerundete Buttons (alle Buttons, einschließlich Bearbeiten und Löschen) */
 button, label.uploadLabel {
     background-color: #66c766; /* Etwas dunkleres Grün */
@@ -69,7 +75,10 @@ button, label.uploadLabel {
     margin-right: 10px;  /* Abstand nach rechts, um Buttons nebeneinander zu haben */
     margin-top: 10px; /* Abstand nach oben */
     margin-bottom: 5px; /* Abstand nach unten, um Platz zu den darunterliegenden Elementen zu schaffen */
-    height: 75px; /* Feste Höhe */
+    height: 60px; /* Feste Höhe */
+    line-height: normal; /* Entfernt zusätzlichen Zeilenabstand */
+    box-sizing: border-box; /* Stellt sicher, dass Padding und Border mit einbezogen werden */
+    display: inline-block; /* Verhält sich wie ein Button */
 }
 
 /* Hover-Effekt für größere und abgerundete Buttons */
@@ -89,7 +98,7 @@ button:hover, label.uploadLabel:hover {
     font-size: 1.1rem; /* Etwas größere Schriftgröße */
     cursor: pointer; /* Zeiger-Cursor bei Hover */
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Übergangseffekt */
-    height: 75px; /* Feste Höhe */
+    height: 60px; /* Feste Höhe */
 }
 
 /* Hover-Effekt für den blauen Button */
@@ -135,11 +144,6 @@ button.deleteButton:hover {
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }
 
-/* Versteckter Datei-Input */
-input[type="file"] {
-    display: none; /* Versteckt das eigentliche Datei-Input-Feld */
-}
-
 /* Allgemeines Styling für das Formular */
 form {
     display: flex;
@@ -156,7 +160,7 @@ input[type="text"], input[type="email"], input[type="number"], input[type="date"
     width: 100%; /* Volle Breite der Felder */
     box-sizing: border-box;
     transition: border-color 0.3s ease;
-    height: 75px; /* Feste Höhe */
+    height: 60px; /* Feste Höhe */
 }
 
 /* Hover-Effekt für die Input-Felder und Selects */

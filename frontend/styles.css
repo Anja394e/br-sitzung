@@ -214,13 +214,40 @@ td {
     vertical-align: middle; /* Zentriert die Checkbox vertikal */
 }
 
+/* Versteckt das ursprüngliche Checkbox-Element */
 .full-width-checkbox {
-    width: 50px;  /* Setze die Breite der Checkbox */
-    height: 40px; /* Setze die Höhe der Checkbox */
-    margin: 0;    /* Entfernt den Standardabstand um die Checkbox */
-    cursor: pointer; /* Zeigt an, dass die ganze Checkbox klickbar ist */
-    display: block; /* Sorgt dafür, dass die Checkbox blockweise angezeigt wird */
-    background-color: #66c766;
+    display: none; /* Das tatsächliche Checkbox-Element unsichtbar machen */
+}
+
+/* Stil für das span, das als sichtbare Checkbox dient */
+.custom-checkbox {
+    display: inline-block;
+    width: 50px;
+    height: 40px;
+    background-color: #fff; /* Hintergrundfarbe der nicht markierten Checkbox */
+    border: 2px solid #ccc; /* Standardrand */
+    border-radius: 4px; /* Optional: Abgerundete Ecken */
+    cursor: not-allowed; /* Da es disabled ist */
+    position: relative; /* Ermöglicht die Platzierung des Häkchens */
+}
+
+/* Checkbox im aktivierten Zustand */
+.full-width-checkbox:checked + .custom-checkbox {
+    background-color: #66c766; /* Hintergrundfarbe der markierten Checkbox */
+    border-color: #66c766; /* Randfarbe im markierten Zustand */
+}
+
+/* Darstellung des Häkchens, wenn die Checkbox aktiv ist */
+.full-width-checkbox:checked + .custom-checkbox::after {
+    content: '';
+    position: absolute;
+    top: 10px; /* Position anpassen */
+    left: 15px; /* Position anpassen */
+    width: 15px;
+    height: 25px;
+    border: solid white;
+    border-width: 0 5px 5px 0;
+    transform: rotate(45deg);
 }
 
 

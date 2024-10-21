@@ -209,8 +209,9 @@ input[type="text"]:hover, input[type="email"]:hover, input[type="number"]:hover,
 /* Checkbox-Styling 
 /* Die Tabellenzelle so formatieren, dass die Checkbox die gesamte Zelle einnimmt */
 td {
-    padding: 0; /* Entfernt den Abstand in der Zelle */
+    padding: 8px 5px; /* Abstand in der Zelle */
     text-align: center; /* Zentriert die Checkbox horizontal */
+    vertical-align: middle; /* Zentriert die Checkbox vertikal */
 }
 
 .full-width-checkbox {
@@ -219,6 +220,7 @@ td {
     margin: 0;    /* Entfernt den Standardabstand um die Checkbox */
     cursor: pointer; /* Zeigt an, dass die ganze Checkbox klickbar ist */
     display: block; /* Sorgt dafür, dass die Checkbox blockweise angezeigt wird */
+    background-color: #66c766;
 }
 
 

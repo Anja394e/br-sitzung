@@ -280,7 +280,7 @@ function displayEingeladenePersonen(personenListe) {
           <td>
               <label class="checkbox-label">
                 <input type="checkbox" class="full-width-checkbox" ${person.ordentlich ? 'checked' : ''} disabled />
-                <span></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
+                <span class="custom-checkbox"></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
               </label>
             </td> <!-- Checkbox für Ordentlich -->
           <td>${person.liste}</td>
@@ -709,14 +709,14 @@ function exportToCSV(eingeladen) {
           <td>
             <label class="checkbox-label">
               <input type="checkbox" class="anwesend-checkbox full-width-checkbox" data-rang="${person.rang}" ${person.anwesend ? 'checked' : ''} />
-              <span></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
+              <span class="custom-checkbox"></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
             </label>
           </td> <!-- Checkbox für Anwesend -->
           
           <td>
             <label class="checkbox-label">
               <input type="checkbox" class="full-width-checkbox" ${person.ordentlich ? 'checked' : ''} disabled />
-              <span></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
+              <span class="custom-checkbox"></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
             </label>
           </td> <!-- Checkbox für Ordentlich -->
         

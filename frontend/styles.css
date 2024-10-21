@@ -190,7 +190,7 @@ input[type="text"]:hover, input[type="email"]:hover, input[type="number"]:hover,
 /* Checkbox-Styling außerhalb einer Tabellenzelle */
 
 /* Label nimmt die gesamte Breite und Höhe des Containers ein */
-label.checkbox-label {
+.checkbox-label {
     display: block; /* Block-Element, um die volle Breite zu verwenden */
     width: 100%; /* Nimmt die gesamte Breite des Containers ein */
     height: 100%; /* Nimmt die gesamte Höhe des Containers ein */
@@ -199,7 +199,7 @@ label.checkbox-label {
 }
 
 /* Checkbox, die die gesamte Breite und Höhe des Labels einnimmt */
-input[type="checkbox"] {
+input[type="checkbox"].full-width-checkbox  {
     position: absolute; /* Positioniert die Checkbox relativ zum Label */
     top: 0;
     left: 0;
@@ -212,7 +212,7 @@ input[type="checkbox"] {
 }
 
 /* Optional: Style für eine sichtbare Checkbox-Alternative */
-label::before {
+.checkbox-label::before {
     content: ''; /* Erzeugt ein leeres Element vor der Checkbox */
     display: inline-block;
     width: 20px; /* Breite der sichtbaren Checkbox */
@@ -227,7 +227,7 @@ label::before {
 }
 
 /* Wenn die Checkbox angeklickt ist */
-input[type="checkbox"]:checked + label::before {
+input[type="checkbox"]:full-width-checkbox:checked + .checkbox-label::before {
     background-color: #66c766; /* Färbt die Checkbox, wenn sie angeklickt ist */
 }
 

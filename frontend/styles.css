@@ -255,8 +255,8 @@ td {
     position: absolute;
     left: 15px; /* Zentriert den Haken horizontal */
     top: 8px; /* Positioniert den Haken vertikal */
-    width: 50px; /* Breite des Haken */
-    height: 40px; /* Höhe des Haken */
+    width: 30px; /* Breite des Haken */
+    height: 20px; /* Höhe des Haken */
     border: solid white;
     border-width: 0 4px 4px 0; /* Dickere Linien für den Haken */
     transform: rotate(45deg); /* Der Haken im richtigen Winkel */

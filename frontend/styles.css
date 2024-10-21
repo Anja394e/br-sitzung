@@ -255,7 +255,7 @@ td {
     position: absolute;
     left: 15px; /* Zentriert den Haken horizontal */
     top: 8px; /* Positioniert den Haken vertikal */
-    width: 30px; /* Breite des Haken */
+    width: 12px; /* Breite des Haken */
     height: 20px; /* Höhe des Haken */
     border: solid white;
     border-width: 0 4px 4px 0; /* Dickere Linien für den Haken */

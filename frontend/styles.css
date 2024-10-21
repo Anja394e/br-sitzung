@@ -79,6 +79,9 @@ button, label.uploadLabel {
     line-height: normal; /* Entfernt zusätzlichen Zeilenabstand */
     box-sizing: border-box; /* Stellt sicher, dass Padding und Border mit einbezogen werden */
     display: inline-block; /* Verhält sich wie ein Button */
+    justify-content: center; /* Zentriert horizontal */
+    align-items: center; /* Zentriert vertikal */
+    text-align: center; /* Zentriert den Text */
 }
 
 /* Hover-Effekt für größere und abgerundete Buttons */

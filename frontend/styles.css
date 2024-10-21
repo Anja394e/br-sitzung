@@ -188,53 +188,20 @@ input[type="text"]:hover, input[type="email"]:hover, input[type="number"]:hover,
 }
 
 /* Checkbox-Styling 
-
-/* Stil für die gesamte Zelle, die die Checkbox enthält */
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 10px;
-    border: 1px solid #ccc; /* Optional: um die Zelle visuell abzugrenzen */
-    width: 100%;
-    cursor: pointer; /* Zeigt an, dass der gesamte Bereich klickbar ist */
+/* Die Tabellenzelle so formatieren, dass die Checkbox die gesamte Zelle einnimmt */
+td {
+    padding: 0; /* Entfernt den Abstand in der Zelle */
+    text-align: center; /* Zentriert die Checkbox horizontal */
 }
 
-/* Versteckt die Standard-Checkbox, um sie durch eine angepasste zu ersetzen */
 .full-width-checkbox {
-    display: none;
+    width: 100%;
+    height: 100%;
+    margin: 0; /* Entfernt den Standardabstand um die Checkbox */
+    cursor: pointer; /* Zeigt an, dass die ganze Checkbox klickbar ist */
+    display: block; /* Sorgt dafür, dass die Checkbox blockweise angezeigt wird und die Zelle ausfüllt */
 }
 
-/* Stil für das Label, das als klickbarer Bereich für die versteckte Checkbox dient */
-.checkbox-label::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin-right: 10px;
-    border: 1px solid #333;
-    background-color: #fff;
-    vertical-align: middle;
-}
-
-/* Wenn die Checkbox aktiviert ist, zeigt das Label einen gefüllten Stil */
-.full-width-checkbox:checked + .checkbox-label::before {
-    background-color: #4caf50; /* Grüne Farbe für aktivierte Checkbox */
-    border-color: #4caf50;
-}
-
-/* Sicherstellen, dass auch der Text neben der Checkbox gut aussieht */
-.checkbox-label span {
-    vertical-align: middle;
-}
-
-/* Für eine reibungslose Erfahrung auf kleineren Bildschirmen */
-@media (max-width: 600px) {
-    .checkbox-label {
-        padding: 5px;
-        font-size: 14px;
-    }
-}
 
 
 

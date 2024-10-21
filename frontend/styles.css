@@ -240,8 +240,11 @@ td {
 /* Hover-Effekt nur bei aktivierten Checkboxen */
 .full-width-checkbox:not(:disabled) + .custom-checkbox:hover {
     background-color: white; /* Hintergrund weiß beim Hover */
-    border-color: #66c766; /* Grüner Haken beim Hover */
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
+}
+
+.full-width-checkbox:not(:disabled):checked + .custom-checkbox:hover::after {
+    border-color: #66c766; /* Grüner Haken beim Hover */
 }
 
 /* Wenn die Checkbox angeklickt ist, den Hintergrund des span ändern */
@@ -270,7 +273,7 @@ td {
 
 /* Fokuszustand */
 .full-width-checkbox:focus + .custom-checkbox {
-    outline: 4px solid black; /* Fokusrahmen hinzufügen */
+    outline: 2px solid black; /* Fokusrahmen hinzufügen */
 }
 
 /* Stil für die deaktivierte Checkbox */

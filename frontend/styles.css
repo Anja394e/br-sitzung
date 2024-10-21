@@ -216,3 +216,47 @@ form p {
     margin-bottom: 15px; /* Abstand zwischen den Absätzen in Formularen */
 }
 
+/* Inhaltsverzeichnis-Überschrift */
+.toc-heading {
+    font-size: 2rem; /* Größere Schriftgröße */
+    text-align: center; /* Zentriert die Überschrift */
+    color: #2c3e50; /* Dunkleres Blau für modernes Design */
+    margin-bottom: 30px; /* Abstand zum Inhaltsverzeichnis */
+}
+
+/* Inhaltsverzeichnis Liste */
+.toc {
+    list-style: none; /* Entfernt die Standard-Aufzählungszeichen */
+    padding-left: 0; /* Kein Padding links */
+    text-align: center; /* Zentriert den gesamten Text */
+    font-size: 1.5rem; /* Größere Schrift für die Kapitel */
+    font-family: 'Roboto', sans-serif; /* Moderne Schriftart */
+    line-height: 2.2; /* Erhöhte Zeilenhöhe für bessere Lesbarkeit */
+}
+
+/* Inhaltsverzeichnis-Links */
+.toc li a {
+    color: #3498db; /* Blaue Farbe für die Links */
+    text-decoration: none; /* Entfernt die Unterstreichung */
+    transition: color 0.3s ease, transform 0.3s ease; /* Übergang bei Hover */
+}
+
+/* Hover-Effekt für die Inhaltsverzeichnis-Links */
+.toc li a:hover {
+    color: #2980b9; /* Dunkleres Blau beim Hover */
+    transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
+}
+
+/* Nummerierung der Kapitel durch :before Pseudo-Element */
+.toc li a::before {
+    content: attr(data-number) ". "; /* Fügt die Kapitelnummer hinzu */
+    font-weight: bold; /* Fett für die Nummern */
+    color: #2c3e50; /* Dunkleres Blau für die Nummern */
+}
+
+/* Anpassungen für kleinere Bildschirme */
+@media (max-width: 768px) {
+    .toc {
+        font-size: 1.2rem; /* Kleinere Schriftgröße auf mobilen Geräten */
+    }
+}

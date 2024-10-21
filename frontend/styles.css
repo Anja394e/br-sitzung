@@ -217,16 +217,18 @@ th, td {
     margin-bottom: 30px; /* Abstand zum Inhaltsverzeichnis */
 }
 
-/* Inhaltsverzeichnis */
+/* Inhaltsverzeichnis ohne Aufzählungspunkte */
 .toc {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2-spaltiges Layout für die Überschriften */
-    gap: 20px; /* Abstand zwischen den Elementen */
+    grid-template-columns: 1fr; /* Einspaltiges Layout für die Links */
+    gap: 15px; /* Abstand zwischen den Elementen */
     text-align: left; /* Links ausrichten */
     font-size: 1.2rem; /* Größere Schrift für die Kapitel */
     font-family: 'Roboto', sans-serif; /* Moderne Schriftart */
     margin: 0 auto; /* Zentriert das Inhaltsverzeichnis */
     max-width: 800px; /* Maximale Breite des Inhaltsverzeichnisses */
+    list-style-type: none; /* Entfernt Aufzählungspunkte */
+    padding: 0;
 }
 
 /* Styling für die einzelnen Einträge des Inhaltsverzeichnisses */
@@ -259,7 +261,6 @@ th, td {
 /* Anpassungen für kleinere Bildschirme */
 @media (max-width: 768px) {
     .toc {
-        grid-template-columns: 1fr; /* Auf mobilen Geräten einspaltig */
+        grid-template-columns: 1fr; /* Einspaltig auf mobilen Geräten */
     }
 }
-

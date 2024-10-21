@@ -209,13 +209,6 @@ th, td {
     font-size: 1rem; /* Konsistente Schriftgröße in Zellen */
 }
 
-/* Absatzformatierung für Text in Formularen oder in längeren Abschnitten */
-form p {
-    font-size: 1rem; /* Konsistente Schriftgröße für Texte innerhalb von Formularen */
-    color: #444; /* Etwas helleres Grau für Formulartexte */
-    margin-bottom: 15px; /* Abstand zwischen den Absätzen in Formularen */
-}
-
 /* Inhaltsverzeichnis-Überschrift */
 .toc-heading {
     font-size: 2rem; /* Größere Schriftgröße */
@@ -224,39 +217,49 @@ form p {
     margin-bottom: 30px; /* Abstand zum Inhaltsverzeichnis */
 }
 
-/* Inhaltsverzeichnis Liste */
+/* Inhaltsverzeichnis */
 .toc {
-    list-style: none; /* Entfernt die Standard-Aufzählungszeichen */
-    padding-left: 0; /* Kein Padding links */
-    text-align: center; /* Zentriert den gesamten Text */
-    font-size: 1.5rem; /* Größere Schrift für die Kapitel */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2-spaltiges Layout für die Überschriften */
+    gap: 20px; /* Abstand zwischen den Elementen */
+    text-align: left; /* Links ausrichten */
+    font-size: 1.2rem; /* Größere Schrift für die Kapitel */
     font-family: 'Roboto', sans-serif; /* Moderne Schriftart */
-    line-height: 2.2; /* Erhöhte Zeilenhöhe für bessere Lesbarkeit */
+    margin: 0 auto; /* Zentriert das Inhaltsverzeichnis */
+    max-width: 800px; /* Maximale Breite des Inhaltsverzeichnisses */
 }
 
-/* Inhaltsverzeichnis-Links */
-.toc li a {
+/* Styling für die einzelnen Einträge des Inhaltsverzeichnisses */
+.toc-item {
+    background-color: #f4f4f4; /* Hintergrundfarbe für die Kapitel */
+    padding: 10px 15px; /* Abstand um die Links herum */
+    border-radius: 5px; /* Abgerundete Ecken */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Stil für die Links im Inhaltsverzeichnis */
+.toc-item a {
     color: #3498db; /* Blaue Farbe für die Links */
     text-decoration: none; /* Entfernt die Unterstreichung */
-    transition: color 0.3s ease, transform 0.3s ease; /* Übergang bei Hover */
+    display: block; /* Sorgt dafür, dass der Link den gesamten Bereich ausfüllt */
+    font-weight: 500; /* Halb-fett für besseren Fokus */
 }
 
-/* Hover-Effekt für die Inhaltsverzeichnis-Links */
-.toc li a:hover {
+/* Hover-Effekt für Inhaltsverzeichnis-Einträge */
+.toc-item:hover {
+    transform: scale(1.02); /* Leichtes Vergrößern beim Hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Verstärkter Schatten beim Hover */
+}
+
+.toc-item a:hover {
     color: #2980b9; /* Dunkleres Blau beim Hover */
-    transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
-}
-
-/* Nummerierung der Kapitel durch :before Pseudo-Element */
-.toc li a::before {
-    content: attr(data-number) ". "; /* Fügt die Kapitelnummer hinzu */
-    font-weight: bold; /* Fett für die Nummern */
-    color: #2c3e50; /* Dunkleres Blau für die Nummern */
 }
 
 /* Anpassungen für kleinere Bildschirme */
 @media (max-width: 768px) {
     .toc {
-        font-size: 1.2rem; /* Kleinere Schriftgröße auf mobilen Geräten */
+        grid-template-columns: 1fr; /* Auf mobilen Geräten einspaltig */
     }
 }
+

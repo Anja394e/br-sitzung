@@ -48,21 +48,22 @@ th, td {
     height: 60px; /* Feste Höhe */
 }
 
-/* Runde Ecken nur an den Ecken der Tabelle */
+/* Runde Ecken für den Kopf der Tabelle */
 table th:first-child {
-    border-top-left-radius: 10px;
+    border-top-left-radius: 10px; /* Linke obere Ecke */
 }
 
 table th:last-child {
-    border-top-right-radius: 10px;
+    border-top-right-radius: 10px; /* Rechte obere Ecke */
 }
 
-table td:first-child:last-child {
-    border-bottom-left-radius: 10px;
+/* Runde Ecken für die letzte Zeile der Tabelle */
+table tr:last-child td:first-child {
+    border-bottom-left-radius: 10px; /* Linke untere Ecke */
 }
 
-table td:last-child:last-child {
-    border-bottom-right-radius: 10px;
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 10px; /* Rechte untere Ecke */
 }
 
 /* Alternative Zeilenhintergrundfarbe */

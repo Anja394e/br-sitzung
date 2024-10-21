@@ -214,41 +214,54 @@ td {
     vertical-align: middle; /* Zentriert die Checkbox vertikal */
 }
 
-/* Versteckt das ursprüngliche Checkbox-Element */
+/* Unsichtbare Checkbox */
 .full-width-checkbox {
-    display: none; /* Das tatsächliche Checkbox-Element unsichtbar machen */
+    opacity: 0; /* Versteckt die eigentliche Checkbox */
+    position: absolute; /* Verhindert, dass sie den Layoutfluss beeinflusst */
 }
 
-/* Stil für das span, das als sichtbare Checkbox dient */
+/* Sichtbares Kästchen (span) */
 .custom-checkbox {
     display: inline-block;
     width: 50px;
     height: 40px;
-    background-color: #fff; /* Hintergrundfarbe der nicht markierten Checkbox */
-    border: 2px solid #ccc; /* Standardrand */
-    border-radius: 4px; /* Optional: Abgerundete Ecken */
-    cursor: not-allowed; /* Da es disabled ist */
-    position: relative; /* Ermöglicht die Platzierung des Häkchens */
+    background-color: #fff;
+    border: 2px solid #ccc; /* Border für nicht markierte Checkbox */
+    border-radius: 4px; /* Abgerundete Ecken */
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition für den Hover */
 }
 
-/* Checkbox im aktivierten Zustand */
+/* Hover-Effekt für die Checkbox */
+.custom-checkbox:hover {
+    background-color: #e0e0e0; /* Helle graue Hintergrundfarbe beim Hover */
+    transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
+}
+
+/* Wenn die Checkbox angeklickt ist, den Hintergrund des span ändern */
 .full-width-checkbox:checked + .custom-checkbox {
-    background-color: #66c766; /* Hintergrundfarbe der markierten Checkbox */
-    border-color: #66c766; /* Randfarbe im markierten Zustand */
+    background-color: #66c766; /* Farbe bei aktivierter Checkbox */
+    border-color: #66c766; /*  Rahmen ebenfalls grün */
 }
 
-/* Darstellung des Häkchens, wenn die Checkbox aktiv ist */
-.full-width-checkbox:checked + .custom-checkbox::after {
-    content: '';
-    position: absolute;
-    top: 10px; /* Position anpassen */
-    left: 15px; /* Position anpassen */
-    width: 15px;
-    height: 25px;
-    border: solid white;
-    border-width: 0 5px 5px 0;
-    transform: rotate(45deg);
+/* Hover-Effekt auch für die aktivierte Checkbox */
+.full-width-checkbox:checked + .custom-checkbox:hover {
+    background-color: #58b757; /* Etwas dunkleres Grün beim Hover, wenn aktiv */
 }
+
+/* Optional: Fokuszustand */
+.full-width-checkbox:focus + .custom-checkbox {
+    outline: 2px solid blue; /* Fokusrahmen hinzufügen */
+}
+
+/* Stil für die deaktivierte Checkbox */
+.full-width-checkbox:disabled + .custom-checkbox {
+    background-color: #f0f0f0; /* Deaktivierte Farbe */
+    cursor: not-allowed; /* Zeigt an, dass sie nicht klickbar ist */
+    border-color: #d0d0d0; /* Leichterer Rand für deaktivierte Checkbox */
+}
+
 
 
 

@@ -253,14 +253,15 @@ td {
 .full-width-checkbox:checked + .custom-checkbox::after {
     content: ''; /* Haken einfügen */
     position: absolute;
-    left: 5px;
-    top: 2px;
-    width: 6px;
-    height: 10px;
+    left: 15px; /* Zentriert den Haken horizontal */
+    top: 8px; /* Positioniert den Haken vertikal */
+    width: 12px; /* Breite des Haken */
+    height: 20px; /* Höhe des Haken */
     border: solid white;
-    border-width: 0 2px 2px 0;
+    border-width: 0 4px 4px 0; /* Dickere Linien für den Haken */
     transform: rotate(45deg); /* Der Haken im richtigen Winkel */
 }
+
 
 /* Fokuszustand */
 .full-width-checkbox:focus + .custom-checkbox {

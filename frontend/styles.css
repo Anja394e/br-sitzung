@@ -187,56 +187,55 @@ input[type="text"]:hover, input[type="email"]:hover, input[type="number"]:hover,
     border-color: #66c766; /* Passend zum Button-Hover */
 }
 
-/* Checkbox-Styling außerhalb einer Tabellenzelle */
+/* Checkbox-Styling 
 
-/* Label nimmt die gesamte Breite und Höhe des Containers ein */
+/* Stil für die gesamte Zelle, die die Checkbox enthält */
 .checkbox-label {
-    display: block; /* Block-Element, um die volle Breite zu verwenden */
-    width: 100%; /* Nimmt die gesamte Breite des Containers ein */
-    height: 100%; /* Nimmt die gesamte Höhe des Containers ein */
-    position: relative; /* Erlaubt die absolute Positionierung der Checkbox */
-    cursor: pointer; /* Zeigt den Zeiger-Cursor an, wenn man über das Label fährt */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    border: 1px solid #ccc; /* Optional: um die Zelle visuell abzugrenzen */
+    width: 100%;
+    cursor: pointer; /* Zeigt an, dass der gesamte Bereich klickbar ist */
 }
 
-/* Checkbox, die die gesamte Breite und Höhe des Labels einnimmt */
-input[type="checkbox"].full-width-checkbox  {
-    position: absolute; /* Positioniert die Checkbox relativ zum Label */
-    top: 0;
-    left: 0;
-    width: 100%; /* Nimmt die gesamte Breite des Labels ein */
-    height: 100%; /* Nimmt die gesamte Höhe des Labels ein */
-    margin: 0; /* Entfernt jegliche Standard-Margen */
-    padding: 0; /* Entfernt Padding */
-    opacity: 0; /* Macht die Checkbox unsichtbar */
-    cursor: pointer; /* Zeigt einen Zeiger-Cursor an */
+/* Versteckt die Standard-Checkbox, um sie durch eine angepasste zu ersetzen */
+.full-width-checkbox {
+    display: none;
 }
 
-/* Sichtbare Checkbox-Hintergrundalternative */
-.checkbox-label span::before {
-    content: ''; /* Erzeugt ein leeres Element vor der Checkbox */
+/* Stil für das Label, das als klickbarer Bereich für die versteckte Checkbox dient */
+.checkbox-label::before {
+    content: '';
     display: inline-block;
-    width: 20px; /* Breite der sichtbaren Checkbox */
-    height: 20px; /* Höhe der sichtbaren Checkbox */
-    border: 2px solid #66c766; /* Grenze der Checkbox */
-    background-color: #fff; /* Hintergrund der sichtbaren Checkbox */
-    border-radius: 4px; /* Runde Ecken für die Checkbox */
-    position: absolute;
-    top: 50%;
-    left: 10px; /* Setzt die Checkbox links im Label */
-    transform: translateY(-50%); /* Vertikale Zentrierung */
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    border: 1px solid #333;
+    background-color: #fff;
+    vertical-align: middle;
 }
 
-/* Wenn die Checkbox angeklickt ist */
-input[type="checkbox"].full-width-checkbox:checked + span::before {
-    background-color: #66c766;
+/* Wenn die Checkbox aktiviert ist, zeigt das Label einen gefüllten Stil */
+.full-width-checkbox:checked + .checkbox-label::before {
+    background-color: #4caf50; /* Grüne Farbe für aktivierte Checkbox */
+    border-color: #4caf50;
 }
 
-/* Checkbox-Text richtig platzieren */
+/* Sicherstellen, dass auch der Text neben der Checkbox gut aussieht */
 .checkbox-label span {
-    margin-left: 40px; /* Platz für die sichtbare Checkbox */
-    position: relative;
-    line-height: 20px; /* Text vertikal zentrieren */
+    vertical-align: middle;
 }
+
+/* Für eine reibungslose Erfahrung auf kleineren Bildschirmen */
+@media (max-width: 600px) {
+    .checkbox-label {
+        padding: 5px;
+        font-size: 14px;
+    }
+}
+
 
 
 /* Allgemeines Styling für alle Labels */

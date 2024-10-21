@@ -218,6 +218,8 @@ td {
 .full-width-checkbox {
     opacity: 0; /* Versteckt die eigentliche Checkbox */
     position: absolute; /* Verhindert, dass sie den Layoutfluss beeinflusst */
+    width: 0;
+    height: 0;
 }
 
 /* Sichtbares Kästchen (span) */
@@ -229,13 +231,15 @@ td {
     border: 2px solid #ccc; /* Border für nicht markierte Checkbox */
     border-radius: 4px; /* Abgerundete Ecken */
     cursor: pointer;
-    position: relative;
+    vertical-align: middle; /* Zentriert mit dem Text */
+    position: relative; /* Erforderlich, um das Pseudo-Element für den Haken zu positionieren */
+    margin-right: 8px; /* Abstand zwischen der Checkbox und dem Text */
     transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition für den Hover */
 }
 
-/* Hover-Effekt für die Checkbox */
-.custom-checkbox:hover {
-    background-color: #e0e0e0; /* Helle graue Hintergrundfarbe beim Hover */
+/* Hover-Effekt nur bei aktivierten Checkboxen */
+.full-width-checkbox:not(:disabled) + .custom-checkbox:hover {
+    background-color: #e0e0e0; /* Hellgrau bei Hover */
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
 }
 
@@ -245,9 +249,17 @@ td {
     border-color: #66c766; /*  Rahmen ebenfalls grün */
 }
 
-/* Hover-Effekt auch für die aktivierte Checkbox */
-.full-width-checkbox:checked + .custom-checkbox:hover {
-    background-color: #58b757; /* Etwas dunkleres Grün beim Hover, wenn aktiv */
+/* Haken anzeigen, wenn die Checkbox aktiviert ist */
+.full-width-checkbox:checked + .custom-checkbox::after {
+    content: ''; /* Haken einfügen */
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg); /* Der Haken im richtigen Winkel */
 }
 
 /* Fokuszustand */
@@ -262,7 +274,11 @@ td {
     border-color: #d0d0d0; /* Leichterer Rand für deaktivierte Checkbox */
 }
 
-
+/* Deaktivierte Checkbox reagiert nicht auf Hover */
+.full-width-checkbox:disabled + .custom-checkbox:hover {
+    background-color: #f0f0f0; /* Kein Hover-Effekt bei deaktivierter Checkbox */
+    cursor: not-allowed; /* Zeigt an, dass sie nicht klickbar ist */
+}
 
 
 

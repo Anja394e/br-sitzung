@@ -222,8 +222,8 @@ input[type="checkbox"].full-width-checkbox  {
     border-radius: 4px; /* Runde Ecken für die Checkbox */
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%); /* Zentriert die Checkbox im Label */
+    left: 10px; /* Setzt die Checkbox links im Label */
+    transform: translateY(-50%); /* Vertikale Zentrierung */
 }
 
 /* Wenn die Checkbox angeklickt ist */
@@ -233,7 +233,9 @@ input[type="checkbox"].full-width-checkbox:checked + span::before {
 
 /* Checkbox-Text richtig platzieren */
 .checkbox-label span {
-    margin-left: 40px; /* Abstand, um Platz für die Checkbox zu lassen */
+    margin-left: 40px; /* Platz für die sichtbare Checkbox */
+    position: relative;
+    line-height: 20px; /* Text vertikal zentrieren */
 }
 
 

@@ -147,7 +147,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     let email = document.getElementById("email").value;
     let geschlecht = document.getElementById("geschlecht").value;
     let rang = parseInt(document.getElementById("rang").value);
-    let anwesend = document.getElementById("anwesend").checked;#
+    let anwesend = document.getElementById("anwesend").checked;
     let rueckmeldung = document.getElementById("rueckmeldung").value;
 
 

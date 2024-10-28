@@ -685,7 +685,7 @@ function exportToCSV(eingeladen) {
     let encodedUri = encodeURI(csvContent);
     let link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "eingeladene_personen_${formattedDate}.csv");
+    link.setAttribute("download", `eingeladene_personen_${formattedDate}.csv`); // Dateiname mit Datum
 
     // Simuliere einen Klick auf das Download-Element
     document.body.appendChild(link);

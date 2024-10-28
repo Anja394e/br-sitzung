@@ -89,7 +89,7 @@
                 <input type="email" id="email" placeholder="E-Mail" />
                 
                 <!-- Geschlecht der Person -->
-                <label for="geschlecht">Geschlecht:</label>
+                <label for="geschlecht">Geschlecht:<span class="required">*</span></label>
                 <select id="geschlecht" required>
                     <option value="m">Männlich</option>
                     <option value="w">Weiblich</option>
@@ -100,7 +100,7 @@
                 <label class="checkbox-label">
                     <input type="checkbox" id="ordentlich" name="ordentlich" class="full-width-checkbox"/>  
                     <span class="custom-checkbox"></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
-                    Ordentliches Mitglied
+                    Ordentliches Mitglied class="required">*</span>
                 </label>
 
         
@@ -116,7 +116,7 @@
                 <input type="text" id="neueListe" placeholder="Neue Liste hinzufügen" />
         
                 <!-- Feld für die Listenposition -->
-                <label for="rang">Rang:</label>
+                <label for="rang">Rang:<span class="required">*</span></label>
                 <input type="number" id="rang" placeholder="Rang" required min="1" />
                 <br>
         
@@ -124,7 +124,7 @@
                 <label  class="checkbox-label" for="anwesend">
                     <input type="checkbox" id="anwesend" class="full-width-checkbox" checked />
                     <span class="custom-checkbox"></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
-                    Anwesend 
+                    Anwesend class="required">*</span>
                 </label>
         
                 <!-- Button zum Hinzufügen der Person -->

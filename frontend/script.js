@@ -1166,7 +1166,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (confirmation) {
                 // Rufe die Löschfunktion auf und übergebe die ID der Person
                 loeschenPerson(personId);
-                alert("Alle Einträge wurden gelöscht.");
+                alert("Der Eintrag für ${personDaten} wurde gelöscht.");
             } else {
                 console.log("Löschvorgang abgebrochen.");
             }   

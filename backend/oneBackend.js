@@ -657,8 +657,9 @@ function sendeEmailAnEingeladene(eingeladen) {
 // Funktion zum Exportieren der eingeladenen Personen als CSV
 function exportToCSV(eingeladen) {
     // Erstelle eine CSV-Zeichenkette
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Rang,Name,E-Mail,Geschlecht,Ordentlich,Liste,Nachladegrund\n"; // Kopfzeilen
+    // UTF-8 BOM hinzufügen, damit Sonderzeichen korrekt erkannt werden
+    let csvContent = "\uFEFF"; // Fügt den UTF-8 BOM hinzu
+    csvContent += "Rang,Name,E-Mail,Geschlecht,Ordentlich,Liste,Einladegrund\n"; // Kopfzeilen
 
     // Füge jede Person als CSV-Zeile hinzu
     eingeladen.forEach(person => {
@@ -682,7 +683,7 @@ function exportToCSV(eingeladen) {
     const formattedDate = `${year}-${month}-${day}`;
   
     // Erstelle ein unsichtbares Element zum Herunterladen der Datei
-    let encodedUri = encodeURI(csvContent);
+    let encodedUri = encodeURI(`data:text/csv;charset=utf-8,${csvContent}`);
     let link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", `eingeladene_personen_${formattedDate}.csv`); // Dateiname mit Datum

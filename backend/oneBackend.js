@@ -547,9 +547,9 @@ function erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate,
         .map(person => {
             if (person.mail && person.mail.trim() !== "") {
                 return `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`;
-            } else {
-                // Falls keine E-Mail vorhanden ist, verwende den Namen im Teilnehmerformat
-                return `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:CN=${person.name}`;
+            } else if (person.name && person.name.trim() !== "") {
+                // Falls keine E-Mail vorhanden ist, verwende einen Platzhalter für den Namen
+                return `ATTENDEE;CN=${person.name};RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:nouser@domain.com`;
             }
         })
         .join('\n');

@@ -136,6 +136,16 @@
                     <span class="custom-checkbox"></span> <!-- Das sichtbare Kästchen wird durch das span gestylt -->
                     Anwesend<span class="required">*</span>
                 </label>
+
+                <!-- Auswahl der Rückmeldung -->
+                <label for="rueckmeldung">Rückmeldung:</label>
+                <select id="rueckmeldung">
+                    <option value="Zugesagt">Zugesagt</option>
+                    <option value="Unter Vorbehalt zugesagt">Unter Vorbehalt zugesagt</option>
+                    <option value="Abgesagt">Abgesagt</option>
+                    <option value="Abgesagt ohne ordentliche Verhinderungsgründe">Abgesagt ohne ordentliche Verhinderungsgründe</option>
+                    <option value="Keine Rückmeldung" selected>Keine Rückmeldung</option>
+                </select>
         
                 <!-- Button zum Hinzufügen der Person -->
                 <button type="submit">Person hinzufügen</button>

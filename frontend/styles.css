@@ -2,10 +2,17 @@
 .top-row {
     display: flex;
     align-items: center; /* Zentriert die Elemente vertikal */
-    justify-content: space-between; /* Verteilt die Elemente gleichmäßig */
+    justify-content: flex-start; /* Lässt die Elemente links beginnen */
     flex-wrap: wrap; /* Ermöglicht den Zeilenumbruch */
     gap: 15px; /* Abstand zwischen den Elementen */
     margin-bottom: 20px; /* Abstand zum Rest des Inhalts */
+}
+
+.top-row button,
+.top-row label {
+    flex: 1 1 200px; /* Flex-Grow, Flex-Shrink und Basisbreite */
+    min-width: 150px; /* Mindestbreite, um das Layout stabiler zu machen */
+    height: 60px; /* Einheitliche Höhe */
 }
 
 /* Hauptcontainer-Styling */

@@ -26,6 +26,7 @@
             <div class="toc-item"><a href="#daten-herunterladen-hochladen">6. Daten herunterladen und hochladen</a></div>
             <div class="toc-item"><a href="#export-csv">7. Export in CSV</a></div>
             <div class="toc-item"><a href="#einladelogik">8. Generelle Einladelogik</a></div>
+            <div class="toc-item"><a href="#rueckmeldung">9. Das Feld "Rückmeldung"</a></div>
 
             <!-- Zurück zur Startseite Button -->
             <div class="toc-item">
@@ -57,6 +58,17 @@
         <h2 id="einladelogik">8. Generelle Einladelogik</h2>
         <p>Die Website lädt zunächst alle ordentlichen Mitglieder zur Sitzung ein, die als "Anwesend" markiert sind. Bei ordentlichen Mitgliedern wird der Rang fett gedruckt. Für jedes nicht anwesende ordentliche Mitglied, wird automatisch versucht , Ersatzmitglieder nachzuladen. Zuerst wird geprüft, ob Ersatzpersonen aus derselben Liste verfügbar sind. Es wird geprüft, ob die Anzahl der Personen des Minderheitengeschlechts erreicht ist. Ist dies nicht der Fall, wird auch zunächst in der selben Liste, dann Listenübergreifend das Minderheitengeschlecht nachgeladen. Gibt es keine Person des Minderheitengeschlechtes mehr, wird ohne Berücksichtigung des Minderheitengeschlechtes nachgeladen. Du kannst das Minderheitengeschlecht sowie die vorgegebene Anzahl über den "Einstellungen"-Button ändern. Falls keine passenden Ersatzpersonen gefunden werden, wird eine Platzhalterperson eingefügt, um die fehlenden Positionen zu markieren.</p>
 
+        <h2 id="rueckmeldung">9. Das Feld "Rückmeldung"</h2>
+        <p>Das Feld "Rückmeldung" dient ausschließlich der Nachverfolgung der Antworten der eingeladenen Personen. Es zeigt den Status der jeweiligen Rückmeldung an, um eine Übersicht darüber zu erhalten, wer bereits eine Antwort gegeben hat und in welcher Form diese erfolgte. Mögliche Werte für dieses Feld sind:
+
+            Zugesagt: Die Person hat ihre Teilnahme verbindlich bestätigt.
+            Unter Vorbehalt zugesagt: Die Person hat ihre Teilnahme zugesagt, allerdings unter Vorbehalt.
+            Abgesagt: Die Person hat ihre Teilnahme abgesagt.
+            Abgesagt ohne ordentliche Verhinderungsgründe: Die Person hat ihre Teilnahme abgesagt, ohne einen Grund anzugeben, durch den eine Ersatzperson nachgeladen werden darf. Darunter fallen z.B. betriebliche Gründe.
+            Keine Rückmeldung: Es liegt noch keine Rückmeldung der Person vor.
+            Dieses Feld ist rein informativ und wird genutzt, um den aktuellen Rückmeldungsstatus der Teilnehmer im Blick zu behalten. Es dient nicht zur Beeinflussung der Einladungsliste, sondern nur zur Dokumentation und besseren Nachverfolgung der Kommunikation mit den eingeladenen Personen.</p>
+
+        
         <button id="backButton" class="info-button">Zurück zur Startseite</button>
     </div>
 

@@ -413,7 +413,7 @@ th, td {
     }
 }
 
+/* rote färbung des required sterns*/
 .required {
     color: red;
-    margin-left: 5px; /* Optional: fügt etwas Abstand zum Text hinzu */
 }

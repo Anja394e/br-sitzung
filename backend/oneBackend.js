@@ -1,6 +1,6 @@
 // Die Person-Klasse definieren
   class Person {
-    constructor(ordentlich, liste, rang, geschlecht, name, mail, anwesend) {
+    constructor(ordentlich, liste, rang, geschlecht, name, mail, anwesend, rueckmeldung) {
         this.id = Number(rang); // Stelle sicher, dass die ID (rang) eine Ganzzahl ist
         this.ordentlich = ordentlich;
         this.liste = liste;
@@ -9,13 +9,14 @@
         this.name = name;
         this.mail = mail;
         this.anwesend = anwesend;
+        this.rueckmeldung = rueckmeldung
     }
 
   
 
     // Benutzerdefinierte toString()-Methode für die Textrepräsentation
     toString() {
-        return `${this.name} (Rang: ${this.rang}, ${this.ordentlich ? 'Ordentlich' : 'Ersatz'}, Liste: ${this.liste}, Geschlecht: ${this.geschlecht}, Anwesend: ${this.anwesend ? 'Ja' : 'Nein'})`;
+        return `${this.name} (Rang: ${this.rang}, ${this.ordentlich ? 'Ordentlich' : 'Ersatz'}, Liste: ${this.liste}, Geschlecht: ${this.geschlecht}, Anwesend: ${this.anwesend ? 'Ja' : 'Nein'}, Rückmeldung: ${this.rueckmeldung || 'Keine Rückmeldung'})`;
     }
 }
 
@@ -146,7 +147,9 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     let email = document.getElementById("email").value;
     let geschlecht = document.getElementById("geschlecht").value;
     let rang = parseInt(document.getElementById("rang").value);
-    let anwesend = document.getElementById("anwesend").checked;
+    let anwesend = document.getElementById("anwesend").checked;#
+    let rueckmeldung = document.getElementById("rueckmeldung").value;
+
 
     // Überprüfung und Auswahl der Liste
     let vorhandeneListe = document.getElementById("liste").value;
@@ -175,6 +178,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
             vorhandenePerson.mail = email;
             vorhandenePerson.geschlecht = geschlecht;
             vorhandenePerson.anwesend = anwesend;
+            vorhandenePerson.rueckmeldung = rueckmeldung;
 
             // Speichern der aktualisierten Personenliste
             speicherePersonen(allePersonen);
@@ -191,7 +195,7 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
     }
 
    // Falls keine Person mit diesem Rang existiert, neue Person erstellen
-   let neuePerson = new Person(ordentlich, liste, rang, geschlecht, name, email, anwesend);
+   let neuePerson = new Person(ordentlich, liste, rang, geschlecht, name, email, anwesend, rueckmeldung);
 
     // Füge die neue Person zum gemeinsamen Array hinzu
     allePersonen.push(neuePerson);
@@ -249,6 +253,7 @@ function displayEingeladenePersonen(personenListe) {
                 <th>Ordentlich</th>
                 <th>Liste</th>
                 <th>Einladegrund</th>
+                <th>Rückmeldung </th>
             </tr>
         </thead>
         <tbody>
@@ -285,6 +290,7 @@ function displayEingeladenePersonen(personenListe) {
             </td> <!-- Checkbox für Ordentlich -->
           <td>${person.liste}</td>
           <td>${nachladegrundText}</td> <!-- Nachladegrund anzeigen -->
+          <td>${person.rueckmeldung}</td> <!-- Rückmeldung anzeigen -->
         `;
     });
 
@@ -710,6 +716,7 @@ function exportToCSV(eingeladen) {
             <th>Anwesend</th>
             <th>Ordentlich</th>
             <th>Liste</th>
+            <th>Rückmeldung</th>
             <th>Aktionen</th>
         </tr>
     `;
@@ -753,6 +760,8 @@ function exportToCSV(eingeladen) {
           </td> <!-- Checkbox für Ordentlich -->
         
           <td>${person.liste}</td>
+
+          <td>${person.rueckmeldung}</td>
           
           <td>
             <button class="editButton" data-id="${person.id}">Bearbeiten</button> <!-- Verwende die ID -->
@@ -785,7 +794,7 @@ function exportToCSV(eingeladen) {
 }
 
 
-// ersatzmanagement.js
+// ehem. ersatzmanagement.js
 
 function erzeuge_platzhalterperson(rang, liste) {
     return {
@@ -1045,6 +1054,7 @@ function setzeStandardwerte() {
         document.getElementById("geschlecht").value = letztePerson.geschlecht;
         document.getElementById("ordentlich").checked = letztePerson.ordentlich;
         document.getElementById("liste").value = letztePerson.liste;
+        document.getElementById("liste").value = "zugesagt";
     }
 }
 

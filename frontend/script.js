@@ -693,7 +693,7 @@ function exportToCSV(eingeladen) {
             person.ordentlich ? "Ja" : "Nein",
             person.liste,
             person.nachladegrund || "ordentlich"
-        ].join(","); // Verbinde die Werte mit Komma
+        ].join(";"); // Verbinde die Werte mit einem Semicolon, da Excel in der deutschsprachigen Version das besser interpretiert.
         csvContent += row + "\n"; // Füge die Zeile der CSV-Zeichenkette hinzu
     });
   

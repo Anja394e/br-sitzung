@@ -121,6 +121,12 @@ function loeschenPerson(id) {
     // Finde den Index der Person anhand der übermittelten (konvertierten) ID
     const index = allePersonen.findIndex(p => p.id === numericId);
 
+      // Überprüfen, ob die Person gefunden wurde
+    if (index === -1) {
+        console.warn('Person mit ID', numericId, 'bereits gelöscht oder nicht vorhanden.');
+        return;
+    }
+
     // Überprüfen, ob die Person gefunden wurde
     if (index === -1) {
         console.error('Person nicht gefunden mit ID:', numericId);

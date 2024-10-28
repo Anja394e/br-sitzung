@@ -412,3 +412,8 @@ th, td {
         grid-template-columns: 1fr; /* Einspaltig auf mobilen Geräten */
     }
 }
+
+.required {
+    color: red;
+    margin-left: 5px; /* Optional: fügt etwas Abstand zum Text hinzu */
+}

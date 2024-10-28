@@ -8,11 +8,22 @@
     margin-bottom: 20px; /* Abstand zum Rest des Inhalts */
 }
 
+/* Gleiche Formatierung für Buttons und Labels innerhalb der top-row */
 .top-row button,
 .top-row label {
     flex: 1 1 200px; /* Flex-Grow, Flex-Shrink und Basisbreite */
     min-width: 150px; /* Mindestbreite, um das Layout stabiler zu machen */
-    height: 60px; /* Einheitliche Höhe */
+    height: auto; /* Automatische Höhe, damit sich das Element an den Text anpasst */
+    background-color: #66c766; /* Grüner Hintergrund (anpassbar) */
+    color: white; /* Weiße Schriftfarbe */
+    padding: 12px 30px; /* Polsterung für ein besseres Aussehen */
+    border: 1px solid #66c766; /* Passender Rahmen */
+    border-radius: 10px; /* Abgerundete Ecken */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    text-align: center; /* Zentriert den Text */
+    box-sizing: border-box; /* Padding und Border werden berücksichtigt */
+    line-height: 1.2; /* Kompakterer Zeilenabstand */
 }
 
 /* Hauptcontainer-Styling */

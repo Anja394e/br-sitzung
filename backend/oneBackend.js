@@ -481,7 +481,7 @@ function displayEinladungsButton(eingeladen) {
         // Erstelle den Outlook-Kalendereintrag-Button
         outlookButton = document.createElement("button");
         outlookButton.id = "outlookButton";
-        outlookButton.innerText = "Kalendereintrag für Outlook erstellen";
+        outlookButton.innerText = "Kalendereintrag für Outlook (.ics-Datei) erstellen";
         outlookButton.className = "button"; // Gleiche Button-Klasse
 
         // Füge den Button zum Container hinzu 

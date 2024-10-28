@@ -681,7 +681,7 @@ function exportToCSV(eingeladen) {
     // Erstelle eine CSV-Zeichenkette
     // UTF-8 BOM hinzufügen, damit Sonderzeichen korrekt erkannt werden
     let csvContent = "\uFEFF"; // Fügt den UTF-8 BOM hinzu
-    csvContent += "Rang;Name;E-Mail;Geschlecht;Ordentlich;Liste;Einladegrund\n"; // Kopfzeilen mit Semicolon, da Excel in der deutschsprachigen Version das besser interpretiert.
+    csvContent += "Rang;Name;E-Mail;Geschlecht;Ordentlich;Liste;Einladegrund;Rückmeldung\n"; // Kopfzeilen mit Semicolon, da Excel in der deutschsprachigen Version das besser interpretiert.
 
     // Füge jede Person als CSV-Zeile hinzu
     eingeladen.forEach(person => {
@@ -693,6 +693,7 @@ function exportToCSV(eingeladen) {
             person.ordentlich ? "Ja" : "Nein",
             person.liste,
             person.nachladegrund || "ordentlich"
+            person.rueckmeldung
         ].join(";"); // Verbinde die Werte mit einem Semicolon, da Excel in der deutschsprachigen Version das besser interpretiert.
         csvContent += row + "\n"; // Füge die Zeile der CSV-Zeichenkette hinzu
     });

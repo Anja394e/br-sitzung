@@ -161,6 +161,7 @@ button.editButton:hover {
     background-color: transparent; /* Hintergrund transparent beim Hover */
     color: #ffc107; /* Textfarbe passend zur Rahmenfarbe */
     transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
+    min-width: 120px; /* Setzt die Mindestbreite auf 120px */
 }
 
 /* Delete-Button mit abgerundeten Ecken */
@@ -174,6 +175,7 @@ button.deleteButton {
     font-size: 1rem; /* Kleinere Schriftgröße */
     transition: background-color 0.3s ease, transform 0.3s ease;
     height: 40px; /* Feste niedrigere Höhe */
+    min-width: 120px; /* Setzt die Mindestbreite auf 120px */
 }
 
 button.deleteButton:hover {

@@ -1038,24 +1038,6 @@ function uploadLocalStorageData(event) {
 }
 
 
-
-// Funktion zum Berechnen und Eintragen des nächsten freien Ranges
-function setzeNaechstenFreienRang(liste) {
-    let naechsterRang;
-
-    // Filtere Personen nach der gewählten Liste und ermittle den höchsten Rang
-    let personenInListe = allePersonen.filter(p => p.liste === liste);
-    if (personenInListe.length > 0) {
-        let hoechsterRang = Math.max(...personenInListe.map(p => p.rang));
-        naechsterRang = hoechsterRang + 1;
-    } else {
-        naechsterRang = 1; // Start bei 1, falls die Liste leer ist
-    }
-
-    // Setze den Rang im Formular
-    document.getElementById("rang").value = naechsterRang;
-}
-
 // Funktion zum Aktualisieren des Dropdown-Menüs mit den vorhandenen Listen
 function aktualisiereListenDropdown() {
     let dropdown = document.getElementById("liste");
@@ -1075,20 +1057,25 @@ function setzeStandardwerte() {
         // Letzte Person ermitteln
         let letztePerson = allePersonen[allePersonen.length - 1];
 
+
         // Werte der letzten Person in das Formular einfügen
         document.getElementById("geschlecht").value = letztePerson.geschlecht;
         document.getElementById("ordentlich").checked = letztePerson.ordentlich;
         document.getElementById("liste").value = letztePerson.liste;
-        document.getElementById("liste").value = "zugesagt";
+        document.getElementById("rueckmeldung").value = letztePerson.rueckmeldung;
+
+        // Ermittle den nächsten höchsten Rang
+        if (allePersonen.length > 0) {
+            let hoechsterRang = Math.max(...allePersonen.map(p => p.rang));
+            naechsterRang = hoechsterRang + 1;
+        } else {
+            naechsterRang = 1; // Start bei 1, falls keine Personen vorhanden sind
+        }
+
+        // Setze den Rang im Formular
+        document.getElementById("rang").value = naechsterRang;
     }
 }
-
-
-// Automatisch den freien Rang beim Laden des Formulars setzen
-document.getElementById("liste").addEventListener("change", function () {
-    let liste = this.value;
-    setzeNaechstenFreienRang(liste); // Setze den nächsten freien Rang, wenn die Liste gewechselt wird
-});
 
 // Setze den Rang initial beim Laden der Seite
 window.onload = function () {
@@ -1096,7 +1083,6 @@ window.onload = function () {
     displayPersonen(); // Ruft die Funktion auf, um die Personen anzuzeigen
     aktualisiereListenDropdown(); // Aktualisiere das Dropdown-Menü beim Laden der Seite
     let liste = document.getElementById("liste").value;
-    setzeNaechstenFreienRang(liste); // Setze den Rang basierend auf der ersten Liste
 
     // Setze die Standardwerte basierend auf der letzten Person
     setzeStandardwerte();

@@ -1152,9 +1152,24 @@ document.addEventListener("DOMContentLoaded", function () {
             // Hole die ID der Person aus den Datenattributen
             const personId = target.getAttribute('data-id');
             console.log(`Löschen-Button geklickt: id=${personId}`);
-            
-            // Rufe die Löschfunktion auf und übergebe die ID der Person
-            loeschenPerson(personId);
+
+            // Finde die Person basierend auf der ID
+            const person = allePersonen.find(p => p.id === parseInt(personId));
+        
+            // Erstelle eine Bestätigungsnachricht mit Rang und optional dem Namen der Person
+            const personDaten = person
+                ? `Rang: ${person.rang}${person.name ? ', Name: ' + person.name : ''}`
+                : 'Unbekannte Person';
+        
+            const confirmation = confirm(`Möchten Sie den Eintrag für ${personDaten} wirklich löschen?`);
+    
+            if (confirmation) {
+                // Rufe die Löschfunktion auf und übergebe die ID der Person
+                loeschenPerson(personId);
+                alert("Alle Einträge wurden gelöscht.");
+            } else {
+                console.log("Löschvorgang abgebrochen.");
+            }   
         }
     });
 

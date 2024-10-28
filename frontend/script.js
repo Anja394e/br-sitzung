@@ -1065,6 +1065,9 @@ function setzeStandardwerte() {
         document.getElementById("rueckmeldung").value = letztePerson.rueckmeldung;
 
         // Ermittle den nächsten höchsten Rang
+
+        let naechsterRang;
+      
         if (allePersonen.length > 0) {
             let hoechsterRang = Math.max(...allePersonen.map(p => p.rang));
             naechsterRang = hoechsterRang + 1;

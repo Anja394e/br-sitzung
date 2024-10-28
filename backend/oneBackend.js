@@ -541,21 +541,38 @@ function erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate,
     let subject = `Einladung zur Sitzung am ${formattedDate}`;
     let description = `DESCRIPTION:Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
 
-    // Erstelle die Liste der eingeladenen Teilnehmer (mit E-Mail-Adressen oder Namen)
+    // Erstelle die Liste der eingeladenen Teilnehmer (mit E-Mail-Adressen, Namen oder Rang)
     let attendees = eingeladen
-        .filter(person => (person.mail && person.mail.trim() !== "") || (person.name && person.name.trim() !== ""))
+        .filter(person => {
+            const hasMail = person.mail && person.mail.trim() !== "";
+            const hasName = person.name && person.name.trim() !== "";
+            const hasRang = person.rang !== undefined && person.rang !== null;
+    
+            // Ausgabe der Filterbedingung
+            console.log(`Person: ${JSON.stringify(person)}`);
+            console.log(`Hat E-Mail: ${hasMail}, Hat Name: ${hasName}, Hat Rang: ${hasRang}`);
+    
+            return hasMail || hasName || hasRang;
+        })
         .map(person => {
             if (person.mail && person.mail.trim() !== "") {
+                console.log(`Verwende E-Mail für: ${person.mail}`);
                 return `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`;
             } else if (person.name && person.name.trim() !== "") {
-                // Falls keine E-Mail vorhanden ist, verwende einen Platzhalter für den Namen
+                console.log(`Verwende Name für: ${person.name}`);
                 return `ATTENDEE;CN=${person.name};RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:nouser@domain.com`;
-            } else if (person.rang) {
-            // Verwende den Rang, wenn weder E-Mail noch Name vorhanden sind
-            return `ATTENDEE;CN=Rang ${person.rang};RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:nouser@domain.com`;
+            } else if (person.rang !== undefined && person.rang !== null) {
+                console.log(`Verwende Rang für: ${person.rang}`);
+                return `ATTENDEE;CN=Rang ${person.rang};RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:nouser@domain.com`;
+            } else {
+                console.log("Unbekannter Teilnehmer (weder E-Mail, Name noch Rang vorhanden)");
+                return `ATTENDEE;CN=Unbekannt;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:nouser@domain.com`;
             }
         })
         .join('\n');
+    
+    // Gebe das finale Ergebnis der Attendees aus
+    console.log("Erstellte Attendees-Liste:\n", attendees);
 
     // Zeitzoneninformationen für Europe/Berlin hinzufügen (iCal-Format)
     let timezoneInfo = `

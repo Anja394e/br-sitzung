@@ -90,6 +90,13 @@ function bearbeitenPerson(id) {
     document.getElementById("rang").value = person.rang;
 
     console.log('Formular wurde mit den Daten der Person ausgefüllt.');
+  
+    // Scrolle zum "Person hinzufügen"-Formular
+    document.getElementById("personenForm").scrollIntoView({
+        behavior: 'smooth', // Für sanftes Scrollen
+        block: 'start' // Scrolle zum Anfang des Formulars
+
+
 }
 
 
@@ -789,6 +796,7 @@ function exportToCSV(eingeladen) {
         `;
 
     });
+    
 
     // Füge Event-Listener für die "Anwesend"-Checkboxen hinzu
     document.querySelectorAll('.anwesend-checkbox').forEach(checkbox => {

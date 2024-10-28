@@ -625,36 +625,33 @@ END:VCALENDAR`;
 
 // Funktion zum Sammeln und Verarbeiten der E-Mail-Adressen und Inhalte
 function sendeEmailAnEingeladene(eingeladen) {
-    // Initialisiere die Listen für E-Mail-Adressen und fehlende E-Mails
+    // Initialisiere die Liste für E-Mail-Adressen
     let emailAdressen = []; // E-Mail-Adressen müssen als Array initialisiert werden
-    let fehlendeEmails = [];
 
     // Überprüfe jede Person und füge die E-Mail hinzu oder den Namen, falls keine E-Mail vorhanden ist
     eingeladen.forEach(person => {
         if (person.mail && person.mail.trim() !== "") {
-            emailAdressen.push(person.mail); // E-Mail-Adressen sammeln
+            // E-Mail-Adressen sammeln
+            emailAdressen.push(person.mail);
+            console.log(`E-Mail hinzugefügt: ${person.mail}`);
         } else if (person.name && person.name.trim() !== "") {
             // Falls keine E-Mail vorhanden ist, kopiere den Namen als Ersatz in die E-Mail-Liste
             emailAdressen.push(person.name);
+            console.log(`Name hinzugefügt: ${person.name}`);
         } else {
-            // Falls weder E-Mail noch Name vorhanden ist, markiere die Person als "Unbekannt"
-            fehlendeEmails.push(`Unbekannte Person (Listenplatz: ${person.rang})`);
+            // Falls weder E-Mail noch Name vorhanden ist, verwende den Rang
+            emailAdressen.push(`Rang ${person.rang}`);
+            console.log(`Rang hinzugefügt: Rang ${person.rang}`);
         }
     });
-
-    // Falls es Personen ohne E-Mail und ohne Namen gibt, zeige eine Warnung
-    if (fehlendeEmails.length > 0) {
-        alert("Die folgenden Personen haben weder Name noch E-Mail-Adresse: " + fehlendeEmails.join(', '));
-        return;  // Aktion abbrechen
-    }
 
     // Betreff und Nachrichtentext für die E-Mail
     let subject = encodeURIComponent("Einladung zur Sitzung");
     let body = encodeURIComponent("Hallo,\n\nhiermit lade ich euch zur Sitzung ein.");
 
     // Rückgabe der gesammelten E-Mail-Adressen, Betreff und Nachricht
+    console.log("Gesammelte E-Mail-Adressen, Namen oder Ränge:", emailAdressen);
     return { emailAdressen, subject, body };
-
 }
 
 // Funktion zum Exportieren der eingeladenen Personen als CSV

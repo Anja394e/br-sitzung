@@ -248,7 +248,7 @@ function displayEingeladenePersonen(personenListe) {
                 <th>Geschlecht</th>
                 <th>Ordentlich</th>
                 <th>Liste</th>
-                <th>Nachladegrund</th>
+                <th>Einladegrund</th>
             </tr>
         </thead>
         <tbody>

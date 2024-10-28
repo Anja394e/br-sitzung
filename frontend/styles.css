@@ -3,6 +3,7 @@
     display: flex;
     align-items: center; /* Zentriert die Elemente vertikal */
     justify-content: space-between; /* Verteilt die Elemente gleichmäßig */
+    flex-wrap: wrap; /* Ermöglicht den Zeilenumbruch */
     gap: 15px; /* Abstand zwischen den Elementen */
     margin-bottom: 20px; /* Abstand zum Rest des Inhalts */
 }

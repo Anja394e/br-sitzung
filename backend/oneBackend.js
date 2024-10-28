@@ -669,16 +669,23 @@ function exportToCSV(eingeladen) {
             person.geschlecht.toUpperCase(),
             person.ordentlich ? "Ja" : "Nein",
             person.liste,
-            person.nachladegrund || "Kein Grund angegeben"
+            person.nachladegrund || "ordentlich"
         ].join(","); // Verbinde die Werte mit Komma
         csvContent += row + "\n"; // Füge die Zeile der CSV-Zeichenkette hinzu
     });
-
+  
+    // Erstelle das aktuelle Datum im Format YYYY-MM-DD
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Monate sind nullbasiert
+    const day = String(date.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+  
     // Erstelle ein unsichtbares Element zum Herunterladen der Datei
     let encodedUri = encodeURI(csvContent);
     let link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "eingeladene_personen.csv");
+    link.setAttribute("download", "eingeladene_personen_${formattedDate}.csv");
 
     // Simuliere einen Klick auf das Download-Element
     document.body.appendChild(link);
@@ -923,10 +930,17 @@ function downloadLocalStorageData() {
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
+    // Erstelle das aktuelle Datum im Format YYYY-MM-DD
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Monate sind nullbasiert
+    const day = String(date.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+
     // Erstelle einen temporären Download-Link
     const a = document.createElement("a");
     a.href = url;
-    a.download = "personen_daten.json"; // Datei-Name
+    a.download = `personen_daten_${formattedDate}.json`; // Datei-Name mit Datum
 
     // Füge den Link dem DOM hinzu und klicke ihn
     document.body.appendChild(a);

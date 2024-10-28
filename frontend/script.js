@@ -133,20 +133,37 @@ function loeschenPerson(id) {
         console.log('Verfügbare IDs in der Liste:', allePersonen.map(p => p.id)); // Logge alle verfügbaren IDs
         return;  // Falls die Person nicht existiert, Funktion beenden
     }
-
-    // Logge die Person, die gelöscht wird
-    console.log('Lösche Person:', allePersonen[index]);
-
-    // Person aus dem gemeinsamen Array entfernen
-    allePersonen.splice(index, 1);
-
-    // Personen in localStorage speichern
-    speicherePersonen(allePersonen);
-
-    // Aktualisiere die Tabelle
-    displayPersonen();
+  
+    // Finde die Person basierend auf der ID
+    const person = allePersonen.find(p => p.id === parseInt(personId));
+        
+    // Erstelle eine Bestätigungsnachricht mit Rang und optional dem Namen der Person
+    const personDaten = person
+        ? `Rang: ${person.rang}${person.name ? ', Name: ' + person.name : ''}`
+        : 'Unbekannte Person';
+     
+    const confirmation = confirm(`Möchten Sie den Eintrag für ${personDaten} wirklich löschen?`);
+    
+    if (confirmation) {
+        // Logge die Person, die gelöscht wird
+        console.log('Lösche Person:', allePersonen[index]);
+    
+        // Person aus dem gemeinsamen Array entfernen
+        allePersonen.splice(index, 1);
+    
+        // Personen in localStorage speichern
+        speicherePersonen(allePersonen);
+    
+        // Aktualisiere die Tabelle
+        displayPersonen();
 
     console.log('Person mit ID', numericId, 'wurde erfolgreich gelöscht.');
+        alert(`Der Eintrag für ${personDaten} wurde gelöscht.`);
+    } else {
+        console.log("Löschvorgang abgebrochen.");
+    }  
+
+    
 }
 
 
@@ -1180,23 +1197,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const personId = target.getAttribute('data-id');
             console.log(`Löschen-Button geklickt: id=${personId}`);
 
-            // Finde die Person basierend auf der ID
-            const person = allePersonen.find(p => p.id === parseInt(personId));
-        
-            // Erstelle eine Bestätigungsnachricht mit Rang und optional dem Namen der Person
-            const personDaten = person
-                ? `Rang: ${person.rang}${person.name ? ', Name: ' + person.name : ''}`
-                : 'Unbekannte Person';
-        
-            const confirmation = confirm(`Möchten Sie den Eintrag für ${personDaten} wirklich löschen?`);
-    
-            if (confirmation) {
-                // Rufe die Löschfunktion auf und übergebe die ID der Person
-                loeschenPerson(personId);
-                alert(`Der Eintrag für ${personDaten} wurde gelöscht.`);
-            } else {
-                console.log("Löschvorgang abgebrochen.");
-            }   
+            // Rufe die Löschfunktion auf und übergebe die ID der Person
+            loeschenPerson(personId);
         }
     });
 

@@ -541,10 +541,17 @@ function erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate,
     let subject = `Einladung zur Sitzung am ${formattedDate}`;
     let description = `DESCRIPTION:Dies ist die Beschreibung der Sitzung, die am ${formattedDate} stattfindet.`;
 
-    // Erstelle die Liste der eingeladenen Teilnehmer (mit E-Mail-Adressen)
+    // Erstelle die Liste der eingeladenen Teilnehmer (mit E-Mail-Adressen oder Namen)
     let attendees = eingeladen
-        .filter(person => person.mail && person.mail.trim() !== "") // Nur Personen mit gültigen E-Mail-Adressen
-        .map(person => `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`) // Teilnehmerformat im iCal-Standard
+        .filter(person => (person.mail && person.mail.trim() !== "") || (person.name && person.name.trim() !== ""))
+        .map(person => {
+            if (person.mail && person.mail.trim() !== "") {
+                return `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:${person.mail}`;
+            } else {
+                // Falls keine E-Mail vorhanden ist, verwende den Namen im Teilnehmerformat
+                return `ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:CN=${person.name}`;
+            }
+        })
         .join('\n');
 
     // Zeitzoneninformationen für Europe/Berlin hinzufügen (iCal-Format)

@@ -1156,7 +1156,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Rufe die Löschfunktion auf und übergebe die ID der Person
             loeschenPerson(personId);
         }
-    });
+    }, { once: true });
 
     // Event Listener für den "Einladen"-Button
     document.getElementById("einladenButton").addEventListener('click', () => {

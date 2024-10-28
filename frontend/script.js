@@ -1137,26 +1137,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Prüfe, ob der Bearbeiten-Button geklickt wurde
         if (target.classList.contains('editButton')) {
-            // Hole die ID der Person aus den Datenattributen
             const personId = target.getAttribute('data-id');
-          
-            console.log('Edit Button ID:', target.getAttribute('data-id'));
             console.log(`Bearbeiten-Button geklickt: id=${personId}`);
-            
-            // Rufe die Bearbeiten-Funktion auf und übergebe die ID der Person
-            bearbeitenPerson(personId);
+
+            // Füge den Event-Listener für das Bearbeiten hinzu, der nur einmal aktiv ist
+            target.addEventListener('click', function() {
+                bearbeitenPerson(personId);
+            }, { once: true });
         }
 
         // Prüfe, ob der Löschen-Button geklickt wurde
         if (target.classList.contains('deleteButton')) {
-            // Hole die ID der Person aus den Datenattributen
             const personId = target.getAttribute('data-id');
             console.log(`Löschen-Button geklickt: id=${personId}`);
-            
-            // Rufe die Löschfunktion auf und übergebe die ID der Person
-            loeschenPerson(personId);
+
+            // Füge den Event-Listener für das Löschen hinzu, der nur einmal aktiv ist
+            target.addEventListener('click', function() {
+                loeschenPerson(personId);
+            }, { once: true });
         }
-    }, { once: true });
+    });
 
     // Event Listener für den "Einladen"-Button
     document.getElementById("einladenButton").addEventListener('click', () => {
@@ -1168,19 +1168,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Mache das Ergebnisfeld sichtbar
         document.getElementById("ergebnisContainer").style.display = 'block';
-    });
+    }, { once: true });
 
     // Event Listener für den Einstellungen-Button
     document.getElementById("einstellungenButton").addEventListener('click', () => {
         console.log("Einstellungen-Button geklickt");
         // Weiterleitung zur Einstellungsseite
         window.location.href = 'einstellungen.html';
-    });
+    }, { once: true });
 
     // Event-Listener für den blauen "Informationen"-Button
     document.getElementById("infoButton").addEventListener('click', function() {
         window.location.href = 'informationen.html'; // Hier wird auf die Seite mit den Informationen weitergeleitet
-    });
+    }, { once: true });
 
 
 }

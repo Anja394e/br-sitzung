@@ -95,6 +95,7 @@ function bearbeitenPerson(id) {
     document.getElementById("personenForm").scrollIntoView({
         behavior: 'smooth', // Für sanftes Scrollen
         block: 'start' // Scrolle zum Anfang des Formulars
+    });
 
 
 }

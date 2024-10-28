@@ -417,3 +417,7 @@ th, td {
 .required {
     color: red;
 }
+
+.list-section {
+    margin-left: 20px; /* Abstand zur linken Seite, um die Elemente einzurücken */
+}

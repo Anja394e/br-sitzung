@@ -550,6 +550,9 @@ function erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate,
             } else if (person.name && person.name.trim() !== "") {
                 // Falls keine E-Mail vorhanden ist, verwende einen Platzhalter für den Namen
                 return `ATTENDEE;CN=${person.name};RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:nouser@domain.com`;
+            } else if (person.rang) {
+            // Verwende den Rang, wenn weder E-Mail noch Name vorhanden sind
+            return `ATTENDEE;CN=Rang ${person.rang};RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:nouser@domain.com`;
             }
         })
         .join('\n');

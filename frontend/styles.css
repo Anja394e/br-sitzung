@@ -96,11 +96,12 @@ button, label.uploadLabel {
     margin-top: 10px; /* Abstand nach oben */
     margin-bottom: 5px; /* Abstand nach unten, um Platz zu den darunterliegenden Elementen zu schaffen */
     height: 60px; /* Feste Höhe */
-    line-height: normal; /* Entfernt zusätzlichen Zeilenabstand */
+    line-height: 60px; /* Passt die Textausrichtung innerhalb des Labels an */
     box-sizing: border-box; /* Stellt sicher, dass Padding und Border mit einbezogen werden */
-    display: inline-block; /* Verhält sich wie ein Button */
+    display: inline-flex; /* Flexbox-Verhalten für das Label */
     justify-content: center; /* Zentriert horizontal */
     align-items: center; /* Zentriert vertikal */
+    vertical-align: middle; /* Sorgt dafür, dass das Element in der Mitte der Zeile ausgerichtet wird */
     text-align: center; /* Zentriert den Text */
 }
 

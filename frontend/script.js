@@ -1137,24 +1137,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Prüfe, ob der Bearbeiten-Button geklickt wurde
         if (target.classList.contains('editButton')) {
+            // Hole die ID der Person aus den Datenattributen
             const personId = target.getAttribute('data-id');
+          
+            console.log('Edit Button ID:', target.getAttribute('data-id'));
             console.log(`Bearbeiten-Button geklickt: id=${personId}`);
-
-            // Füge den Event-Listener für das Bearbeiten hinzu, der nur einmal aktiv ist
-            target.addEventListener('click', function() {
-                bearbeitenPerson(personId);
-            });
+            
+            // Rufe die Bearbeiten-Funktion auf und übergebe die ID der Person
+            bearbeitenPerson(personId);
         }
 
         // Prüfe, ob der Löschen-Button geklickt wurde
         if (target.classList.contains('deleteButton')) {
+            // Hole die ID der Person aus den Datenattributen
             const personId = target.getAttribute('data-id');
             console.log(`Löschen-Button geklickt: id=${personId}`);
-
-            // Füge den Event-Listener für das Löschen hinzu, der nur einmal aktiv ist
-            target.addEventListener('click', function() {
-                loeschenPerson(personId);
-            });
+            
+            // Rufe die Löschfunktion auf und übergebe die ID der Person
+            loeschenPerson(personId);
         }
     });
 
@@ -1181,6 +1181,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("infoButton").addEventListener('click', function() {
         window.location.href = 'informationen.html'; // Hier wird auf die Seite mit den Informationen weitergeleitet
     });
+
 
 
 }

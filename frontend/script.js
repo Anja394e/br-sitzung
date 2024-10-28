@@ -692,7 +692,7 @@ function exportToCSV(eingeladen) {
             person.geschlecht.toUpperCase(),
             person.ordentlich ? "Ja" : "Nein",
             person.liste,
-            person.nachladegrund || "ordentlich"
+            person.nachladegrund || "ordentlich",
             person.rueckmeldung
         ].join(";"); // Verbinde die Werte mit einem Semicolon, da Excel in der deutschsprachigen Version das besser interpretiert.
         csvContent += row + "\n"; // Füge die Zeile der CSV-Zeichenkette hinzu

@@ -435,3 +435,19 @@ th, td {
 .list-section {
     margin-left: 20px; /* Abstand zur linken Seite, um die Elemente einzurücken */
 }
+
+/* Versteckte Elemente */
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+    background-color: #dff0d8;
+    color: #3c763d;
+    padding: 10px;
+    border: 1px solid #d6e9c6;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-align: center;
+}

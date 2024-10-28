@@ -215,9 +215,6 @@ document.getElementById("personenForm").addEventListener("submit", function (e) 
 
     // Formular zurücksetzen
     document.getElementById("personenForm").reset();
-
-    // Setze den nächsten freien Rang
-    setzeNaechstenFreienRang(liste);
   
     setzeStandardwerte(); // Setze die Standardwerte, wenn auf den Button geklickt wird
   

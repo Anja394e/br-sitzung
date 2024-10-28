@@ -29,6 +29,17 @@ allePersonen = ladePersonen();
 function speicherePersonen(allePersonen) {
     localStorage.setItem("allePersonen", JSON.stringify(allePersonen));
     console.log('Personen gespeichert:', allePersonen);
+
+  //zeige erfolgsnachricht
+     const messageElement = document.getElementById("successMessage");
+    messageElement.classList.remove("hidden");
+    messageElement.classList.add("visible");
+
+    // Verstecke die Nachricht nach 3 Sekunden
+    setTimeout(() => {
+        messageElement.classList.remove("visible");
+        messageElement.classList.add("hidden");
+    }, 3000); // 3000 Millisekunden = 3 Sekunden
 }
 
 // Funktion zum Laden der Personen aus dem localStorage

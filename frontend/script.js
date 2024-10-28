@@ -1168,19 +1168,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Mache das Ergebnisfeld sichtbar
         document.getElementById("ergebnisContainer").style.display = 'block';
-    }, { once: true });
+    });
 
     // Event Listener für den Einstellungen-Button
     document.getElementById("einstellungenButton").addEventListener('click', () => {
         console.log("Einstellungen-Button geklickt");
         // Weiterleitung zur Einstellungsseite
         window.location.href = 'einstellungen.html';
-    }, { once: true });
+    });
 
     // Event-Listener für den blauen "Informationen"-Button
     document.getElementById("infoButton").addEventListener('click', function() {
         window.location.href = 'informationen.html'; // Hier wird auf die Seite mit den Informationen weitergeleitet
-    }, { once: true });
+    });
 
 
 }

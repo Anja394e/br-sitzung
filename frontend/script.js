@@ -135,7 +135,7 @@ function loeschenPerson(id) {
     }
   
     // Finde die Person basierend auf der ID
-    const person = allePersonen.find(p => p.id === parseInt(personId));
+    const person = allePersonen.find(p => p.id === parseInt(id));
         
     // Erstelle eine Bestätigungsnachricht mit Rang und optional dem Namen der Person
     const personDaten = person

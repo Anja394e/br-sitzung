@@ -1143,7 +1143,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Füge den Event-Listener für das Bearbeiten hinzu, der nur einmal aktiv ist
             target.addEventListener('click', function() {
                 bearbeitenPerson(personId);
-            }, { once: true });
+            });
         }
 
         // Prüfe, ob der Löschen-Button geklickt wurde
@@ -1154,7 +1154,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Füge den Event-Listener für das Löschen hinzu, der nur einmal aktiv ist
             target.addEventListener('click', function() {
                 loeschenPerson(personId);
-            }, { once: true });
+            });
         }
     });
 

@@ -339,12 +339,12 @@ function handleOutlookClick(eingeladen) {
     let endTime = document.getElementById("endTime").value;
 
     // Überprüfe, ob alle erforderlichen Felder ausgefüllt wurden
-    if (!organizerEmail.trim() || !meetingDate || !startTime || !endTime) {
-        alert("Bitte füllen Sie alle Felder aus.");  // Zeige Warnung, falls Felder fehlen
-    } else {
+//    if (!organizerEmail.trim() || !meetingDate || !startTime || !endTime) {
+//        alert("Bitte füllen Sie alle Felder aus.");  // Zeige Warnung, falls Felder fehlen
+//    } else {
         // Übergibt die E-Mail-Adresse, Datum und Zeiten an die Funktion für den Kalendereintrag
         erstelleOutlookKalendereintrag(eingeladen, organizerEmail, meetingDate, startTime, endTime);
-    }
+//    }
 }
 
 

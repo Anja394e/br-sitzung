@@ -736,7 +736,18 @@ function exportToCSV(eingeladen) {
         if (person.ordentlich) {
             rangCell = `<td><strong>${person.rang}</strong></td>`;  // Fettgedruckter Rang für ordentliche Mitglieder
         }
-    
+
+        // Erstelle das Dropdown-Menü für die Rückmeldung
+        let rueckmeldungSelect = `
+            <select class="rueckmeldung-select" data-rang="${person.rang}">
+                <option value="Zugesagt" ${person.rueckmeldung === 'Zugesagt' ? 'selected' : ''}>Zugesagt</option>
+                <option value="Unter Vorbehalt zugesagt" ${person.rueckmeldung === 'Unter Vorbehalt zugesagt' ? 'selected' : ''}>Unter Vorbehalt zugesagt</option>
+                <option value="Abgesagt" ${person.rueckmeldung === 'Abgesagt' ? 'selected' : ''}>Abgesagt</option>
+                <option value="Abgesagt ohne ordentliche Verhinderungsgründe" ${person.rueckmeldung === 'Abgesagt ohne ordentliche Verhinderungsgründe' ? 'selected' : ''}>Abgesagt ohne ordentliche Verhinderungsgründe</option>
+                <option value="Keine Rückmeldung" ${person.rueckmeldung === 'Keine Rückmeldung' ? 'selected' : ''}>Keine Rückmeldung</option>
+            </select>
+        `;
+      
         // Fülle die Zellen der Zeile mit den Personendaten
         row.innerHTML = `
           ${rangCell}  <!-- Rang (fett darstellen, wenn ordentlich) -->
@@ -761,7 +772,7 @@ function exportToCSV(eingeladen) {
         
           <td>${person.liste}</td>
 
-          <td>${person.rueckmeldung}</td>
+          <td>${rueckmeldungSelect}</td> <!-- Rückmeldung als Dropdown-Menü -->
           
           <td>
             <button class="editButton" data-id="${person.id}">Bearbeiten</button> <!-- Verwende die ID -->
@@ -788,7 +799,21 @@ function exportToCSV(eingeladen) {
         });
     });
 
+    // Event-Listener für die Rückmeldungs-Dropdowns
+    document.querySelectorAll('.rueckmeldung-select').forEach(select => {
+        select.addEventListener('change', function () {
+            let rang = parseInt(this.getAttribute('data-rang'));
+            let rueckmeldung = this.value;
 
+            // Finde die Person in der allePersonen-Liste anhand des Ranges und aktualisiere den 'rueckmeldung'-Status
+            let person = allePersonen.find(p => p.rang === rang);
+            if (person) {
+                person.rueckmeldung = rueckmeldung;
+                speicherePersonen(allePersonen);
+            }
+        });
+    });
+    
     // Füge die Event Listener für die Schaltflächen hinzu, nachdem die Zeilen dynamisch erstellt wurden
     addEventListeners();
 }
